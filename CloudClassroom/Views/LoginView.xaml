@@ -58,7 +58,7 @@
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:TextFieldAssist.HasTextFieldBox="True" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
                      Text="{Binding LoginModel.UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding LoginModel.Logging,Converter={StaticResource ReverseBoolConverter}}" ContextMenu="{Binding ElementName=password,Path=ContextMenu}"></TextBox>
             <PasswordBox x:Name="password" Grid.Row="2" Grid.Column="2" FontSize="25" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="密   码" 
-                         materialDesign:HintAssist.IsFloating="True" Foreground="White" Style="{StaticResource MyPasswordBox}"  materialDesign:TextFieldAssist.HasTextFieldBox="True" 
+                          Foreground="White" Style="{StaticResource MyPasswordBox}"  materialDesign:TextFieldAssist.HasTextFieldBox="True" 
                          materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" helper:PasswordBoxHelper.Attach="True" helper:PasswordBoxHelper.Password="{Binding LoginModel.Pwd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding LoginModel.Logging,Converter={StaticResource ReverseBoolConverter}}"></PasswordBox>
 

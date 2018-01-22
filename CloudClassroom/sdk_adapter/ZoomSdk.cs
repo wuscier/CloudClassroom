@@ -7,11 +7,14 @@ using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.sdk_adapter
 {
-    class ZoomSdk : ISdk
+    public class ZoomSdk : ISdk
     {
+
+        public static readonly ZoomSdk Instance = new ZoomSdk();
+
         public SDKError CleanUp()
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.CleanUp();
         }
 
         public SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second)
@@ -21,7 +24,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Initialize(InitParam initParam)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.Initialize(initParam);
         }
 
         public SDKError Join(JoinParam joinParam)
@@ -56,7 +59,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError SDKAuth(AuthParam authParam)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().SDKAuth(authParam);
         }
 
         public SDKError Start(StartParam startParam)
