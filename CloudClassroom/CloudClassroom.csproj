@@ -68,6 +68,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomizedUI\MyRecordControl.xaml.cs">
+      <DependentUpon>MyRecordControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helpers\CardSelectedAssist.cs" />
+    <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="Helpers\ReverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ReverseConverter.cs" />
+    <Compile Include="Helpers\Win32APIs.cs" />
     <Compile Include="sdk_adapter\ISdk.cs" />
     <Compile Include="sdk_adapter\ZoomSdk.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -78,6 +87,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="CustomizedUI\My.Card.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomizedUI\My.PasswordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomizedUI\MyRecordControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +136,13 @@
       <Project>{7b5a8da1-8c98-40fd-b243-dc7a17011d33}</Project>
       <Name>zoom_sdk_dotnet_wrap</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bottom.png" />
+    <Resource Include="Images\login.png" />
+    <Resource Include="Images\logo.ico" />
+    <Resource Include="Images\main.png" />
+    <Resource Include="Images\main_cut.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
