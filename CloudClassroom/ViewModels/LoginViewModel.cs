@@ -1,4 +1,5 @@
-﻿using CloudClassroom.Events;
+﻿using Classroom.Models;
+using CloudClassroom.Events;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -123,6 +124,16 @@ namespace CloudClassroom.ViewModels
                 }
 
                 Logging = false;
+                if (App.UserModel == null)
+                {
+                    App.UserModel = new UserModel()
+                    {
+
+                    };
+                };
+
+                App.UserModel.UserName = UserName;
+
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Publish(new EventArgument()
                 {
                     Target = Target.LoginView,
