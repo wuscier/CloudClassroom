@@ -18,28 +18,54 @@ namespace CloudClassroom.ViewModels
         public MainViewModel()
         {
             InitData();
-            IsMainCardSelected = true;
+            IsCoursesCardSelected = true;
         }
 
-        private bool _isMainCardSelected;
+        private bool _isCoursesCardSelected;
 
-        public bool IsMainCardSelected
+        public bool IsCoursesCardSelected
         {
-            get { return _isMainCardSelected; }
-            set { SetProperty(ref _isMainCardSelected, value); }
+            get { return _isCoursesCardSelected; }
+            set
+            {
+                SetProperty(ref _isCoursesCardSelected, value);
+                if (value)
+                {
+                    SelectedCardIndex = 0;
+                }
+            }
         }
 
-        private bool _isHistoryCardSelected;
+        private bool _isMyCardSelected;
 
-        public bool IsHistoryCardSelected
+        public bool IsMyCardSelected
         {
-            get { return _isHistoryCardSelected; }
-            set { SetProperty(ref _isHistoryCardSelected, value); }
+            get { return _isMyCardSelected; }
+            set
+            {
+                SetProperty(ref _isMyCardSelected, value);
+                if (value)
+                {
+                    SelectedCardIndex = 1;
+                }
+            }
         }
+
+        private int _selectedCardIndex;
+
+        public int SelectedCardIndex
+        {
+            get { return _selectedCardIndex; }
+            set { SetProperty(ref _selectedCardIndex, value); }
+        }
+
 
         public ObservableCollection<CourseModel> CourseList { get; set; }
 
         public ICommand JoinCommand { get; set; }
+        public ICommand SelectCoursesCardCommand { get; set; }
+        public ICommand SelectMyCardCommand { get; set; }
+
 
 
         private void InitData()
@@ -141,6 +167,18 @@ namespace CloudClassroom.ViewModels
                         MessageBox.Show(joinError.ToString());
                     }
                 }
+            });
+
+            SelectCoursesCardCommand = new DelegateCommand(() =>
+            {
+                IsMyCardSelected = false;
+                IsCoursesCardSelected = true;
+            });
+
+            SelectMyCardCommand = new DelegateCommand(() =>
+            {
+                IsCoursesCardSelected = false;
+                IsMyCardSelected = true;
             });
 
             CourseList = new ObservableCollection<CourseModel>();

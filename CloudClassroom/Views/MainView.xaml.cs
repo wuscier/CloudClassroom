@@ -56,36 +56,5 @@ namespace CloudClassroom.Views
         {
             UnsubscribeEvents();
         }
-
-        private void new_class_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<StartClassEvent>().Publish(new EventArgument()
-            {
-                Target = Target.MainViewModel,
-
-            });
-        }
-
-        private void main_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<CardSelectedEvent>().Publish(new EventArgument()
-            {
-                Target = Target.MainViewModel,
-                Argument = new Argument() { Category = Category.MainCard, }
-            });
-
-            transitioner.SelectedIndex = 0;
-        }
-
-        private void history_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<CardSelectedEvent>().Publish(new EventArgument()
-            {
-                Target = Target.MainViewModel,
-                Argument = new Argument() { Category = Category.HistoryCard, }
-            });
-
-            transitioner.SelectedIndex = 1;
-        }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         >
     <Window.Resources>
@@ -26,15 +27,27 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
-            <materialDesign:Card x:Name="main_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsMainCardSelected}"
-                                 MouseLeftButtonDown="main_card_MouseLeftButtonDown">
+            <materialDesign:Card x:Name="courses_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsCoursesCardSelected}"
+                                 >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding SelectCoursesCardCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
                 <StackPanel Margin="0 10 0 10">
                     <materialDesign:PackIcon Kind="CalendarClock" Width="50" Height="50" HorizontalAlignment="Center"></materialDesign:PackIcon>
                     <TextBlock Text="课表" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
             </materialDesign:Card>
-            <materialDesign:Card x:Name="history_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsHistoryCardSelected}"
-                                 MouseLeftButtonDown="history_card_MouseLeftButtonDown">
+            <materialDesign:Card x:Name="my_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsMyCardSelected}"
+                                 >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding SelectMyCardCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
                 <StackPanel Margin="0 10 0 10">
                     <materialDesign:PackIcon Kind="Account" Width="50" Height="50" HorizontalAlignment="Center"></materialDesign:PackIcon>
                     <TextBlock Text="我的" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
@@ -44,11 +57,9 @@
         </StackPanel>
 
 
-        <materialDesign:Transitioner x:Name="transitioner" Grid.Row="1" Grid.Column="1" AutoApplyTransitionOrigins="True" SelectedIndex="0" Margin="50 0">
+        <materialDesign:Transitioner x:Name="transitioner" Grid.Row="1" Grid.Column="1" AutoApplyTransitionOrigins="True" SelectedIndex="{Binding SelectedCardIndex}" Margin="50 0">
             <materialDesign:TransitionerSlide>
-                <materialDesign:Card Style="{StaticResource MyCardStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-
+                <materialDesign:Card VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
