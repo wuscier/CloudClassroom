@@ -1,4 +1,5 @@
-﻿using CloudClassroom.sdk_adapter;
+﻿using Classroom.Models;
+using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace CloudClassroom
     public partial class App : Application
     {
         public static MainView MainView;
+        public static UserModel UserModel;
 
         private ISdk _sdk = ZoomSdk.Instance;
 

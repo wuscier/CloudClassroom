@@ -1,12 +1,185 @@
 ﻿<Window x:Class="CloudClassroom.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CloudClassroom.Views"
-        mc:Ignorable="d"
-        Title="MainView" Height="300" Width="300">
+        xmlns:helper="clr-namespace:CloudClassroom.Helpers"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        >
+    <Window.Resources>
+        <ResourceDictionary Source="../CustomizedUI/My.Card.xaml"></ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Background>
+        <ImageBrush ImageSource="../Images/main_cut.png"></ImageBrush>
+    </Window.Background>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <materialDesign:Card x:Name="main_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsMainCardSelected}"
+                                 MouseLeftButtonDown="main_card_MouseLeftButtonDown">
+                <StackPanel Margin="0 10 0 10">
+                    <materialDesign:PackIcon Kind="CalendarClock" Width="50" Height="50" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                    <TextBlock Text="课表" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </materialDesign:Card>
+            <materialDesign:Card x:Name="history_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsHistoryCardSelected}"
+                                 MouseLeftButtonDown="history_card_MouseLeftButtonDown">
+                <StackPanel Margin="0 10 0 10">
+                    <materialDesign:PackIcon Kind="Account" Width="50" Height="50" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                    <TextBlock Text="我的" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </materialDesign:Card>
+
+        </StackPanel>
+
+
+        <materialDesign:Transitioner x:Name="transitioner" Grid.Row="1" Grid.Column="1" AutoApplyTransitionOrigins="True" SelectedIndex="0" Margin="50 0">
+            <materialDesign:TransitionerSlide>
+                <materialDesign:Card Style="{StaticResource MyCardStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <materialDesign:Card Style="{StaticResource MyCardStyle}">
+                                <materialDesign:PackIcon Kind="ChartBar" Height="40" Width="40"></materialDesign:PackIcon>
+                            </materialDesign:Card>
+                            <materialDesign:Card Style="{StaticResource MyCardStyle}">
+                                <materialDesign:PackIcon Kind="ViewList" Height="40" Width="40"></materialDesign:PackIcon>
+                            </materialDesign:Card>
+                        </StackPanel>
+
+                        <materialDesign:Transitioner Grid.Row="1" SelectedIndex="1" AutoApplyTransitionOrigins="True">
+                            <materialDesign:TransitionerSlide>
+                                <Grid Background="Red">
+
+                                </Grid>
+                            </materialDesign:TransitionerSlide>
+                            <materialDesign:TransitionerSlide>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Height="50">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:Card Height="50" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="一" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="1" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="二" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="2" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="三" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="3" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="四" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="4" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="五" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="5" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="六" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card Height="50" Grid.Column="6" Style="{StaticResource MyCardStyle}">
+                                            <TextBlock Text="日" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                                        </materialDesign:Card>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <DataGrid ItemsSource="{Binding CourseList}" AutoGenerateColumns="False"
+                                                  CanUserAddRows="False" IsReadOnly="True" ClipboardCopyMode="None" ColumnWidth="*"
+                                                  SelectionMode="Single" Focusable="False" VerticalScrollBarVisibility="Visible">
+                                            <DataGrid.Resources>
+                                                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                                    <Setter Property="BorderThickness" Value="0"></Setter>
+                                                    <Setter Property="Focusable" Value="False"></Setter>
+                                                </Style>
+                                            </DataGrid.Resources>
+
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn MinWidth="150">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="时间" FontSize="20"></TextBlock>
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Duration}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn MinWidth="300">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="课程名称" FontSize="20"></TextBlock>
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn MinWidth="100">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="授课人" FontSize="20"></TextBlock>
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding TeacherName}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn MinWidth="100" MaxWidth="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="进入" Command="{Binding JoinCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self},Path=DataContext}"  FontSize="16"></Button>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </materialDesign:TransitionerSlide>
+                        </materialDesign:Transitioner>
+                    </Grid>
+
+                </materialDesign:Card>
+            </materialDesign:TransitionerSlide>
+            <materialDesign:TransitionerSlide>
+                <materialDesign:Card Style="{StaticResource MyCardStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                </materialDesign:Card>
+            </materialDesign:TransitionerSlide>
+        </materialDesign:Transitioner>
+
     </Grid>
 </Window>
