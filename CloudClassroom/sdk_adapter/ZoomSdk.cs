@@ -29,32 +29,32 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Join(JoinParam joinParam)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Join(joinParam);
         }
 
         public SDKError Leave(LeaveMeetingCmd leaveMeetingCmd)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Leave(leaveMeetingCmd);
         }
 
         public SDKError Login(LoginParam loginParam)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Login(loginParam);
         }
 
         public SDKError Logout()
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().LogOut();
         }
 
         public SDKError MuteAudio(uint userId, bool allowUnmuteBySelf)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingAudioController().MuteAudio(userId, allowUnmuteBySelf);
         }
 
         public SDKError MuteVideo()
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().MuteVideo();
         }
 
         public SDKError SDKAuth(AuthParam authParam)
@@ -64,12 +64,12 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Start(StartParam startParam)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(startParam);
         }
 
         public SDKError StartAppShare(HWNDDotNet hWNDDotNet)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().StartAppShare(hWNDDotNet);
         }
 
         public SDKError StartMonitorShare()
@@ -79,27 +79,29 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError StartRecording(DateTime startTimestamp, string recPath)
         {
-            throw new NotImplementedException();
+            ValueType valueType = startTimestamp;
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().StartRecording(ref valueType, recPath);
         }
 
         public SDKError StopRecording(DateTime stopTimestamp)
         {
-            throw new NotImplementedException();
+            ValueType valueType = stopTimestamp;
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().StopRecording(ref valueType);
         }
 
         public SDKError StopShare()
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().StopShare();
         }
 
         public SDKError UnmuteAudio(uint userId)
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingAudioController().UnMuteAudio(userId);
         }
 
         public SDKError UnmuteVideo()
         {
-            throw new NotImplementedException();
+            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().UnmuteVideo();
         }
     }
 }
