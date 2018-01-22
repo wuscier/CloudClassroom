@@ -1,12 +1,7 @@
 ﻿using CloudClassroom.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
@@ -132,7 +127,7 @@ namespace CloudClassroom.ViewModels
                         loginType = LoginType.LoginType_Email,
                         emailLogin = new LoginParam4Email()
                         {
-                            bRememberMe = true,
+                            bRememberMe = false,
                             password = "justlucky",
                             userName = course.HostId,
                         }

@@ -3,11 +3,6 @@ using CloudClassroom.Events;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -134,10 +129,27 @@ namespace CloudClassroom.ViewModels
 
                 App.UserModel.UserName = UserName;
 
-                EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Publish(new EventArgument()
+                SDKError loginError = _sdk.Login(new LoginParam()
                 {
-                    Target = Target.LoginView,
+                    loginType = LoginType.LoginType_Email,
+                    emailLogin = new LoginParam4Email()
+                    {
+                        bRememberMe = false,
+                        password = "justlucky@126.com",
+                        userName = "justlucky",
+                    }
+
                 });
+
+                //EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Publish(new EventArgument()
+                //{
+                //    Target = Target.LoginView,
+                //});
+            });
+
+            CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLoginRet((loginStatus, accountInfo) =>
+            {
+
             });
         }
 

@@ -1,12 +1,6 @@
 ﻿using Classroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using ZOOM_SDK_DOTNET_WRAP;
 
