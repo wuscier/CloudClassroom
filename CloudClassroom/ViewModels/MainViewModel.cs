@@ -76,62 +76,29 @@ namespace CloudClassroom.ViewModels
 
                 if (course.HostId == App.UserModel.UserName)
                 {
-                    CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLoginRet((loginStatus, accountInfo) =>
+                    SDKError joinError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(new StartParam()
                     {
-                        switch (loginStatus)
+                        userType = SDKUserType.SDK_UT_APIUSER,
+                        apiuserStart = new StartParam4APIUser()
                         {
-                            case LOGINSTATUS.LOGIN_IDLE:
-                                break;
-                            case LOGINSTATUS.LOGIN_PROCESSING:
-                                break;
-                            case LOGINSTATUS.LOGIN_SUCCESS:
-
-                                SDKError joinError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Join(new JoinParam()
-                                {
-                                    userType = SDKUserType.SDK_UT_NORMALUSER,
-                                    normaluserJoin = new JoinParam4NormalUser()
-                                    {
-                                        hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
-                                        isAudioOff = false,
-                                        isDirectShareDesktop = false,
-                                        isVideoOff = false,
-                                        meetingNumber = uint_meeting_number,
-                                        participantId = string.Empty,
-                                        psw = string.Empty,
-                                        userName = "主持人",
-                                        webinarToken = string.Empty,
-                                    }
-                                });
-
-                                if (joinError == SDKError.SDKERR_SUCCESS)
-                                {
-                                    MessageBox.Show("加入课堂成功！");
-                                }
-                                else
-                                {
-                                    MessageBox.Show(joinError.ToString());
-                                }
-
-
-
-                                break;
-                            case LOGINSTATUS.LOGIN_FAILED:
-                                break;
-                            default:
-                                break;
+                            hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                            isDirectShareDesktop = false,
+                            meetingNumber = 906330844,
+                            participantId = string.Empty,
+                            userID = "738107",
+                            userName = "我是主持人",
+                            userToken = "AN5TGZgmNQc2BxQr1b0nqhAM990yFJfGfBmp",
                         }
                     });
 
-                    SDKError loginError = CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Login(new LoginParam()
+                    if (joinError == SDKError.SDKERR_SUCCESS)
                     {
-                        loginType = LoginType.LoginType_Email,
-                        emailLogin = new LoginParam4Email()
-                        {
-                            bRememberMe = false,
-                            password = "justlucky",
-                            userName = course.HostId,
-                        }
-                    });
+                        MessageBox.Show("加入课堂成功！");
+                    }
+                    else
+                    {
+                        MessageBox.Show(joinError.ToString());
+                    }
                 }
                 else
                 {
