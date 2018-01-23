@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/My.Card.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="../CustomizedUI/My.Card.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
             <helper:BoolToVisibilityConverter2 x:Key="BoolToVisibilityConverter2"></helper:BoolToVisibilityConverter2>
