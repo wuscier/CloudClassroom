@@ -1,6 +1,7 @@
 ﻿using CloudClassroom.CustomizedUI;
 using CloudClassroom.ViewModels;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace CloudClassroom.Views
 {
@@ -19,6 +20,8 @@ namespace CloudClassroom.Views
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            App.MeetingViewHwnd = new WindowInteropHelper(this).Handle;
+
             _progressingControl = new ProgressingControl();
             _progressingControl.Owner = this;
             _progressingControl.ShowDialog();

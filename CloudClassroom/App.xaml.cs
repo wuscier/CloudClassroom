@@ -1,6 +1,7 @@
 ﻿using Classroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
+using System;
 using System.Windows;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -13,6 +14,7 @@ namespace CloudClassroom
     {
         public static MainView MainView;
         public static UserModel UserModel;
+        public static IntPtr MeetingViewHwnd = IntPtr.Zero;
 
         private ISdk _sdk = ZoomSdk.Instance;
 

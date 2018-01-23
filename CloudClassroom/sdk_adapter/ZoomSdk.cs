@@ -15,7 +15,14 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second)
         {
-            throw new NotImplementedException();
+            ValueType firstVT = first;
+            ValueType secondVT = second;
+            SDKError error = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetUIController().GetMeetingUIWnd(ref firstVT, ref secondVT);
+
+            first = (HWNDDotNet)firstVT;
+            second = (HWNDDotNet)secondVT;
+
+            return error;
         }
 
         public SDKError Initialize(InitParam initParam)
