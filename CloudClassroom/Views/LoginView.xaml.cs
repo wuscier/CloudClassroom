@@ -19,7 +19,7 @@ namespace CloudClassroom.Views
         }
 
         private SubscriptionToken _uiGotFocusToken;
-        private SubscriptionToken _windowCloseToken;
+        private SubscriptionToken _loginSuccessToken;
 
         private void SubscribeEvents()
         {
@@ -36,7 +36,7 @@ namespace CloudClassroom.Views
                 }
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.LoginView; });
 
-            _windowCloseToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Subscribe((argument) =>
+            _loginSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Subscribe((argument) =>
             {
                 if (App.MainView == null)
                 {
@@ -52,7 +52,7 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<UIGotFocusEvent>().Unsubscribe(_uiGotFocusToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Unsubscribe(_windowCloseToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Unsubscribe(_loginSuccessToken);
         }
 
         protected override void OnClosed(EventArgs e)

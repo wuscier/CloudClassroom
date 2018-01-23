@@ -49,8 +49,16 @@ namespace CloudClassroom.Events
         public Argument Argument { get; set; }
     }
 
+    public class LoginSuccessEvent : PubSubEvent<EventArgument> { }
+    public class IntoMeetingSuccessEvent : PubSubEvent<EventArgument> { }
+
+
     public class UIGotFocusEvent : PubSubEvent<EventArgument> { }
+
+
     public class WindowCloseEvent : PubSubEvent<EventArgument> { }
+
+
     public class WindowShowEvent : PubSubEvent<EventArgument> { }
     public class WindowHideEvent : PubSubEvent<EventArgument> { }
     public class CardSelectedEvent : PubSubEvent<EventArgument> { }

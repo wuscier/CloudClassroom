@@ -131,7 +131,7 @@ namespace CloudClassroom.ViewModels
                 App.UserModel.UserName = UserName;
 
 
-                EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowCloseEvent>().Publish(new EventArgument()
+                EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
                 {
                     Target = Target.LoginView,
                 });

@@ -1,4 +1,6 @@
-﻿using CloudClassroom.Models;
+﻿using CloudClassroom.Events;
+using CloudClassroom.Models;
+using CloudClassroom.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
@@ -76,7 +78,7 @@ namespace CloudClassroom.ViewModels
 
                 if (course.HostId == App.UserModel.UserName)
                 {
-                    SDKError joinError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(new StartParam()
+                    SDKError startError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(new StartParam()
                     {
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserStart = new StartParam4APIUser()
@@ -91,13 +93,17 @@ namespace CloudClassroom.ViewModels
                         }
                     });
 
-                    if (joinError == SDKError.SDKERR_SUCCESS)
+                    if (startError == SDKError.SDKERR_SUCCESS)
                     {
-                        MessageBox.Show("加入课堂成功！");
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MainView
+                        });
+
                     }
                     else
                     {
-                        MessageBox.Show(joinError.ToString());
+                        MessageBox.Show(startError.ToString());
                     }
                 }
                 else
@@ -122,7 +128,11 @@ namespace CloudClassroom.ViewModels
 
                     if (joinError == SDKError.SDKERR_SUCCESS)
                     {
-                        MessageBox.Show("加入课堂成功！");
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MainView
+                        });
+
                     }
                     else
                     {
