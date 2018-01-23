@@ -1,0 +1,16 @@
+﻿<Window x:Class="CloudClassroom.CustomizedUI.ProgressingControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ProgressingView" Height="150" Width="150" WindowStyle="None" WindowStartupLocation="Manual" Background="Transparent" ResizeMode="NoResize"
+        ShowInTaskbar="False" AllowsTransparency="True"
+        >
+
+    <ProgressBar x:Name="progressing_bar" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True"
+                            Width="150"
+                            Height="150"
+                             Background="Transparent"
+                         >
+    </ProgressBar>
+
+
+</Window>

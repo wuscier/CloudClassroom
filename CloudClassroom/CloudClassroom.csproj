@@ -75,6 +75,9 @@
     <Compile Include="CustomizedUI\MyRecordControl.xaml.cs">
       <DependentUpon>MyRecordControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomizedUI\ProgressingControl.xaml.cs">
+      <DependentUpon>ProgressingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\EventAggregatorManager.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
@@ -113,6 +116,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomizedUI\MyRecordControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomizedUI\ProgressingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
