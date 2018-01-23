@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using CloudClassroom.CustomizedUI;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Windows.Input;
@@ -25,7 +26,7 @@ namespace CloudClassroom.ViewModels
 
             });
         }
-
+        
         public ICommand WindowSizeChangedCommand { get; set; }
         public ICommand WindowLocationChangedCommand { get; set; }
 

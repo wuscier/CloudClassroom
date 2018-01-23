@@ -1,4 +1,5 @@
-﻿using CloudClassroom.ViewModels;
+﻿using CloudClassroom.CustomizedUI;
+using CloudClassroom.ViewModels;
 using System.Windows;
 
 namespace CloudClassroom.Views
@@ -8,10 +9,19 @@ namespace CloudClassroom.Views
     /// </summary>
     public partial class MeetingView : Window
     {
+        private ProgressingControl _progressingControl;
+
         public MeetingView()
         {
             InitializeComponent();
             DataContext = new MeetingViewModel();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _progressingControl = new ProgressingControl();
+            _progressingControl.Owner = this;
+            _progressingControl.ShowDialog();
         }
     }
 }

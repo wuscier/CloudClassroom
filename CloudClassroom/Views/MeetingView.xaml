@@ -5,9 +5,10 @@
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="课堂号：" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen"
+        Title="课堂号：" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         >
     <i:Interaction.Triggers>
+        
         <i:EventTrigger EventName="SizeChanged">
             <i:InvokeCommandAction Command="{Binding WindowSizeChangedCommand}"></i:InvokeCommandAction>
         </i:EventTrigger>
