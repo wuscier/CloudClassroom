@@ -84,7 +84,7 @@ namespace CloudClassroom.ViewModels
 
                 if (course.HostId == App.UserModel.UserName)
                 {
-                    SDKError startError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(new StartParam()
+                    SDKError startError = _sdk.Start(new StartParam()
                     {
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserStart = new StartParam4APIUser()
@@ -114,7 +114,7 @@ namespace CloudClassroom.ViewModels
                 }
                 else
                 {
-                    SDKError joinError = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Join(new JoinParam()
+                    SDKError joinError = _sdk.Join(new JoinParam()
                     {
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserJoin = new JoinParam4APIUser()

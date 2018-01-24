@@ -29,6 +29,14 @@ namespace CloudClassroom.sdk_adapter
             return CZoomSDKeDotNetWrap.Instance.CleanUp();
         }
 
+        public void CustomizeUI()
+        {
+            CMeetingConfigurationDotNetWrap.Instance.SetBottomFloatToolbarWndVisibility(false);
+            CMeetingConfigurationDotNetWrap.Instance.EnableEnterAndExitFullScreenButtonOnMeetingUI(false);
+            CMeetingConfigurationDotNetWrap.Instance.EnableLButtonDBClick4SwitchFullScreenMode(false);
+
+        }
+
         public SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second)
         {
             ValueType firstVT = first;
@@ -48,6 +56,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Join(JoinParam joinParam)
         {
+            CustomizeUI();
             return CMeetingServiceDotNetWrap.Instance.Join(joinParam);
         }
 
@@ -93,6 +102,8 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Start(StartParam startParam)
         {
+            CustomizeUI();
+
             return CMeetingServiceDotNetWrap.Instance.Start(startParam);
         }
 
