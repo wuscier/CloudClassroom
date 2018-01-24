@@ -7,6 +7,9 @@ using namespace System;
 #include "meeting_service_dotnet_wrap.h"
 #include "setting_service_dotnet_wrap.h"
 
+//added by wuxu
+#include "ui_hook_dotnet_wrap.h"
+
 namespace ZOOM_SDK_DOTNET_WRAP {
 	public ref class CZoomSDKeDotNetWrap sealed
 	{
@@ -22,6 +25,9 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 		IAuthServiceDotNetWrap^ GetAuthServiceWrap();
 		IMeetingServiceDotNetWrap^ GetMeetingServiceWrap();
 		ISettingServiceDotNetWrap^ GetSettingServiceWrap();
+
+		//added by wuxu
+		IUIHookControllerDotNetWrap^ GetUIHookControllerWrap();
 
 	private:
 		static CZoomSDKeDotNetWrap^ m_Instance = gcnew CZoomSDKeDotNetWrap;
