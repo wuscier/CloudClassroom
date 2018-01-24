@@ -20,6 +20,7 @@ namespace CloudClassroom.Views
 
         private SubscriptionToken _intoMeetingToken;
         private SubscriptionToken _videoPositionToken;
+        private SubscriptionToken _showRecordPathToken;
 
         private ISdk _sdk = ZoomSdk.Instance;
 
@@ -43,12 +44,20 @@ namespace CloudClassroom.Views
             {
                 SyncVideoUI();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
+
+            _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
+            {
+                RecordPathView recordPathView = new RecordPathView();
+                recordPathView.Owner = this;
+                recordPathView.ShowDialog();
+            });
         }
 
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Unsubscribe(_videoPositionToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

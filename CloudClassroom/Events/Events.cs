@@ -49,6 +49,8 @@ namespace CloudClassroom.Events
         public Argument Argument { get; set; }
     }
 
+    public class UIGotFocusEvent : PubSubEvent<EventArgument> { }
+
     public class LoginSuccessEvent : PubSubEvent<EventArgument> { }
     public class StartOrJoinSuccessEvent : PubSubEvent<EventArgument> { }
 
@@ -58,7 +60,9 @@ namespace CloudClassroom.Events
     public class LeaveMeetingEvent : PubSubEvent<EventArgument> { }
 
 
-    public class UIGotFocusEvent : PubSubEvent<EventArgument> { }
+    public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }
+
+
 
 
     public class StartSharingEvent : PubSubEvent<EventArgument> { }

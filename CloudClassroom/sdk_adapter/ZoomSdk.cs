@@ -85,6 +85,11 @@ namespace CloudClassroom.sdk_adapter
             return micList;
         }
 
+        public string GetRecordingPath()
+        {
+            return CRecordingSettingContextDotNetWrap.Instance.GetRecordingPath();
+        }
+
         public IList<DeviceModel> GetSpeakerList()
         {
             IList<DeviceModel> speakerList = new List<DeviceModel>();
@@ -166,6 +171,11 @@ namespace CloudClassroom.sdk_adapter
         public SDKError SelectSpeaker(DeviceModel speaker)
         {
             return CAudioSettingContextDotNetWrap.Instance.SelectSpeaker(speaker.Id, speaker.Name);
+        }
+
+        public SDKError SetRecordingPath(string path)
+        {
+            return CRecordingSettingContextDotNetWrap.Instance.SetRecordingPath(path);
         }
 
         public SDKError Start(StartParam startParam)

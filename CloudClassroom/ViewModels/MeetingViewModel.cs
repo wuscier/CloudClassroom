@@ -3,12 +3,14 @@ using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.Views;
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -184,14 +186,24 @@ namespace CloudClassroom.ViewModels
                 else
                 {
                     DateTime stopTime = DateTime.Now;
-                    _sdk.StartRecording(ref stopTime, "C:\\");
+                    string recordPath = _sdk.GetRecordingPath();
+                    if (!Directory.Exists(recordPath))
+                    {
+                        MessageBox.Show($"录制路径：{recordPath}不存在！");
+                        return;
+                    }
+
+                    _sdk.StartRecording(ref stopTime, recordPath);
                     UiStatusModel.IsRecording = true;
                 }
             });
 
             ShowRecordPathCommand = new DelegateCommand(() =>
             {
-                MessageBox.Show("请选择路径！");
+                EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Publish(new EventArgument()
+                {
+                    Target = Target.MeetingView,
+                });
             });
         }
 

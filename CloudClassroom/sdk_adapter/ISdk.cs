@@ -25,6 +25,9 @@ namespace CloudClassroom.sdk_adapter
         SDKError StartRecording(ref DateTime startTimestamp, string recPath);
         SDKError StopRecording(ref DateTime stopTimestamp);
 
+        SDKError SetRecordingPath(string path);
+        string GetRecordingPath();
+
         SDKError StartAppShare(HWNDDotNet hWNDDotNet);
         SDKError StartMonitorShare();
         SDKError StopShare();
