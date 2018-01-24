@@ -1,10 +1,13 @@
 ﻿using CloudClassroom.CustomizedUI;
+using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ZOOM_SDK_DOTNET_WRAP;
@@ -14,52 +17,69 @@ namespace CloudClassroom.ViewModels
     public class MeetingViewModel:BindableBase
     {
         private ISdk _sdk = ZoomSdk.Instance;
-        private IntPtr _meetingUiWnd = IntPtr.Zero;
 
         public MeetingViewModel()
         {
+            RegisterCallbacks();
             InitData();
-            Task.Run(() =>
-            {
-                _meetingUiWnd = GetMeetingUiWnd();
-
-                App.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    Win32APIs.SetWindowLong(_meetingUiWnd, -16, 369164288);
-                    Win32APIs.SetParent(_meetingUiWnd, App.MeetingViewHwnd);
-                }));
-            });
         }
+
+
+        private bool _handledFirstMsg = false;
+
+        private void RegisterCallbacks()
+        {
+            CZoomSDKeDotNetWrap.Instance.GetUIHookControllerWrap().Add_CB_onUIActionNotify((type, msg) =>
+            {
+                Console.WriteLine($"type={type},msg={msg}");
+
+                if (type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND && !_handledFirstMsg)
+                {
+                    _handledFirstMsg = true;
+
+                    HWNDDotNet first = new HWNDDotNet() { value = 0 };
+                    HWNDDotNet second = new HWNDDotNet() { value = 0 };
+                    _sdk.GetMeetingUIWnd(ref first, ref second);
+
+                    App.VideoHwnd = new IntPtr(first.value);
+
+                    Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
+                    Win32APIs.SetParent(App.VideoHwnd, App.MeetingViewHwnd);
+
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<VideoUiAdaptedEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.MeetingView,
+                    });
+                }
+            });
+
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Add_CB_onMeetingStatusChanged((status, result) =>
+            {
+            });
+
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
+            {
+                if (status == VideoStatus.Video_ON)
+                {
+                }
+            });
+
+
+        }
+
 
         private void InitData()
         {
-            WindowSizeChangedCommand = new DelegateCommand(() =>
+            MicrophoneTriggerCommand = new DelegateCommand(() =>
             {
-
+                //_sdk.StartMonitor();
             });
 
-
-            WindowLocationChangedCommand = new DelegateCommand(() =>
+            CameraTriggerCommand = new DelegateCommand(() =>
             {
-
+                //_sdk.StopMonitor();
             });
         }
-
-        private IntPtr GetMeetingUiWnd()
-        {
-            HWNDDotNet first = new HWNDDotNet() { value = 0 };
-            HWNDDotNet second = new HWNDDotNet() { value = 0 };
-
-            while (_sdk.GetMeetingUIWnd(ref first, ref second) != SDKError.SDKERR_SUCCESS || first.value == 0)
-            {
-                Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms"));
-            }
-
-            return new IntPtr(first.value);
-        }
-        
-        public ICommand WindowSizeChangedCommand { get; set; }
-        public ICommand WindowLocationChangedCommand { get; set; }
 
         public ICommand MicrophoneTriggerCommand { get; set; }
         public ICommand AudioSettingsOpenedCommand { get; set; }

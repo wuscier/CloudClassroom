@@ -8,6 +8,22 @@ namespace CloudClassroom.sdk_adapter
 
         public static readonly ZoomSdk Instance = new ZoomSdk();
 
+        public string MeetingUiClassName
+        {
+            get
+            {
+                return "ZPContentViewWndClass";
+            }
+        }
+
+        public string BottomToolbarClassName
+        {
+            get
+            {
+                return "ZPControlPanelClass";
+            }
+        }
+
         public SDKError CleanUp()
         {
             return CZoomSDKeDotNetWrap.Instance.CleanUp();
@@ -17,7 +33,7 @@ namespace CloudClassroom.sdk_adapter
         {
             ValueType firstVT = first;
             ValueType secondVT = second;
-            SDKError error = CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetUIController().GetMeetingUIWnd(ref firstVT, ref secondVT);
+            SDKError error = CMeetingUIControllerDotNetWrap.Instance.GetMeetingUIWnd(ref firstVT, ref secondVT);
 
             first = (HWNDDotNet)firstVT;
             second = (HWNDDotNet)secondVT;
@@ -32,47 +48,62 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Join(JoinParam joinParam)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Join(joinParam);
+            return CMeetingServiceDotNetWrap.Instance.Join(joinParam);
         }
 
         public SDKError Leave(LeaveMeetingCmd leaveMeetingCmd)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Leave(leaveMeetingCmd);
+            return CMeetingServiceDotNetWrap.Instance.Leave(leaveMeetingCmd);
         }
 
         public SDKError Login(LoginParam loginParam)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Login(loginParam);
+            return CAuthServiceDotNetWrap.Instance.Login(loginParam);
         }
 
         public SDKError Logout()
         {
-            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().LogOut();
+            return CAuthServiceDotNetWrap.Instance.LogOut();
+        }
+
+        public SDKError MonitorWnd(string name, bool add)
+        {
+            return CUIHookControllerDotNetWrap.Instance.MonitorWnd(name, add);
+        }
+
+        public SDKError MonitorWndMessage(uint id, bool add)
+        {
+            return CUIHookControllerDotNetWrap.Instance.MonitorWndMessage(id, add);
         }
 
         public SDKError MuteAudio(uint userId, bool allowUnmuteBySelf)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingAudioController().MuteAudio(userId, allowUnmuteBySelf);
+            return CMeetingAudioControllerDotNetWrap.Instance.MuteAudio(userId, allowUnmuteBySelf);
         }
 
         public SDKError MuteVideo()
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().MuteVideo();
+            return CMeetingVideoControllerDotNetWrap.Instance.MuteVideo();
         }
 
         public SDKError SDKAuth(AuthParam authParam)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().SDKAuth(authParam);
+            return CAuthServiceDotNetWrap.Instance.SDKAuth(authParam);
         }
 
         public SDKError Start(StartParam startParam)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Start(startParam);
+            return CMeetingServiceDotNetWrap.Instance.Start(startParam);
         }
 
         public SDKError StartAppShare(HWNDDotNet hWNDDotNet)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().StartAppShare(hWNDDotNet);
+            return CMeetingShareControllerDotNetWrap.Instance.StartAppShare(hWNDDotNet);
+        }
+
+        public SDKError StartMonitor()
+        {
+            return CUIHookControllerDotNetWrap.Instance.Start();
         }
 
         public SDKError StartMonitorShare()
@@ -83,28 +114,33 @@ namespace CloudClassroom.sdk_adapter
         public SDKError StartRecording(DateTime startTimestamp, string recPath)
         {
             ValueType valueType = startTimestamp;
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().StartRecording(ref valueType, recPath);
+            return CMeetingRecordingControllerDotNetWrap.Instance.StartRecording(ref valueType, recPath);
+        }
+
+        public SDKError StopMonitor()
+        {
+            return CUIHookControllerDotNetWrap.Instance.Stop();
         }
 
         public SDKError StopRecording(DateTime stopTimestamp)
         {
             ValueType valueType = stopTimestamp;
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().StopRecording(ref valueType);
+            return CMeetingRecordingControllerDotNetWrap.Instance.StopRecording(ref valueType);
         }
 
         public SDKError StopShare()
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().StopShare();
+            return CMeetingShareControllerDotNetWrap.Instance.StopShare();
         }
 
         public SDKError UnmuteAudio(uint userId)
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingAudioController().UnMuteAudio(userId);
+            return CMeetingAudioControllerDotNetWrap.Instance.UnMuteAudio(userId);
         }
 
         public SDKError UnmuteVideo()
         {
-            return CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().UnmuteVideo();
+            return CMeetingVideoControllerDotNetWrap.Instance.UnmuteVideo();
         }
     }
 }

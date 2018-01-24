@@ -5,6 +5,9 @@ namespace CloudClassroom.sdk_adapter
 {
     public interface ISdk
     {
+        string MeetingUiClassName { get; }
+        string BottomToolbarClassName { get; }
+
         SDKError Initialize(InitParam initParam);
         SDKError CleanUp();
 
@@ -29,5 +32,13 @@ namespace CloudClassroom.sdk_adapter
         SDKError UnmuteAudio(uint userId);
 
         SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second);
+
+
+        SDKError MonitorWndMessage(uint id, bool add);
+        SDKError MonitorWnd(string name, bool add);
+        SDKError StartMonitor();
+        SDKError StopMonitor();
+
+
     }
 }

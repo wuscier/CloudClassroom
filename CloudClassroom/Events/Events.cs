@@ -52,6 +52,11 @@ namespace CloudClassroom.Events
     public class LoginSuccessEvent : PubSubEvent<EventArgument> { }
     public class IntoMeetingSuccessEvent : PubSubEvent<EventArgument> { }
 
+    public class SelfVideoOnEvent : PubSubEvent<EventArgument> { }
+    public class VideoUiAdaptedEvent : PubSubEvent<EventArgument> { }
+
+    public class LeaveMeetingEvent : PubSubEvent<EventArgument> { }
+
 
     public class UIGotFocusEvent : PubSubEvent<EventArgument> { }
 

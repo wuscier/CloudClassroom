@@ -6,19 +6,9 @@
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="课堂号：" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        SizeChanged="Window_SizeChanged" LocationChanged="Window_LocationChanged"
         >
-    <i:Interaction.Triggers>
-        
-        <i:EventTrigger EventName="SizeChanged">
-            <i:InvokeCommandAction Command="{Binding WindowSizeChangedCommand}"></i:InvokeCommandAction>
-        </i:EventTrigger>
 
-        <i:EventTrigger EventName="LocationChanged">
-            <i:InvokeCommandAction Command="{Binding WindowLocationChangedCommand}"></i:InvokeCommandAction>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
-    
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -19,18 +19,20 @@ namespace CloudClassroom.Views
             DataContext = new MainViewModel();
         }
 
-        private SubscriptionToken _windowShowToken;
+        private SubscriptionToken _leaveMeetingToken;
         private SubscriptionToken _intoMeetingSuccessToken;
 
         private void SubscribeEvents()
         {
-            _windowShowToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowShowEvent>().Subscribe((argument) =>
+            _leaveMeetingToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<LeaveMeetingEvent>().Subscribe((argument) =>
             {
                 Show();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.MainView; });
 
             _intoMeetingSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Subscribe((argument) =>
             {
+
+
                 MeetingView meetingView = new MeetingView();
                 meetingView.Show();
 
@@ -40,8 +42,8 @@ namespace CloudClassroom.Views
 
         private void UnsubscribeEvents()
         {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowShowEvent>().Unsubscribe(_windowShowToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<WindowHideEvent>().Unsubscribe(_intoMeetingSuccessToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<LeaveMeetingEvent>().Unsubscribe(_leaveMeetingToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingSuccessToken);
         }
 
         protected override void OnClosed(EventArgs e)
