@@ -6,7 +6,7 @@
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="课堂号：" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
-        SizeChanged="Window_SizeChanged" LocationChanged="Window_LocationChanged"
+        SizeChanged="Window_SizeChanged"
         >
 
     <Window.Resources>

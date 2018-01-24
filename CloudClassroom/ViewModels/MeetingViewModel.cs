@@ -33,7 +33,7 @@ namespace CloudClassroom.ViewModels
             {
                 Console.WriteLine($"type={type},msg={msg}");
 
-                if (type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND && !_handledFirstMsg)
+                if (!_handledFirstMsg && type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND)
                 {
                     _handledFirstMsg = true;
 
@@ -46,7 +46,7 @@ namespace CloudClassroom.ViewModels
                     Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                     Win32APIs.SetParent(App.VideoHwnd, App.MeetingViewHwnd);
 
-                    EventAggregatorManager.Instance.EventAggregator.GetEvent<VideoUiAdaptedEvent>().Publish(new EventArgument()
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Publish(new EventArgument()
                     {
                         Target = Target.MeetingView,
                     });
@@ -55,6 +55,13 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Add_CB_onMeetingStatusChanged((status, result) =>
             {
+                if (status == MeetingStatus.MEETING_STATUS_INMEETING)
+                {
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.MeetingView,
+                    });
+                }
             });
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>

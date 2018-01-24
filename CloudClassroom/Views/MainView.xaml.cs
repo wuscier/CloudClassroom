@@ -29,10 +29,8 @@ namespace CloudClassroom.Views
                 Show();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.MainView; });
 
-            _intoMeetingSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Subscribe((argument) =>
+            _intoMeetingSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Subscribe((argument) =>
             {
-
-
                 MeetingView meetingView = new MeetingView();
                 meetingView.Show();
 
@@ -43,7 +41,7 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<LeaveMeetingEvent>().Unsubscribe(_leaveMeetingToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingSuccessToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Unsubscribe(_intoMeetingSuccessToken);
         }
 
         protected override void OnClosed(EventArgs e)

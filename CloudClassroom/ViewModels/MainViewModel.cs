@@ -101,7 +101,7 @@ namespace CloudClassroom.ViewModels
 
                     if (startError == SDKError.SDKERR_SUCCESS)
                     {
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
                         {
                             Target = Target.MainView
                         });
@@ -134,7 +134,7 @@ namespace CloudClassroom.ViewModels
 
                     if (joinError == SDKError.SDKERR_SUCCESS)
                     {
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
                         {
                             Target = Target.MainView
                         });
