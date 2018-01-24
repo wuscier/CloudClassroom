@@ -1,12 +1,14 @@
 ﻿using Prism.Mvvm;
+using System.Windows.Input;
 
 namespace CloudClassroom.Models
 {
-    public class DeviceModel:BindableBase
+    public class DeviceModel : BindableBase
     {
         public string Id { get; set; }
         public string Name { get; set; }
 
+        public ICommand SelectCommand { get; set; }
 
         private bool _isSelected;
         public bool IsSelected

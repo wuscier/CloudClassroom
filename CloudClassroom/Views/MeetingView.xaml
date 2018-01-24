@@ -81,7 +81,7 @@
                                         <Grid x:Name="mic_device">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding AudioSelectedCommand}"></i:InvokeCommandAction>
+                                                    <i:InvokeCommandAction Command="{Binding SelectCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
 
@@ -105,7 +105,7 @@
                                         <Grid x:Name="speaker_device">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding SpeakerSelectedCommand}"></i:InvokeCommandAction>
+                                                    <i:InvokeCommandAction Command="{Binding SelectCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <Grid.ColumnDefinitions>
@@ -153,7 +153,7 @@
                                     <Grid x:Name="camera_device">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                <i:InvokeCommandAction Command="{Binding VideoSelectedCommand}"></i:InvokeCommandAction>
+                                                <i:InvokeCommandAction Command="{Binding SelectCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <Grid.ColumnDefinitions>

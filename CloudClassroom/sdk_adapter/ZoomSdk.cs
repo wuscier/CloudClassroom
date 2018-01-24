@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using CloudClassroom.Models;
 using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.sdk_adapter
@@ -37,6 +39,23 @@ namespace CloudClassroom.sdk_adapter
 
         }
 
+        public IList<DeviceModel> GetCameraList()
+        {
+            IList<DeviceModel> cameraList = new List<DeviceModel>();
+
+            ICameraInfoDotNetWrap[] cameras = CVideoSettingContextDotNetWrap.Instance.GetCameraList();
+
+            if (cameras?.Length > 0)
+            {
+                foreach (ICameraInfoDotNetWrap camera in cameras)
+                {
+                    cameraList.Add(new DeviceModel(camera.GetDeviceId(), camera.GetDeviceName(), camera.IsSelectedDevice()));
+                }
+            }
+
+            return cameraList;
+        }
+
         public SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second)
         {
             ValueType firstVT = first;
@@ -47,6 +66,40 @@ namespace CloudClassroom.sdk_adapter
             second = (HWNDDotNet)secondVT;
 
             return error;
+        }
+
+        public IList<DeviceModel> GetMicList()
+        {
+            IList<DeviceModel> micList = new List<DeviceModel>();
+
+            IMicInfoDotNetWrap[] mics = CAudioSettingContextDotNetWrap.Instance.GetMicList();
+
+            if (mics?.Length > 0)
+            {
+                foreach (IMicInfoDotNetWrap mic in mics)
+                {
+                    micList.Add(new DeviceModel(mic.GetDeviceId(), mic.GetDeviceName(), mic.IsSelectedDevice()));
+                }
+            }
+
+            return micList;
+        }
+
+        public IList<DeviceModel> GetSpeakerList()
+        {
+            IList<DeviceModel> speakerList = new List<DeviceModel>();
+
+            ISpeakerInfoDotNetWrap[] speakers = CAudioSettingContextDotNetWrap.Instance.GetSpeakerList();
+
+            if (speakers?.Length > 0)
+            {
+                foreach (ISpeakerInfoDotNetWrap speaker in speakers)
+                {
+                    speakerList.Add(new DeviceModel(speaker.GetDeviceId(), speaker.GetDeviceName(), speaker.IsSelectedDevice()));
+                }
+            }
+
+            return speakerList;
         }
 
         public SDKError Initialize(InitParam initParam)
@@ -98,6 +151,21 @@ namespace CloudClassroom.sdk_adapter
         public SDKError SDKAuth(AuthParam authParam)
         {
             return CAuthServiceDotNetWrap.Instance.SDKAuth(authParam);
+        }
+
+        public SDKError SelectCamera(DeviceModel camera)
+        {
+            return CVideoSettingContextDotNetWrap.Instance.SelectCamera(camera.Id);
+        }
+
+        public SDKError SelectMic(DeviceModel mic)
+        {
+            return CAudioSettingContextDotNetWrap.Instance.SelectMic(mic.Id, mic.Name);
+        }
+
+        public SDKError SelectSpeaker(DeviceModel speaker)
+        {
+            return CAudioSettingContextDotNetWrap.Instance.SelectSpeaker(speaker.Id, speaker.Name);
         }
 
         public SDKError Start(StartParam startParam)

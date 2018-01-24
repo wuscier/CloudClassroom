@@ -3,6 +3,7 @@ using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
+using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -72,30 +73,113 @@ namespace CloudClassroom.ViewModels
             });
 
 
+            CMeetingRecordingControllerDotNetWrap.Instance.Add_CB_onRecordingStatus((status) =>
+            {
+
+            });
+
         }
 
         private void InitData()
         {
+            UiStatusModel = new UiStatusModel()
+            {
+                CameraIcon = PackIconKind.Video.ToString(),
+                MicIcon = PackIconKind.Microphone.ToString(),
+                CameraStatus = UiStatusModel.CameraOnText,
+                MicStatus = UiStatusModel.MicOnText,
+                IsRecording = false,
+                PauseResumeKind = PackIconKind.Pause.ToString(),
+                PauseResumeText = UiStatusModel.RecordPauseText,
+            };
+
+
             MicrophoneTriggerCommand = new DelegateCommand(() =>
             {
-                //_sdk.StartMonitor();
+                switch (UiStatusModel.MicStatus)
+                {
+                    case UiStatusModel.MicOnText:
+                        UiStatusModel.MicStatus = UiStatusModel.MicOffText;
+                        UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
+
+                        //SDKError muteAudioErr = _sdk.MuteAudio(16778240, true);
+                        break;
+                    case UiStatusModel.MicOffText:
+                        UiStatusModel.MicStatus = UiStatusModel.MicOnText;
+                        UiStatusModel.MicIcon = PackIconKind.Microphone.ToString();
+                        //SDKError unmuteAudioErr = _sdk.UnmuteAudio(16778240);
+                        break;
+                }
             });
 
             CameraTriggerCommand = new DelegateCommand(() =>
             {
-                //_sdk.StopMonitor();
+                switch (UiStatusModel.CameraStatus)
+                {
+                    case UiStatusModel.CameraOnText:
+                        UiStatusModel.CameraStatus = UiStatusModel.CameraOffText;
+                        UiStatusModel.CameraIcon = PackIconKind.CameraOff.ToString();
+
+                        _sdk.MuteVideo();
+
+                        break;
+                    case UiStatusModel.CameraOffText:
+                        UiStatusModel.CameraStatus = UiStatusModel.CameraOnText;
+                        UiStatusModel.CameraIcon = PackIconKind.Camera.ToString();
+
+                        _sdk.UnmuteVideo();
+                        break;
+                }
             });
+
+            AudioSettingsOpenedCommand = new DelegateCommand(() =>
+            {
+                UiStatusModel.Microphones.Clear();
+
+                foreach (var mic in _sdk.GetMicList())
+                {
+                    mic.SelectCommand = new DelegateCommand<DeviceModel>((micParam) =>
+                    {
+                        _sdk.SelectMic(micParam);
+                    });
+                    UiStatusModel.Microphones.Add(mic);
+                }
+
+                UiStatusModel.Speakers.Clear();
+
+                foreach (var speaker in _sdk.GetSpeakerList())
+                {
+                    speaker.SelectCommand = new DelegateCommand<DeviceModel>((speakerParam) =>
+                    {
+                        _sdk.SelectSpeaker(speakerParam);
+                    });
+                    UiStatusModel.Speakers.Add(speaker);
+                }
+
+            });
+
+            VideoSettingsOpenedCommand = new DelegateCommand(() =>
+            {
+                UiStatusModel.Cameras.Clear();
+
+                foreach (var camera in _sdk.GetCameraList())
+                {
+                    camera.SelectCommand = new DelegateCommand<DeviceModel>((cameraParam) =>
+                    {
+                        _sdk.SelectCamera(cameraParam);
+                    });
+                    UiStatusModel.Cameras.Add(camera);
+                }
+
+            });            
         }
 
         public UiStatusModel UiStatusModel { get; set; }
 
         public ICommand MicrophoneTriggerCommand { get; set; }
         public ICommand AudioSettingsOpenedCommand { get; set; }
-        public ICommand AudioSelectedCommand { get; set; }
-        public ICommand SpeakerSelectedCommand { get; set; }
         public ICommand CameraTriggerCommand { get; set; }
         public ICommand VideoSettingsOpenedCommand { get; set; }
-        public ICommand VideoSelectedCommand { get; set; }
         public ICommand OpenShareOptionsCommand { get; set; }
     }
 

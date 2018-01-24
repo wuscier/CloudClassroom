@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CloudClassroom.Models;
+using System;
+using System.Collections.Generic;
 using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.sdk_adapter
@@ -26,6 +28,15 @@ namespace CloudClassroom.sdk_adapter
         SDKError StartAppShare(HWNDDotNet hWNDDotNet);
         SDKError StartMonitorShare();
         SDKError StopShare();
+
+        IList<DeviceModel> GetMicList();
+        IList<DeviceModel> GetSpeakerList();
+        IList<DeviceModel> GetCameraList();
+
+        SDKError SelectMic(DeviceModel mic);
+        SDKError SelectSpeaker(DeviceModel speaker);
+        SDKError SelectCamera(DeviceModel camera);
+
 
         SDKError MuteVideo();
         SDKError UnmuteVideo();
