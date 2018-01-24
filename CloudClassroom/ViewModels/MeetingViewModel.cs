@@ -1,11 +1,13 @@
 ﻿using CloudClassroom.CustomizedUI;
 using CloudClassroom.Events;
 using CloudClassroom.Helpers;
+using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,15 +19,13 @@ namespace CloudClassroom.ViewModels
     public class MeetingViewModel:BindableBase
     {
         private ISdk _sdk = ZoomSdk.Instance;
+        private bool _handledFirstMsg = false;
 
         public MeetingViewModel()
         {
             RegisterCallbacks();
             InitData();
         }
-
-
-        private bool _handledFirstMsg = false;
 
         private void RegisterCallbacks()
         {
@@ -74,7 +74,6 @@ namespace CloudClassroom.ViewModels
 
         }
 
-
         private void InitData()
         {
             MicrophoneTriggerCommand = new DelegateCommand(() =>
@@ -88,6 +87,8 @@ namespace CloudClassroom.ViewModels
             });
         }
 
+        public UiStatusModel UiStatusModel { get; set; }
+
         public ICommand MicrophoneTriggerCommand { get; set; }
         public ICommand AudioSettingsOpenedCommand { get; set; }
         public ICommand AudioSelectedCommand { get; set; }
@@ -97,4 +98,90 @@ namespace CloudClassroom.ViewModels
         public ICommand VideoSelectedCommand { get; set; }
         public ICommand OpenShareOptionsCommand { get; set; }
     }
+
+
+
+    public class UiStatusModel : BindableBase
+    {
+        public UiStatusModel()
+        {
+            Microphones = new ObservableCollection<DeviceModel>();
+            Speakers = new ObservableCollection<DeviceModel>();
+            Cameras = new ObservableCollection<DeviceModel>();
+        }
+
+        public const string MicOnText = "静音";
+        public const string MicOffText = "解除静音";
+
+        public const string CameraOnText = "停止视频";
+        public const string CameraOffText = "启动视频";
+
+        public const string RecordPauseText = "暂停录制";
+        public const string RecordResumeText = "恢复录制";
+
+        private string _micStatus;
+
+        public string MicStatus
+        {
+            get { return _micStatus; }
+            set { SetProperty(ref _micStatus, value); }
+        }
+
+        private string _micIcon;
+
+        public string MicIcon
+        {
+            get { return _micIcon; }
+            set { SetProperty(ref _micIcon, value); }
+        }
+
+        private string _cameraStatus;
+
+        public string CameraStatus
+        {
+            get { return _cameraStatus; }
+            set { SetProperty(ref _cameraStatus, value); }
+        }
+
+        private string _cameraIcon;
+
+        public string CameraIcon
+        {
+            get { return _cameraIcon; }
+            set { SetProperty(ref _cameraIcon, value); }
+        }
+
+        private bool _isRecording;
+
+        public bool IsRecording
+        {
+            get { return _isRecording; }
+            set { SetProperty(ref _isRecording, value); }
+        }
+
+        private string _pauseResumeKind;
+
+        public string PauseResumeKind
+        {
+            get { return _pauseResumeKind; }
+            set { SetProperty(ref _pauseResumeKind, value); }
+        }
+
+
+        private string _pauseResumeText;
+
+        public string PauseResumeText
+        {
+            get { return _pauseResumeText; }
+            set { SetProperty(ref _pauseResumeText, value); }
+        }
+
+
+        public ObservableCollection<DeviceModel> Microphones { get; set; }
+        public ObservableCollection<DeviceModel> Speakers { get; set; }
+        public ObservableCollection<DeviceModel> Cameras { get; set; }
+    }
+
+
+
 }

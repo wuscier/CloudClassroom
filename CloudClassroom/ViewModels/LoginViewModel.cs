@@ -139,12 +139,12 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLoginRet((loginStatus, accountInfo) =>
             {
-                MessageBox.Show(loginStatus.ToString());
+                System.Console.WriteLine(loginStatus.ToString());
             });
 
             CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLogout(() =>
             {
-
+                System.Console.WriteLine("log out");
             });
         }
 
