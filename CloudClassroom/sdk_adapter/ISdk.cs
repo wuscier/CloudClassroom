@@ -22,8 +22,8 @@ namespace CloudClassroom.sdk_adapter
         SDKError Start(StartParam startParam);
         SDKError Leave(LeaveMeetingCmd leaveMeetingCmd);
 
-        SDKError StartRecording(DateTime startTimestamp, string recPath);
-        SDKError StopRecording(DateTime stopTimestamp);
+        SDKError StartRecording(ref DateTime startTimestamp, string recPath);
+        SDKError StopRecording(ref DateTime stopTimestamp);
 
         SDKError StartAppShare(HWNDDotNet hWNDDotNet);
         SDKError StartMonitorShare();

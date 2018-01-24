@@ -190,10 +190,12 @@ namespace CloudClassroom.sdk_adapter
             throw new NotImplementedException();
         }
 
-        public SDKError StartRecording(DateTime startTimestamp, string recPath)
+        public SDKError StartRecording(ref DateTime startTimestamp, string recPath)
         {
             ValueType valueType = startTimestamp;
-            return CMeetingRecordingControllerDotNetWrap.Instance.StartRecording(ref valueType, recPath);
+            SDKError err = CMeetingRecordingControllerDotNetWrap.Instance.StartRecording(ref valueType, recPath);
+            startTimestamp = (DateTime)valueType;
+            return err;
         }
 
         public SDKError StopMonitor()
@@ -201,10 +203,12 @@ namespace CloudClassroom.sdk_adapter
             return CUIHookControllerDotNetWrap.Instance.Stop();
         }
 
-        public SDKError StopRecording(DateTime stopTimestamp)
+        public SDKError StopRecording(ref DateTime stopTimestamp)
         {
             ValueType valueType = stopTimestamp;
-            return CMeetingRecordingControllerDotNetWrap.Instance.StopRecording(ref valueType);
+            SDKError err = CMeetingRecordingControllerDotNetWrap.Instance.StopRecording(ref valueType);
+            stopTimestamp = (DateTime)valueType;
+            return err;
         }
 
         public SDKError StopShare()

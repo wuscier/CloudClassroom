@@ -17,7 +17,7 @@ using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.ViewModels
 {
-    public class MeetingViewModel:BindableBase
+    public class MeetingViewModel : BindableBase
     {
         private ISdk _sdk = ZoomSdk.Instance;
         private bool _handledFirstMsg = false;
@@ -75,7 +75,7 @@ namespace CloudClassroom.ViewModels
 
             CMeetingRecordingControllerDotNetWrap.Instance.Add_CB_onRecordingStatus((status) =>
             {
-
+                Console.WriteLine($"recording status:{status}");
             });
 
         }
@@ -171,7 +171,23 @@ namespace CloudClassroom.ViewModels
                     UiStatusModel.Cameras.Add(camera);
                 }
 
-            });            
+            });
+
+            RecordTriggerCommand = new DelegateCommand(() =>
+            {
+                if (UiStatusModel.IsRecording)
+                {
+                    DateTime startTime = DateTime.Now;
+                    _sdk.StopRecording(ref startTime);
+                    UiStatusModel.IsRecording = false;
+                }
+                else
+                {
+                    DateTime stopTime = DateTime.Now;
+                    _sdk.StartRecording(ref stopTime, "C:\\");
+                    UiStatusModel.IsRecording = true;
+                }
+            });
         }
 
         public UiStatusModel UiStatusModel { get; set; }
@@ -180,7 +196,9 @@ namespace CloudClassroom.ViewModels
         public ICommand AudioSettingsOpenedCommand { get; set; }
         public ICommand CameraTriggerCommand { get; set; }
         public ICommand VideoSettingsOpenedCommand { get; set; }
+
         public ICommand OpenShareOptionsCommand { get; set; }
+        public ICommand RecordTriggerCommand { get; set; }
     }
 
 

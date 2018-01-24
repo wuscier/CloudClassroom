@@ -47,8 +47,9 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 		SDKError err = (SDKError)ZOOM_SDK_NAMESPACE::CSDKWrap::GetInst().GetMeetingServiceWrap().
 			GetMeetingRecordingController().StartRecording(time_c, const_cast<wchar_t*>(PlatformString2WChar(recPath)));
 
-		if (startTimestamp)
-			startTimestamp = time_t2DateTime(time_c);
+		//added by wuxu
+		//if (startTimestamp)
+		//	startTimestamp = time_t2DateTime(time_c);
 		
 		return err;
 	}
@@ -59,8 +60,9 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 		SDKError err = (SDKError)ZOOM_SDK_NAMESPACE::CSDKWrap::GetInst().GetMeetingServiceWrap().
 			GetMeetingRecordingController().StopRecording(time_c);
 
-		if (stopTimestamp)
-			stopTimestamp = time_t2DateTime(time_c);
+		//added by wuxu
+		//if (stopTimestamp)
+		//	stopTimestamp = time_t2DateTime(time_c);
 
 		return err;
 	}
