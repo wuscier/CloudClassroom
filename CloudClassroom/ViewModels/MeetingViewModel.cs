@@ -188,6 +188,11 @@ namespace CloudClassroom.ViewModels
                     UiStatusModel.IsRecording = true;
                 }
             });
+
+            ShowRecordPathCommand = new DelegateCommand(() =>
+            {
+                MessageBox.Show("请选择路径！");
+            });
         }
 
         public UiStatusModel UiStatusModel { get; set; }
@@ -199,6 +204,7 @@ namespace CloudClassroom.ViewModels
 
         public ICommand OpenShareOptionsCommand { get; set; }
         public ICommand RecordTriggerCommand { get; set; }
+        public ICommand ShowRecordPathCommand { get; set; }
     }
 
 

@@ -206,10 +206,15 @@
             <customizedUI:MyRecordControl Grid.Column="9"></customizedUI:MyRecordControl>
 
 
-            <!--<materialDesign:Card  Grid.Column="10" Width="30" Height="80" Style="{StaticResource MyCardStyle}">
-                <materialDesign:PopupBox x:Name="record_settings" Opened="record_settings_Opened">
+            <materialDesign:Card  Grid.Column="10" Width="30" Height="80" Style="{StaticResource MyCardStyle}">
+                <materialDesign:PopupBox x:Name="record_settings">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Opened">
+                            <i:InvokeCommandAction Command="{Binding ShowRecordPathCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </materialDesign:PopupBox>
-            </materialDesign:Card>-->
+            </materialDesign:Card>
 
 
         </Grid>
