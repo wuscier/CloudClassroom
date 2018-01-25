@@ -95,7 +95,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MeetingViewModel.cs" />
-    <Compile Include="ViewModels\SharingOptionsViewModel.cs" />
+    <Compile Include="ViewModels\MeetingSubViewModels\SharingOptionsViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -112,7 +112,7 @@
     <Compile Include="Views\MeetingSubViews\RecordPathView.xaml.cs">
       <DependentUpon>RecordPathView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SharingOptionsView.xaml.cs">
+    <Compile Include="Views\MeetingSubViews\SharingOptionsView.xaml.cs">
       <DependentUpon>SharingOptionsView.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomizedUI\My.Card.xaml">
@@ -147,7 +147,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SharingOptionsView.xaml">
+    <Page Include="Views\MeetingSubViews\SharingOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,8 +186,6 @@
     <Resource Include="Images\main.png" />
     <Resource Include="Images\main_cut.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\MeetingSubViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

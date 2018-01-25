@@ -23,5 +23,20 @@ namespace CloudClassroom.Views
         {
             InitializeComponent();
         }
+
+        private void whiteboard_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void document_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void desktop_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
