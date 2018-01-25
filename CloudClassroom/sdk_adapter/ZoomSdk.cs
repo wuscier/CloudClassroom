@@ -101,6 +101,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Join(JoinParam joinParam)
         {
+            FilterWndMessages();
             CustomizeUI();
             return CMeetingServiceDotNetWrap.Instance.Join(joinParam);
         }
@@ -167,6 +168,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Start(StartParam startParam)
         {
+            FilterWndMessages();
             CustomizeUI();
 
             return CMeetingServiceDotNetWrap.Instance.Start(startParam);
@@ -221,6 +223,18 @@ namespace CloudClassroom.sdk_adapter
         public SDKError UnmuteVideo()
         {
             return CMeetingVideoControllerDotNetWrap.Instance.UnmuteVideo();
+        }
+
+
+        private void FilterWndMessages()
+        {
+            MonitorWndMessage(1, false);
+            MonitorWndMessage(2, false);
+            MonitorWndMessage(3, false);
+            MonitorWndMessage(5, false);
+            MonitorWndMessage(6, false);
+            MonitorWndMessage(70, false);
+            MonitorWndMessage(71, false);
         }
     }
 }
