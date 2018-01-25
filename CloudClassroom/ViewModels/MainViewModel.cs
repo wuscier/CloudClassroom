@@ -86,7 +86,7 @@ namespace CloudClassroom.ViewModels
                         {
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isDirectShareDesktop = false,
-                            meetingNumber = 906330844,
+                            meetingNumber = 739755878,
                             participantId = string.Empty,
                             userID = "738107",
                             userName = "我是主持人",
@@ -115,7 +115,7 @@ namespace CloudClassroom.ViewModels
                         apiuserJoin = new JoinParam4APIUser()
                         {
                             userName = "我是API用户",
-                            meetingNumber = uint_meeting_number,
+                            meetingNumber = 739755878,
                             psw = string.Empty,
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isAudioOff = false,

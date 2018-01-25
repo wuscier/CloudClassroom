@@ -32,7 +32,7 @@ namespace CloudClassroom.ViewModels
             {
                 Console.WriteLine($"type={type},msg={msg}");
 
-                if (!_handledFirstMsg && type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND)
+                if (!_handledFirstMsg && type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND && msg == 24)
                 {
                     _handledFirstMsg = true;
 
