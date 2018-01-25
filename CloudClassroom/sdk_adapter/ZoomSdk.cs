@@ -10,24 +10,9 @@ namespace CloudClassroom.sdk_adapter
 
         public static readonly ZoomSdk Instance = new ZoomSdk();
 
-        public string MeetingUiClassName
-        {
-            get
-            {
-                return "ZPContentViewWndClass";
-            }
-        }
-
-        public string BottomToolbarClassName
-        {
-            get
-            {
-                return "ZPControlPanelClass";
-            }
-        }
-
         public SDKError CleanUp()
         {
+            StopMonitor();
             return CZoomSDKeDotNetWrap.Instance.CleanUp();
         }
 
@@ -109,7 +94,9 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError Initialize(InitParam initParam)
         {
-            return CZoomSDKeDotNetWrap.Instance.Initialize(initParam);
+            SDKError err = CZoomSDKeDotNetWrap.Instance.Initialize(initParam);
+            StartMonitor();
+            return err;
         }
 
         public SDKError Join(JoinParam joinParam)

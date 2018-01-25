@@ -1,6 +1,7 @@
 ﻿using Classroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
+using Serilog;
 using System;
 using System.Windows;
 using ZOOM_SDK_DOTNET_WRAP;
@@ -21,6 +22,18 @@ namespace CloudClassroom
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            CreateLogger();
+
+            InitSDK();
+        }
+
+        private void CreateLogger()
+        {
+            Log.Logger = new LoggerConfiguration().WriteTo.RollingFile("Logs\\{Date}.log").CreateLogger();
+        }
+
+        private void InitSDK()
+        {
             SDKError err = _sdk.Initialize(new InitParam()
             {
                 brand_name = "云课堂",
@@ -32,29 +45,23 @@ namespace CloudClassroom
             if (err != SDKError.SDKERR_SUCCESS)
             {
                 MessageBox.Show("服务初始化失败！");
-                return;
+                Current.Shutdown();
             }
-            //else
-            //{
-            //    //SDKError monitorWndError = _sdk.MonitorWnd(_sdk.MeetingUiClassName, true);
-            //    //SDKError monitorWndMsgError = _sdk.MonitorWndMessage(Win32APIs.WM_SHOWWINDOW, true);
-                SDKError startMonitorError = _sdk.StartMonitor();
-            //CMeetingConfigurationDotNetWrap.Instance.SetBottomFloatToolbarWndVisibility(false);
-            //}
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        private void UninitSDK()
         {
-           SDKError stopMonitorError = _sdk.StopMonitor();
-
             SDKError err = _sdk.CleanUp();
 
             if (err != SDKError.SDKERR_SUCCESS)
             {
                 MessageBox.Show("服务清理失败！");
             }
-
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            UninitSDK();
+        }
     }
 }

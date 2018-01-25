@@ -3,6 +3,7 @@ using CloudClassroom.Events;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
+using Serilog;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -128,7 +129,6 @@ namespace CloudClassroom.ViewModels
                 };
 
                 App.UserModel.UserName = UserName;
-
 
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
                 {

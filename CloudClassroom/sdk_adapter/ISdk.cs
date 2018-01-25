@@ -7,9 +7,6 @@ namespace CloudClassroom.sdk_adapter
 {
     public interface ISdk
     {
-        string MeetingUiClassName { get; }
-        string BottomToolbarClassName { get; }
-
         SDKError Initialize(InitParam initParam);
         SDKError CleanUp();
 
