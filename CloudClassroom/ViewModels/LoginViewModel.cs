@@ -3,7 +3,6 @@ using CloudClassroom.Events;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Windows;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
 
