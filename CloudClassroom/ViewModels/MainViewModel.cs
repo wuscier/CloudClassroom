@@ -18,7 +18,6 @@ namespace CloudClassroom.ViewModels
         public MainViewModel()
         {
             InitData();
-            IsCoursesCardSelected = true;
         }
 
         private bool _isCoursesCardSelected;
@@ -59,17 +58,16 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _selectedCardIndex, value); }
         }
 
-
         public ObservableCollection<CourseModel> CourseList { get; set; }
 
         public ICommand JoinCommand { get; set; }
         public ICommand SelectCoursesCardCommand { get; set; }
         public ICommand SelectMyCardCommand { get; set; }
 
-
-
         private void InitData()
         {
+            IsCoursesCardSelected = true;
+
             JoinCommand = new DelegateCommand<CourseModel>((course) =>
             {
                 ulong uint_meeting_number;
