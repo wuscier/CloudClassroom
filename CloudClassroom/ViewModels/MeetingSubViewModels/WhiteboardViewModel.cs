@@ -24,37 +24,33 @@ namespace Classroom.ViewModels
     {
         public WhiteboardViewModel()
         {
-            InitData();
+            InitCurrentStatus();
+
+            InitThumbnails();
+
+            InitCommands();
         }
 
-        private void InitData()
+        private void InitCurrentStatus()
         {
+            Thumbnails = new ObservableCollection<Thumbnail>();
+            PageNums = new ObservableCollection<int>();
+
             CurrentDrawingAttributes = new DrawingAttributes();
             CurrentDrawingAttributes.Color = Colors.Red;
             CurrentDrawingAttributes.Height = 3;
             CurrentDrawingAttributes.Width = 3;
 
-            CurrentThickness = 1;
-
             CurrentEditingMode = InkCanvasEditingMode.Ink;
 
+            CurrentThickness = 1;
             CurrentColor = "Red";
 
             IsPenSelected = true;
+        }
 
-            Thumbnails = new ObservableCollection<Thumbnail>();
-            PageNums = new ObservableCollection<int>();
-
-            InitThumbnails();
-
-            int pageCount = Thumbnails.Count;
-            InitPageNums(pageCount);
-            if (pageCount > 0)
-            {
-                CurrentThumbnail = Thumbnails[0];
-                CurrentPageNum = CurrentThumbnail.PageNum;
-            }
-
+        private void InitCommands()
+        {
             NoteDetailTriggerCommand = new DelegateCommand(() =>
             {
                 NoteDetailVisible = !NoteDetailVisible;
@@ -220,15 +216,41 @@ namespace Classroom.ViewModels
             //    ThumbnailUri = "../Images/17.png",
             //    Strokes = new StrokeCollection(),
             //});
-        }
 
-        private void InitPageNums(int totalPages)
-        {
+
+            if (Thumbnails.Count == 0)
+            {
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum=1,
+                    Strokes = new StrokeCollection(),
+                    ThumbnailUri = "",
+                });
+            }
+
+
+
             PageNums.Clear();
-            for (int i = 1; i <= totalPages; i++)
+            for (int i = 1; i <= Thumbnails.Count; i++)
             {
                 PageNums.Add(i);
             }
+
+
+            if (Thumbnails.Count > 0)
+            {
+                CurrentThumbnail = Thumbnails[0];
+                CurrentPageNum = CurrentThumbnail.PageNum;
+            }
+        }
+
+        public DrawingAttributes CurrentDrawingAttributes { get; set; }
+
+        private InkCanvasEditingMode _currentEditingMode;
+        public InkCanvasEditingMode CurrentEditingMode
+        {
+            get { return _currentEditingMode; }
+            set { SetProperty(ref _currentEditingMode, value); }
         }
 
         public ObservableCollection<Thumbnail> Thumbnails { get; set; }
@@ -263,9 +285,7 @@ namespace Classroom.ViewModels
             }
         }
 
-
         private bool _isPenSelected;
-
         public bool IsPenSelected
         {
             get { return _isPenSelected; }
@@ -280,7 +300,6 @@ namespace Classroom.ViewModels
         }
 
         private bool _isEraserSelected;
-
         public bool IsEraserSelected
         {
             get { return _isEraserSelected; }
@@ -294,9 +313,7 @@ namespace Classroom.ViewModels
             }
         }
 
-
         private bool _noteDetailVisible;
-
         public bool NoteDetailVisible
         {
             get { return _noteDetailVisible; }
@@ -304,16 +321,13 @@ namespace Classroom.ViewModels
         }
 
         private bool _thumbnailDetailVisible;
-
         public bool ThumbnailDetailVisible
         {
             get { return _thumbnailDetailVisible; }
             set { SetProperty(ref _thumbnailDetailVisible, value); }
         }
 
-
         private int _currentThickness;
-
         public int CurrentThickness
         {
             get { return _currentThickness; }
@@ -321,7 +335,6 @@ namespace Classroom.ViewModels
         }
 
         private string _currentColor;
-
         public string CurrentColor
         {
             get { return _currentColor; }
@@ -338,15 +351,5 @@ namespace Classroom.ViewModels
         public ICommand ClearStrokesCommand { get; set; }
         public ICommand ThicknessSelectedCommand { get; set; }
         public ICommand ColorSelectedCommand { get; set; }
-
-
-        public DrawingAttributes CurrentDrawingAttributes { get; set; }
-
-        private InkCanvasEditingMode _currentEditingMode;
-        public InkCanvasEditingMode CurrentEditingMode
-        {
-            get { return _currentEditingMode; }
-            set { SetProperty(ref _currentEditingMode, value); }
-        }
     }
 }
