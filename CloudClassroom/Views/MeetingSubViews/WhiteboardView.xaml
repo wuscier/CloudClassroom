@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="800" Width="1000">
 
 
@@ -13,6 +14,8 @@
                 <ResourceDictionary Source="../../CustomizedUI/My.Card.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <helper:ThumbnailToBrushConverter x:Key="Thumbnail2BrushConverter"></helper:ThumbnailToBrushConverter>
+            <helper:BoolToVisibilityConverter2 x:Key="Bool2VisibilityConverter2"></helper:BoolToVisibilityConverter2>
+            <helper:StringToBrushConverter x:Key="String2BrushConverter"></helper:StringToBrushConverter>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -31,14 +34,24 @@
 
 
             <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Background="Beige">
-                <materialDesign:Card x:Name="note_card" Style="{StaticResource MyCardStyle}" MouseLeftButtonDown="note_card_MouseLeftButtonDown" Width="{Binding ElementName=note_detail,Path=ActualWidth}">
+                <materialDesign:Card x:Name="note_card" Style="{StaticResource MyCardStyle}" Width="{Binding ElementName=note_detail,Path=ActualWidth}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding NoteDetailTriggerCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <StackPanel Margin="8">
                         <materialDesign:PackIcon Kind="LeadPencil" Width="40" Height="40" HorizontalAlignment="Center"/>
                         <TextBlock Text="注释" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"></TextBlock>
                     </StackPanel>
                 </materialDesign:Card>
 
-                <materialDesign:Card x:Name="thumbnail_card" Style="{StaticResource MyCardStyle}" MouseLeftButtonDown="thumbnail_card_MouseLeftButtonDown" Width="{Binding ElementName=note_detail,Path=ActualWidth}">
+                <materialDesign:Card x:Name="thumbnail_card" Style="{StaticResource MyCardStyle}" Width="{Binding ElementName=note_detail,Path=ActualWidth}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding ThumbnailDetailTriggerCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <StackPanel Margin="8">
                         <materialDesign:PackIcon Kind="ViewGrid" Width="40" Height="40" HorizontalAlignment="Center"/>
                         <TextBlock Text="缩略图" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"></TextBlock>
@@ -64,11 +77,21 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <materialDesign:Card x:Name="previous_page_card" Style="{StaticResource MyCardStyle}" Margin="0 0 20 0" MouseLeftButtonDown="previous_page_card_MouseLeftButtonDown">
+                    <materialDesign:Card x:Name="previous_page_card" Style="{StaticResource MyCardStyle}" Margin="0 0 20 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding PreviousPageCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <materialDesign:PackIcon Kind="SkipPrevious" Width="40" Height="40"></materialDesign:PackIcon>
                     </materialDesign:Card>
                     <ComboBox Grid.Column="1" Width="80" Height="40" HorizontalAlignment="Center" ItemsSource="{Binding PageNums}" FontSize="25" SelectedItem="{Binding CurrentPageNum}"></ComboBox>
-                    <materialDesign:Card x:Name="next_page_card" Grid.Column="2" Style="{StaticResource MyCardStyle}" Margin="20 0 0 0" MouseLeftButtonDown="next_page_card_MouseLeftButtonDown">
+                    <materialDesign:Card x:Name="next_page_card" Grid.Column="2" Style="{StaticResource MyCardStyle}" Margin="20 0 0 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding NextPageCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <materialDesign:PackIcon Kind="SkipNext" Width="40" Height="40"></materialDesign:PackIcon>
                     </materialDesign:Card>
                 </Grid>
@@ -84,13 +107,23 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
-            <StackPanel x:Name="note_detail" VerticalAlignment="Center">
+            <StackPanel x:Name="note_detail" VerticalAlignment="Center" Visibility="{Binding NoteDetailVisible,Converter={StaticResource Bool2VisibilityConverter2}}">
 
-                <materialDesign:Card x:Name="pen_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsPenSelected}" MouseLeftButtonDown="pen_card_MouseLeftButtonDown">
+                <materialDesign:Card x:Name="pen_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsPenSelected}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding PenSelectedCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <materialDesign:PackIcon Kind="LeadPencil" Width="40" Height="40" Margin="8"></materialDesign:PackIcon>
                 </materialDesign:Card>
 
-                <materialDesign:Card x:Name="eraser_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsEraserSelected}" MouseLeftButtonDown="eraser_card_MouseLeftButtonDown">
+                <materialDesign:Card x:Name="eraser_card" Style="{StaticResource MyCardStyle}" helper:CardSelectedAssist.IsCardSelected="{Binding IsEraserSelected}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding EraserSelectedCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <materialDesign:PackIcon Kind="Eraser" Width="40" Height="40" Margin="8"></materialDesign:PackIcon>
                 </materialDesign:Card>
 
@@ -102,26 +135,54 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="thickness_number" Text="1" FontSize="30" FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
+                        <TextBlock x:Name="thickness_number" Text="{Binding CurrentThickness}" FontSize="30" FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
                         <materialDesign:PopupBox x:Name="thickness_settings" PlacementMode="RightAndAlignMiddles" Grid.Column="1">
                             <StackPanel Width="120" Height="130">
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="thickness_MouseLeftButtonDown">
+                                <StackPanel Orientation="Horizontal">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ThicknessSelectedCommand}" CommandParameter="1"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <Rectangle Fill="Black" Height="1" Width="80" Margin="5"></Rectangle>
                                     <TextBlock Text="1" FontSize="20"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="thickness_MouseLeftButtonDown">
+                                <StackPanel Orientation="Horizontal">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ThicknessSelectedCommand}" CommandParameter="2"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <Rectangle Fill="Black" Height="2" Width="80" Margin="5"></Rectangle>
                                     <TextBlock Text="2" FontSize="20"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="thickness_MouseLeftButtonDown">
+                                <StackPanel Orientation="Horizontal">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ThicknessSelectedCommand}" CommandParameter="3"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
                                     <Rectangle Fill="Black" Height="3" Width="80" Margin="5"></Rectangle>
                                     <TextBlock Text="3" FontSize="20"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="thickness_MouseLeftButtonDown">
+                                <StackPanel Orientation="Horizontal">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ThicknessSelectedCommand}" CommandParameter="4"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
                                     <Rectangle Fill="Black" Height="4" Width="80" Margin="5"></Rectangle>
                                     <TextBlock Text="4" FontSize="20"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="thickness_MouseLeftButtonDown">
+                                <StackPanel Orientation="Horizontal">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ThicknessSelectedCommand}" CommandParameter="5"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
                                     <Rectangle Fill="Black" Height="5" Width="80" Margin="5"></Rectangle>
                                     <TextBlock Text="5" FontSize="20"></TextBlock>
                                 </StackPanel>
@@ -141,7 +202,7 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Border x:Name="color_selected" HorizontalAlignment="Right" Width="25" Height="25" Background="Red" Margin="3 5"></Border>
+                        <Border x:Name="color_selected" HorizontalAlignment="Right" Width="25" Height="25" Background="{Binding CurrentColor,Converter={StaticResource String2BrushConverter}}" Margin="3 5"></Border>
                         <materialDesign:PopupBox x:Name="color_settings" PlacementMode="RightAndAlignMiddles" Grid.Column="1">
                             <Grid Width="100" Height="100" Margin="5">
                                 <Grid.RowDefinitions>
@@ -156,17 +217,71 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
 
-                                <Border Background="Red" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border Background="Yellow" Grid.Column="1" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border Background="Green" Grid.Column="2" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
+                                <Border Background="Red" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Red"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border Background="Yellow" Grid.Column="1" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Yellow"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border Background="Green" Grid.Column="2" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Green"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
 
-                                <Border Background="Cyan" Grid.Row="1" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border  Background="Purple" Grid.Row="1" Grid.Column="1" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border  Background="Brown" Grid.Row="1" Grid.Column="2" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
+                                <Border Background="Cyan" Grid.Row="1" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Cyan"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border  Background="Purple" Grid.Row="1" Grid.Column="1" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Purple"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border  Background="Brown" Grid.Row="1" Grid.Column="2" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Brown"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
 
-                                <Border Background="Black"  Grid.Row="2" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border  Background="Blue" Grid.Row="2" Grid.Column="1" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
-                                <Border Background="Silver"  Grid.Row="2" Grid.Column="2" Margin="5" MouseLeftButtonDown="color_MouseLeftButtonDown"></Border>
+                                <Border Background="Black"  Grid.Row="2" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Black"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border  Background="Blue" Grid.Row="2" Grid.Column="1" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Blue"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+                                <Border Background="Silver"  Grid.Row="2" Grid.Column="2" Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding ColorSelectedCommand}" CommandParameter="Silver"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
 
 
                             </Grid>
@@ -177,13 +292,18 @@
 
                 </materialDesign:Card>
 
-                <materialDesign:Card x:Name="clear_card" Style="{StaticResource MyCardStyle}" MouseLeftButtonDown="clear_card_MouseLeftButtonDown">
+                <materialDesign:Card x:Name="clear_card" Style="{StaticResource MyCardStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding ClearStrokesCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <materialDesign:PackIcon Kind="Close" Width="40" Height="40" Margin="8"/>
                 </materialDesign:Card>
 
             </StackPanel>
 
-            <ListBox x:Name="thumbnail_detail" Grid.Column="1" ItemsSource="{Binding Thumbnails}" SelectedItem="{Binding CurrentThumbnail}">
+            <ListBox x:Name="thumbnail_detail" Grid.Column="1" ItemsSource="{Binding Thumbnails}" SelectedItem="{Binding CurrentThumbnail}" Visibility="{Binding ThumbnailDetailVisible,Converter={StaticResource Bool2VisibilityConverter2}}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -223,7 +343,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" >
                     <Grid>
                         <Image Source="{Binding CurrentThumbnail.ThumbnailUri}"></Image>
-                        <InkCanvas x:Name="ink_canvas" Background="Transparent" Strokes="{Binding CurrentThumbnail.Strokes}"></InkCanvas>
+                        <InkCanvas x:Name="ink_canvas" Background="Transparent" DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}" EditingMode="{Binding CurrentEditingMode}" Strokes="{Binding CurrentThumbnail.Strokes}"></InkCanvas>
                     </Grid>
                 </ScrollViewer>
             </Grid>

@@ -1,9 +1,14 @@
 ﻿using CloudClassroom.Events;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Classroom.ViewModels
 {
@@ -17,15 +22,23 @@ namespace Classroom.ViewModels
 
     public class WhiteboardViewModel : BindableBase
     {
-        private SubscriptionToken _nextToken;
-        private SubscriptionToken _previousToken;
-        private SubscriptionToken _penToken;
-        private SubscriptionToken _eraserToken;
-        private SubscriptionToken _clearToken;
-
         public WhiteboardViewModel()
         {
-            SubscribeEvents();
+            InitData();
+        }
+
+        private void InitData()
+        {
+            CurrentDrawingAttributes = new DrawingAttributes();
+            CurrentDrawingAttributes.Color = Colors.Red;
+            CurrentDrawingAttributes.Height = 3;
+            CurrentDrawingAttributes.Width = 3;
+
+            CurrentThickness = 1;
+
+            CurrentEditingMode = InkCanvasEditingMode.Ink;
+
+            CurrentColor = "Red";
 
             IsPenSelected = true;
 
@@ -41,50 +54,66 @@ namespace Classroom.ViewModels
                 CurrentThumbnail = Thumbnails[0];
                 CurrentPageNum = CurrentThumbnail.PageNum;
             }
-        }
 
+            NoteDetailTriggerCommand = new DelegateCommand(() =>
+            {
+                NoteDetailVisible = !NoteDetailVisible;
+            });
 
-        private void SubscribeEvents()
-        {
-            _previousToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<PreviousPageEvent>().Subscribe((argument) =>
-             {
-                 if (CurrentPageNum - 1 > 0)
-                 {
-                     CurrentPageNum -= 1;
-                 }
-             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.WhiteboardViewModel; });
+            ThumbnailDetailTriggerCommand = new DelegateCommand(() =>
+            {
+                ThumbnailDetailVisible = !ThumbnailDetailVisible;
+            });
 
-            _nextToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<NextPageEvent>().Subscribe((argument) =>
-             {
-                 if (CurrentPageNum + 1 <= Thumbnails.Count)
-                 {
-                     CurrentPageNum += 1;
-                 }
-             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.WhiteboardViewModel; });
+            PreviousPageCommand = new DelegateCommand(() =>
+            {
+                if (CurrentPageNum - 1 > 0)
+                {
+                    CurrentPageNum -= 1;
+                }
+            });
 
-            _penToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<PenSelectedEvent>().Subscribe((argument) =>
+            NextPageCommand = new DelegateCommand(() =>
+            {
+                if (CurrentPageNum + 1 <= Thumbnails.Count)
+                {
+                    CurrentPageNum += 1;
+                }
+            });
+
+            PenSelectedCommand = new DelegateCommand(() =>
             {
                 IsPenSelected = true;
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.WhiteboardViewModel; });
+                CurrentEditingMode = InkCanvasEditingMode.Ink;
+            });
 
-            _eraserToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<EraserSelectedEvent>().Subscribe((argument) =>
+            EraserSelectedCommand = new DelegateCommand(() =>
             {
                 IsEraserSelected = true;
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.WhiteboardViewModel; });
+                CurrentEditingMode = InkCanvasEditingMode.EraseByStroke;
+            });
 
-            _clearToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<StrokesClearedEvent>().Subscribe((argument) =>
+            ClearStrokesCommand = new DelegateCommand(() =>
             {
-                CurrentThumbnail.Strokes.Clear();
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.WhiteboardViewModel; });
-        }
+                CurrentThumbnail?.Strokes?.Clear();
+            });
 
-        public void UnsubscribeEvents()
-        {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<NextPageEvent>().Unsubscribe(_nextToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<PreviousPageEvent>().Unsubscribe(_previousToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<PenSelectedEvent>().Unsubscribe(_penToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<EraserSelectedEvent>().Unsubscribe(_eraserToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<StrokesClearedEvent>().Unsubscribe(_clearToken);
+            ThicknessSelectedCommand = new DelegateCommand<string>((thickness) =>
+            {
+                int t;
+                if (int.TryParse(thickness, out t))
+                {
+                    CurrentThickness = t;
+                    CurrentDrawingAttributes.Height = t + 2;
+                    CurrentDrawingAttributes.Width = t + 2;
+                }
+            });
+
+            ColorSelectedCommand = new DelegateCommand<string>((color) =>
+            {
+                CurrentColor = color;
+                CurrentDrawingAttributes.Color = (Color)ColorConverter.ConvertFromString(color);
+            });
         }
 
         private void InitThumbnails()
@@ -266,6 +295,58 @@ namespace Classroom.ViewModels
         }
 
 
+        private bool _noteDetailVisible;
 
+        public bool NoteDetailVisible
+        {
+            get { return _noteDetailVisible; }
+            set { SetProperty(ref _noteDetailVisible, value); }
+        }
+
+        private bool _thumbnailDetailVisible;
+
+        public bool ThumbnailDetailVisible
+        {
+            get { return _thumbnailDetailVisible; }
+            set { SetProperty(ref _thumbnailDetailVisible, value); }
+        }
+
+
+        private int _currentThickness;
+
+        public int CurrentThickness
+        {
+            get { return _currentThickness; }
+            set { SetProperty(ref _currentThickness, value); }
+        }
+
+        private string _currentColor;
+
+        public string CurrentColor
+        {
+            get { return _currentColor; }
+            set { SetProperty(ref _currentColor, value); }
+        }
+
+
+        public ICommand NoteDetailTriggerCommand { get; set; }
+        public ICommand ThumbnailDetailTriggerCommand { get; set; }
+        public ICommand PreviousPageCommand { get; set; }
+        public ICommand NextPageCommand { get; set; }
+        public ICommand PenSelectedCommand { get; set; }
+        public ICommand EraserSelectedCommand { get; set; }
+        public ICommand ClearStrokesCommand { get; set; }
+        public ICommand ThicknessSelectedCommand { get; set; }
+        public ICommand ColorSelectedCommand { get; set; }
+
+
+        public DrawingAttributes CurrentDrawingAttributes { get; set; }
+
+        private InkCanvasEditingMode _currentEditingMode;
+        public InkCanvasEditingMode CurrentEditingMode
+        {
+            get { return _currentEditingMode; }
+            set { SetProperty(ref _currentEditingMode, value); }
+        }
     }
 }
