@@ -77,7 +77,7 @@
 
                         <materialDesign:Transitioner Grid.Row="1" SelectedIndex="1" AutoApplyTransitionOrigins="True">
                             <materialDesign:TransitionerSlide>
-                                <Grid Background="Red">
+                                <Grid>
 
                                 </Grid>
                             </materialDesign:TransitionerSlide>
@@ -102,22 +102,22 @@
                                         <materialDesign:Card Height="50" Style="{StaticResource MyCardStyle}">
                                             <TextBlock Text="一" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="1" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="1" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="二" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="2" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="2" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="三" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="3" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="3" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="四" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="4" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="4" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="五" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="5" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="5" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="六" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
-                                        <materialDesign:Card Height="50" Grid.Column="6" Style="{StaticResource MyCardStyle}">
+                                        <materialDesign:Card Height="50" Grid.Column="6" Style="{StaticResource MyCardStyle}" >
                                             <TextBlock Text="日" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
                                         </materialDesign:Card>
                                     </Grid>

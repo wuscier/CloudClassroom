@@ -2,6 +2,7 @@
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.Views;
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -196,6 +197,14 @@ namespace CloudClassroom.ViewModels
             ShowRecordPathCommand = new DelegateCommand(() =>
             {
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Publish(new EventArgument()
+                {
+                    Target = Target.MeetingView,
+                });
+            });
+
+            OpenShareOptionsCommand = new DelegateCommand(() =>
+            {
+                EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Publish(new EventArgument()
                 {
                     Target = Target.MeetingView,
                 });

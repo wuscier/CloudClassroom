@@ -31,10 +31,11 @@ namespace CloudClassroom.Views
 
             _intoMeetingSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Subscribe((argument) =>
             {
+                Hide();
+
                 MeetingView meetingView = new MeetingView();
                 meetingView.Show();
 
-                Hide();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.MainView; });
         }
 

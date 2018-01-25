@@ -15,7 +15,10 @@ namespace CloudClassroom.Views
 
         private void whiteboard_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            WhiteboardView whiteboardView = new WhiteboardView();
+            whiteboardView.Show();
 
+            Close();
         }
 
         private void document_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -21,6 +21,8 @@ namespace CloudClassroom.Views
         private SubscriptionToken _intoMeetingToken;
         private SubscriptionToken _videoPositionToken;
         private SubscriptionToken _showRecordPathToken;
+        private SubscriptionToken _showSharingOptionsToken;
+
 
         private ISdk _sdk = ZoomSdk.Instance;
 
@@ -50,6 +52,13 @@ namespace CloudClassroom.Views
                 RecordPathView recordPathView = new RecordPathView();
                 recordPathView.Owner = this;
                 recordPathView.ShowDialog();
+            });
+
+            _showSharingOptionsToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Subscribe((argument) =>
+            {
+                SharingOptionsView sharingOptionsView = new SharingOptionsView();
+                sharingOptionsView.Owner = this;
+                sharingOptionsView.ShowDialog();
             });
         }
 
