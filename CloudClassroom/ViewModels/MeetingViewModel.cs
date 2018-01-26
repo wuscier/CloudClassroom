@@ -65,15 +65,35 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
             {
-                if (status == VideoStatus.Video_ON)
-                {
-                }
+                Console.WriteLine($"userId:{userId}");
             });
 
 
             CMeetingRecordingControllerDotNetWrap.Instance.Add_CB_onRecordingStatus((status) =>
             {
                 Console.WriteLine($"recording status:{status}");
+            });
+
+            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserJoin((userIds) =>
+            {
+                if (userIds != null && userIds.Length > 0)
+                {
+                    foreach (var userId in userIds)
+                    {
+                        Console.WriteLine($"user join：{userId}");
+                    }
+                }
+            });
+
+            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserLeft((userIds) =>
+            {
+                if (userIds != null && userIds.Length > 0)
+                {
+                    foreach (var userId in userIds)
+                    {
+                        Console.WriteLine($"user left：{userId}");
+                    }
+                }
             });
 
         }
