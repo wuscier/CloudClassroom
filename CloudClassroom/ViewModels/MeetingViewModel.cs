@@ -59,7 +59,7 @@ namespace CloudClassroom.ViewModels
                     if (self != null)
                     {
                         App.CurrentUser.InMeetingUserId = self.GetUserID();
-                        IsHost = self.IsHost();
+                        UiStatusModel.IsHost = self.IsHost();
 
                         string email2 = self.GetEmail();
                         uint selfId2 = self.GetUserID();
@@ -334,13 +334,6 @@ namespace CloudClassroom.ViewModels
 
         public UiStatusModel UiStatusModel { get; set; }
 
-        private bool _isHost;
-        public bool IsHost
-        {
-            get { return _isHost; }
-            set { _isHost = value; }
-        }
-
         public ICommand MicrophoneTriggerCommand { get; set; }
         public ICommand AudioSettingsOpenedCommand { get; set; }
         public ICommand CameraTriggerCommand { get; set; }
@@ -368,6 +361,13 @@ namespace CloudClassroom.ViewModels
 
         public const string CameraOnText = "停止视频";
         public const string CameraOffText = "启动视频";
+
+        private bool _isHost;
+        public bool IsHost
+        {
+            get { return _isHost; }
+            set { SetProperty(ref _isHost, value); }
+        }
 
         private string _micStatus;
 

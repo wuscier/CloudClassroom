@@ -16,6 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <helper:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"></helper:BoolToVisibilityConverter>
+            <helper:BoolToTextConverter x:Key="Bool2TextConverter"></helper:BoolToTextConverter>
 
         </ResourceDictionary>
     </Window.Resources>
@@ -174,7 +175,7 @@
             <StackPanel Grid.Column="4" HorizontalAlignment="Left" Background="{StaticResource PrimaryHueDarkBrush}" Width="50">
 
                 <TextBlock Text="你" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
-                <TextBlock Text="【是】" Foreground="White" FontSize="18" HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Text="{Binding UiStatusModel.IsHost,Converter={StaticResource Bool2TextConverter}}" Foreground="White" FontSize="18" HorizontalAlignment="Center"></TextBlock>
                 <TextBlock Text="主" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
                 <TextBlock Text="持" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
                 <TextBlock Text="人" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>

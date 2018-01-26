@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Events\EventAggregatorManager.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Helpers\BoolToTextConverter.cs" />
     <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\CardSelectedAssist.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
