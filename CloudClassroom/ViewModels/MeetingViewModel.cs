@@ -59,7 +59,7 @@ namespace CloudClassroom.ViewModels
                     if (self != null)
                     {
                         App.CurrentUser.InMeetingUserId = self.GetUserID();
-
+                        IsHost = self.IsHost();
 
                         string email2 = self.GetEmail();
                         uint selfId2 = self.GetUserID();
@@ -67,6 +67,16 @@ namespace CloudClassroom.ViewModels
                         UserRole role2 = self.GetUserRole();
                         bool isHost2 = self.IsHost();
                     }
+
+                    IMeetingInfo meetingInfo = _sdk.GetMeetingInfo();
+
+                    string meetingId = meetingInfo.GetMeetingID();
+                    ulong meetingNumber = meetingInfo.GetMeetingNumber();
+                    MeetingType meetingType = meetingInfo.GetMeetingType();
+                    string topic = meetingInfo.GetMeetingTopic();
+                    string hostTag = meetingInfo.GetMeetingHostTag();
+                    string url = meetingInfo.GetJoinMeetingUrl();
+
 
                     EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
                     {

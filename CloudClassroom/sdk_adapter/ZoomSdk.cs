@@ -41,6 +41,11 @@ namespace CloudClassroom.sdk_adapter
             return cameraList;
         }
 
+        public IMeetingInfo GetMeetingInfo()
+        {
+            return CMeetingServiceDotNetWrap.Instance.GetMeetingInfo();
+        }
+
         public SDKError GetMeetingUIWnd(ref HWNDDotNet first, ref HWNDDotNet second)
         {
             ValueType firstVT = first;

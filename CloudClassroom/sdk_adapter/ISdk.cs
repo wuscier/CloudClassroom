@@ -53,5 +53,7 @@ namespace CloudClassroom.sdk_adapter
 
         uint[] GetParticipantsList();
         IUserInfoDotNetWrap GetUserByUserID(uint userId);
+
+        IMeetingInfo GetMeetingInfo();
     }
 }
