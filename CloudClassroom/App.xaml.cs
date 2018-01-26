@@ -1,4 +1,5 @@
 ﻿using Classroom.Models;
+using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
 using Serilog;
@@ -45,7 +46,7 @@ namespace CloudClassroom
 
             if (err != SDKError.SDKERR_SUCCESS)
             {
-                MessageBox.Show("服务初始化失败！");
+                MessageBox.Show(Translator.TranslateSDKError(err));
                 Current.Shutdown();
             }
         }
@@ -56,7 +57,7 @@ namespace CloudClassroom
 
             if (err != SDKError.SDKERR_SUCCESS)
             {
-                MessageBox.Show("服务清理失败！");
+                MessageBox.Show(Translator.TranslateSDKError(err));
             }
         }
 

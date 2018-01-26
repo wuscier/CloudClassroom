@@ -2,7 +2,6 @@
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
-using CloudClassroom.Views;
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -96,6 +95,8 @@ namespace CloudClassroom.ViewModels
                 switch (UiStatusModel.MicStatus)
                 {
                     case UiStatusModel.MicOnText:
+
+
                         UiStatusModel.MicStatus = UiStatusModel.MicOffText;
                         UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
 
@@ -114,17 +115,34 @@ namespace CloudClassroom.ViewModels
                 switch (UiStatusModel.CameraStatus)
                 {
                     case UiStatusModel.CameraOnText:
-                        UiStatusModel.CameraStatus = UiStatusModel.CameraOffText;
-                        UiStatusModel.CameraIcon = PackIconKind.CameraOff.ToString();
 
-                        _sdk.MuteVideo();
+                       SDKError muteVideoErr = _sdk.MuteVideo();
+
+                        if (muteVideoErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            UiStatusModel.CameraStatus = UiStatusModel.CameraOffText;
+                            UiStatusModel.CameraIcon = PackIconKind.CameraOff.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show(Translator.TranslateSDKError(muteVideoErr));
+                        }
 
                         break;
                     case UiStatusModel.CameraOffText:
-                        UiStatusModel.CameraStatus = UiStatusModel.CameraOnText;
-                        UiStatusModel.CameraIcon = PackIconKind.Camera.ToString();
 
-                        _sdk.UnmuteVideo();
+                        SDKError unmuteVideoErr = _sdk.UnmuteVideo();
+
+                        if (unmuteVideoErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            UiStatusModel.CameraStatus = UiStatusModel.CameraOnText;
+                            UiStatusModel.CameraIcon = PackIconKind.Camera.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show(Translator.TranslateSDKError(unmuteVideoErr));
+                        }
+
                         break;
                 }
             });
@@ -175,11 +193,21 @@ namespace CloudClassroom.ViewModels
                 if (UiStatusModel.IsRecording)
                 {
                     DateTime startTime = DateTime.Now;
-                    _sdk.StopRecording(ref startTime);
-                    UiStatusModel.IsRecording = false;
+
+                    SDKError stopRecordErr = _sdk.StopRecording(ref startTime);
+                    if (stopRecordErr == SDKError.SDKERR_SUCCESS)
+                    {
+                        UiStatusModel.IsRecording = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Translator.TranslateSDKError(stopRecordErr));
+                    }
+
                 }
                 else
                 {
+
                     DateTime stopTime = DateTime.Now;
                     string recordPath = _sdk.GetRecordingPath();
                     if (!Directory.Exists(recordPath))
@@ -188,8 +216,16 @@ namespace CloudClassroom.ViewModels
                         return;
                     }
 
-                    _sdk.StartRecording(ref stopTime, recordPath);
-                    UiStatusModel.IsRecording = true;
+                    SDKError startRecordErr = _sdk.StartRecording(ref stopTime, recordPath);
+
+                    if (startRecordErr == SDKError.SDKERR_SUCCESS)
+                    {
+                        UiStatusModel.IsRecording = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Translator.TranslateSDKError(startRecordErr));
+                    }
                 }
             });
 

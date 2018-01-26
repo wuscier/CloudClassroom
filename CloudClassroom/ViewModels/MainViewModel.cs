@@ -1,4 +1,5 @@
 ﻿using CloudClassroom.Events;
+using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
@@ -104,7 +105,7 @@ namespace CloudClassroom.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(startError.ToString());
+                        MessageBox.Show(Translator.TranslateSDKError(startError));
                     }
                 }
                 else
@@ -137,7 +138,7 @@ namespace CloudClassroom.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(joinError.ToString());
+                        MessageBox.Show(Translator.TranslateSDKError(joinError));
                     }
                 }
             });

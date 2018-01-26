@@ -1,9 +1,9 @@
 ﻿using Classroom.Models;
 using CloudClassroom.Events;
+using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
-using Serilog;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -163,7 +163,7 @@ namespace CloudClassroom.ViewModels
             if (err != SDKError.SDKERR_SUCCESS)
             {
                 Logging = false;
-                Err = err.ToString();
+                Err = Translator.TranslateSDKError(err);
             }
         }
     }
