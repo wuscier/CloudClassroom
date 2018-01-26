@@ -71,7 +71,7 @@ namespace CloudClassroom.ViewModels
                     IMeetingInfo meetingInfo = _sdk.GetMeetingInfo();
 
                     string meetingId = meetingInfo.GetMeetingID();
-                    ulong meetingNumber = meetingInfo.GetMeetingNumber();
+                    UiStatusModel.MeetingNumber = meetingInfo.GetMeetingNumber();
                     MeetingType meetingType = meetingInfo.GetMeetingType();
                     string topic = meetingInfo.GetMeetingTopic();
                     string hostTag = meetingInfo.GetMeetingHostTag();
@@ -97,6 +97,12 @@ namespace CloudClassroom.ViewModels
                 Console.WriteLine($"recording status:{status}");
             });
 
+
+            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserNameChanged((userId, userName) =>
+            {
+                Console.WriteLine($"user {userId} changed name as {userName}");
+            });
+
             CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserJoin((userIds) =>
             {
                 if (userIds != null && userIds.Length > 0)
@@ -119,11 +125,54 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
-            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserNameChanged((userId, userName) =>
+            CMeetingAudioControllerDotNetWrap.Instance.Add_CB_onUserAudioStatusChange((userAudioStatuses) =>
             {
-                Console.WriteLine($"user {userId} changed name as {userName}");
+                if (userAudioStatuses != null && userAudioStatuses.Length > 0)
+                {
+                    foreach (var userAudioStatus in userAudioStatuses)
+                    {
+                        if (userAudioStatus.GetUserId() == App.CurrentUser.InMeetingUserId)
+                        {
+                            AudioType audioType = userAudioStatus.GetAudioType();
+
+                            AudioStatus audioStatus = userAudioStatus.GetStatus();
+
+                            switch (audioStatus)
+                            {
+                                case AudioStatus.Audio_None:
+
+                                    break;
+                                case AudioStatus.Audio_Muted:
+                                case AudioStatus.Audio_Muted_ByHost:
+                                case AudioStatus.Audio_MutedAll_ByHost:
+
+                                    //SetMicUiOff();
+                                    break;
+                                case AudioStatus.Audio_UnMuted:
+                                case AudioStatus.Audio_UnMuted_ByHost:
+                                case AudioStatus.Audio_UnMutedAll_ByHost:
+
+                                    //SetMicUiOn();
+                                    break;
+                            }
+                        }
+                    }
+                }
             });
 
+
+        }
+
+        private void SetMicUiOn()
+        {
+            UiStatusModel.MicStatus = UiStatusModel.MicOnText;
+            UiStatusModel.MicIcon = PackIconKind.Microphone.ToString();
+        }
+
+        private void SetMicUiOff()
+        {
+            UiStatusModel.MicStatus = UiStatusModel.MicOffText;
+            UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
         }
 
         private void InitData()
@@ -148,8 +197,7 @@ namespace CloudClassroom.ViewModels
 
                         if (muteAudioErr == SDKError.SDKERR_SUCCESS)
                         {
-                            UiStatusModel.MicStatus = UiStatusModel.MicOffText;
-                            UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
+                            SetMicUiOff();
                         }
                         else
                         {
@@ -162,8 +210,7 @@ namespace CloudClassroom.ViewModels
 
                         if (unmuteAudioErr == SDKError.SDKERR_SUCCESS)
                         {
-                            UiStatusModel.MicStatus = UiStatusModel.MicOnText;
-                            UiStatusModel.MicIcon = PackIconKind.Microphone.ToString();
+                            SetMicUiOn();
                         }
                         else
                         {
@@ -259,14 +306,18 @@ namespace CloudClassroom.ViewModels
                     DateTime startTime = DateTime.Now;
 
                     SDKError stopRecordErr = _sdk.StopRecording(ref startTime);
-                    if (stopRecordErr == SDKError.SDKERR_SUCCESS)
-                    {
-                        UiStatusModel.IsRecording = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show(Translator.TranslateSDKError(stopRecordErr));
-                    }
+
+
+                    UiStatusModel.IsRecording = false;
+
+                    //if (stopRecordErr == SDKError.SDKERR_SUCCESS)
+                    //{
+                    //    UiStatusModel.IsRecording = false;
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show(Translator.TranslateSDKError(stopRecordErr));
+                    //}
 
                 }
                 else
@@ -282,14 +333,17 @@ namespace CloudClassroom.ViewModels
 
                     SDKError startRecordErr = _sdk.StartRecording(ref stopTime, recordPath);
 
-                    if (startRecordErr == SDKError.SDKERR_SUCCESS)
-                    {
-                        UiStatusModel.IsRecording = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show(Translator.TranslateSDKError(startRecordErr));
-                    }
+                    UiStatusModel.IsRecording = true;
+
+
+                    //if (startRecordErr == SDKError.SDKERR_SUCCESS)
+                    //{
+                    //    UiStatusModel.IsRecording = true;
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show(Translator.TranslateSDKError(startRecordErr));
+                    //}
                 }
             });
 
@@ -361,6 +415,15 @@ namespace CloudClassroom.ViewModels
 
         public const string CameraOnText = "停止视频";
         public const string CameraOffText = "启动视频";
+
+        private ulong _meetingNumber;
+
+        public ulong MeetingNumber
+        {
+            get { return _meetingNumber; }
+            set { SetProperty(ref _meetingNumber, value); }
+        }
+
 
         private bool _isHost;
         public bool IsHost

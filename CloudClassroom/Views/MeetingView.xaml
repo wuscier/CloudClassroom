@@ -5,7 +5,7 @@
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="课堂号：" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        Title="{Binding UiStatusModel.MeetingNumber}" Height="599" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         SizeChanged="Window_SizeChanged"
         >
 
@@ -15,8 +15,8 @@
                 <ResourceDictionary Source="../CustomizedUI/My.Card.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
-            <helper:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"></helper:BoolToVisibilityConverter>
             <helper:BoolToTextConverter x:Key="Bool2TextConverter"></helper:BoolToTextConverter>
+            <helper:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"></helper:BoolToVisibilityConverter>
 
         </ResourceDictionary>
     </Window.Resources>
