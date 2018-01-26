@@ -86,12 +86,12 @@ namespace CloudClassroom.ViewModels
                         {
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isDirectShareDesktop = false,
-                            meetingNumber = 739755878,
+                            meetingNumber = 856848506,
                             participantId = string.Empty,
-                            userID = "738107",
-                            userName = "我是主持人",
-                            userToken = "AN5TGZgmNQc2BxQr1b0nqhAM990yFJfGfBmp",
-                        }
+                            userID = "LaWc3yx0RwCz2SFZVFhDaQ",
+                            userName = "jack maer",
+                            userToken = "yvlb0UOcJHi7NrWp4AwYYS8vVZTtdm6SpEHZ",
+                        },
                     });
 
                     if (startError == SDKError.SDKERR_SUCCESS)
@@ -114,8 +114,8 @@ namespace CloudClassroom.ViewModels
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserJoin = new JoinParam4APIUser()
                         {
-                            userName = "我是API用户",
-                            meetingNumber = 739755878,
+                            userName = "刘强东",
+                            meetingNumber = 856848506,
                             psw = string.Empty,
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isAudioOff = false,

@@ -87,8 +87,6 @@ namespace CloudClassroom.ViewModels
                 CameraStatus = UiStatusModel.CameraOnText,
                 MicStatus = UiStatusModel.MicOnText,
                 IsRecording = false,
-                PauseResumeKind = PackIconKind.Pause.ToString(),
-                PauseResumeText = UiStatusModel.RecordPauseText,
             };
 
 
@@ -240,9 +238,6 @@ namespace CloudClassroom.ViewModels
         public const string CameraOnText = "停止视频";
         public const string CameraOffText = "启动视频";
 
-        public const string RecordPauseText = "暂停录制";
-        public const string RecordResumeText = "恢复录制";
-
         private string _micStatus;
 
         public string MicStatus
@@ -281,23 +276,6 @@ namespace CloudClassroom.ViewModels
         {
             get { return _isRecording; }
             set { SetProperty(ref _isRecording, value); }
-        }
-
-        private string _pauseResumeKind;
-
-        public string PauseResumeKind
-        {
-            get { return _pauseResumeKind; }
-            set { SetProperty(ref _pauseResumeKind, value); }
-        }
-
-
-        private string _pauseResumeText;
-
-        public string PauseResumeText
-        {
-            get { return _pauseResumeText; }
-            set { SetProperty(ref _pauseResumeText, value); }
         }
 
 

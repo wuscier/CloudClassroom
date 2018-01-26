@@ -139,6 +139,8 @@ namespace CloudClassroom.ViewModels
             CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLoginRet((loginStatus, accountInfo) =>
             {
                 System.Console.WriteLine(loginStatus.ToString());
+                System.Console.WriteLine($"loginType:{accountInfo?.GetLoginType()}");
+                System.Console.WriteLine($"displayName:{accountInfo?.GetDisplayName()}");
             });
 
             CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLogout(() =>
@@ -154,6 +156,8 @@ namespace CloudClassroom.ViewModels
             {
                 appKey = "p3TojubkBYyntp8m4rVevr0yYmH1HVW9yPiR",
                 appSecret = "JLuhz1VkcWGVSUESJj19biBi7NZcbVWENRXe",
+                //appKey = "LEfq0qV7SXC9E6OfRl3CSA",
+                //appSecret = "G1lb50p3Ulwa5OD8u9ybBPgCzeVPcoYdDb4O",
             });
 
             if (err != SDKError.SDKERR_SUCCESS)
@@ -173,6 +177,7 @@ namespace CloudClassroom.ViewModels
         {
             LoginModel = new LoginModel()
             {
+                UserName = "justlucky@126.com",
             };
         }
     }
