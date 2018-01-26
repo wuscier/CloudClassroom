@@ -85,6 +85,11 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
+            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onHostChangeNotification((hostUserId) =>
+            {
+                UiStatusModel.IsHost = hostUserId == App.CurrentUser.InMeetingUserId;
+            });
+
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
             {
 
