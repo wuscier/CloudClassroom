@@ -30,7 +30,7 @@
             </Grid.ColumnDefinitions>
 
 
-        <materialDesign:Card x:Name="start_record" Grid.RowSpan="2" Grid.ColumnSpan="2" Height="80" Width="100"  Style="{StaticResource MyCardStyle}"
+        <materialDesign:Card x:Name="start_record" Grid.RowSpan="2" Grid.ColumnSpan="2" Height="100" Width="100"  Style="{StaticResource MyCardStyle}"
                              Visibility="{Binding UiStatusModel.IsRecording,Converter={StaticResource ReverseBoolToVisibilityConverter2}}"
                              >
             <i:Interaction.Triggers>
@@ -38,8 +38,8 @@
                     <i:InvokeCommandAction Command="{Binding RecordTriggerCommand}"></i:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <StackPanel>
-                <materialDesign:PackIcon Kind="Record" Width="60" Height="50" HorizontalAlignment="Center"/>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Record" Width="60" Height="60" HorizontalAlignment="Center"/>
                 <TextBlock Text="录制" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
             </StackPanel>
         </materialDesign:Card>
@@ -55,7 +55,7 @@
             </StackPanel>
         </materialDesign:Card>-->
 
-        <materialDesign:Card x:Name="stop_record" Grid.Column="1" Grid.RowSpan="2" Height="80" Width="100" Style="{StaticResource MyCardStyle}"
+        <materialDesign:Card x:Name="stop_record" Grid.Column="1" Grid.RowSpan="2" Height="100" Width="100" Style="{StaticResource MyCardStyle}"
                              Visibility="{Binding UiStatusModel.IsRecording,Converter={StaticResource BoolToVisibilityConverter2}}"
                              >
             <i:Interaction.Triggers>
@@ -64,8 +64,8 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-            <StackPanel>
-                <materialDesign:PackIcon Kind="Stop" Width="60" Height="50" HorizontalAlignment="Center"/>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Stop" Width="60" Height="60" HorizontalAlignment="Center"/>
                 <TextBlock Text="停止录制" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
             </StackPanel>
             </materialDesign:Card>
