@@ -51,6 +51,7 @@ namespace CloudClassroom.sdk_adapter
         SDKError StartMonitor();
         SDKError StopMonitor();
 
-
+        uint[] GetParticipantsList();
+        IUserInfoDotNetWrap GetUserByUserID(uint userId);
     }
 }

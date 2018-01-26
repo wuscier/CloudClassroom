@@ -70,6 +70,11 @@ namespace CloudClassroom.sdk_adapter
             return micList;
         }
 
+        public uint[] GetParticipantsList()
+        {
+            return CMeetingParticipantsControllerDotNetWrap.Instance.GetParticipantsList();
+        }
+
         public string GetRecordingPath()
         {
             return CRecordingSettingContextDotNetWrap.Instance.GetRecordingPath();
@@ -90,6 +95,11 @@ namespace CloudClassroom.sdk_adapter
             }
 
             return speakerList;
+        }
+
+        public IUserInfoDotNetWrap GetUserByUserID(uint userId)
+        {
+            return CMeetingParticipantsControllerDotNetWrap.Instance.GetUserByUserID(userId);
         }
 
         public SDKError Initialize(InitParam initParam)
