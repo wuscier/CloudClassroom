@@ -22,6 +22,7 @@ namespace CloudClassroom.ViewModels
 
         public MeetingViewModel()
         {
+            IsHost = App.IsHost;
             RegisterCallbacks();
             InitData();
         }
@@ -210,6 +211,13 @@ namespace CloudClassroom.ViewModels
         }
 
         public UiStatusModel UiStatusModel { get; set; }
+
+        private bool _isHost;
+        public bool IsHost
+        {
+            get { return _isHost; }
+            set { _isHost = value; }
+        }
 
         public ICommand MicrophoneTriggerCommand { get; set; }
         public ICommand AudioSettingsOpenedCommand { get; set; }

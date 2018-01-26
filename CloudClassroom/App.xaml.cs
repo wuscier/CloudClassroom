@@ -17,6 +17,7 @@ namespace CloudClassroom
         public static UserModel UserModel;
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;
         public static IntPtr VideoHwnd = IntPtr.Zero;
+        public static bool IsHost = false;
 
         private ISdk _sdk = ZoomSdk.Instance;
 
