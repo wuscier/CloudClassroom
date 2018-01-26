@@ -179,6 +179,11 @@
                 </StackPanel>
             </materialDesign:Card>
             <materialDesign:Card Grid.Column="6" Width="100" Height="80" Style="{StaticResource MyCardStyle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding ShowParticipantsDialogCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <StackPanel>
                     <materialDesign:PackIcon Kind="AccountMultiple" Width="60" Height="50" HorizontalAlignment="Center"/>
                     <TextBlock Text="参会者" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>

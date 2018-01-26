@@ -15,10 +15,9 @@ namespace CloudClassroom
     public partial class App : Application
     {
         public static MainView MainView;
-        public static UserModel UserModel;
+        public static UserModel CurrentUser;
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;
         public static IntPtr VideoHwnd = IntPtr.Zero;
-        public static bool IsHost = false;
 
         private ISdk _sdk = ZoomSdk.Instance;
 

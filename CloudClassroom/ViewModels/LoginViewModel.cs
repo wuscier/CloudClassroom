@@ -120,15 +120,15 @@ namespace CloudClassroom.ViewModels
                 }
 
                 Logging = false;
-                if (App.UserModel == null)
+                if (App.CurrentUser == null)
                 {
-                    App.UserModel = new UserModel()
+                    App.CurrentUser = new UserModel()
                     {
 
                     };
                 };
 
-                App.UserModel.UserName = UserName;
+                App.CurrentUser.AccountUserName = UserName;
 
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
                 {

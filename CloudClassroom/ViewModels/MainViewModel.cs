@@ -78,7 +78,7 @@ namespace CloudClassroom.ViewModels
                     return;
                 };
 
-                if (course.HostId == App.UserModel.UserName)
+                if (course.HostId == App.CurrentUser.AccountUserName)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {

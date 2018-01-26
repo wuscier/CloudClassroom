@@ -4,7 +4,10 @@
     {
         public string AppKey { get; set; }
         public string AppSecret { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
+
+        public string AccountUserId { get; set; }
+        public string AccountUserName { get; set; }
+        public uint InMeetingUserId { get; set; }
+        public string InMeetingUserName { get; set; }
     }
 }

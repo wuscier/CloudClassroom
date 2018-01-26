@@ -21,7 +21,6 @@ namespace CloudClassroom.ViewModels
 
         public MeetingViewModel()
         {
-            IsHost = App.IsHost;
             RegisterCallbacks();
             InitData();
         }
@@ -56,6 +55,19 @@ namespace CloudClassroom.ViewModels
             {
                 if (status == MeetingStatus.MEETING_STATUS_INMEETING)
                 {
+                    IUserInfoDotNetWrap self = _sdk.GetUserByUserID(0);
+                    if (self != null)
+                    {
+                        App.CurrentUser.InMeetingUserId = self.GetUserID();
+
+
+                        string email2 = self.GetEmail();
+                        uint selfId2 = self.GetUserID();
+                        string selfName2 = self.GetUserNameW();
+                        UserRole role2 = self.GetUserRole();
+                        bool isHost2 = self.IsHost();
+                    }
+
                     EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Publish(new EventArgument()
                     {
                         Target = Target.MeetingView,
@@ -65,7 +77,8 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
             {
-                Console.WriteLine($"userId:{userId}");
+
+               // Console.WriteLine($"userId:{userId}");
             });
 
 
@@ -96,6 +109,11 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
+            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserNameChanged((userId, userName) =>
+            {
+                Console.WriteLine($"user {userId} changed name as {userName}");
+            });
+
         }
 
         private void InitData()
@@ -116,16 +134,32 @@ namespace CloudClassroom.ViewModels
                 {
                     case UiStatusModel.MicOnText:
 
+                        SDKError muteAudioErr = _sdk.MuteAudio(App.CurrentUser.InMeetingUserId, true);
 
-                        UiStatusModel.MicStatus = UiStatusModel.MicOffText;
-                        UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
+                        if (muteAudioErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            UiStatusModel.MicStatus = UiStatusModel.MicOffText;
+                            UiStatusModel.MicIcon = PackIconKind.MicrophoneOff.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show(Translator.TranslateSDKError(muteAudioErr));
+                        }
 
-                        //SDKError muteAudioErr = _sdk.MuteAudio(16778240, true);
                         break;
                     case UiStatusModel.MicOffText:
-                        UiStatusModel.MicStatus = UiStatusModel.MicOnText;
-                        UiStatusModel.MicIcon = PackIconKind.Microphone.ToString();
-                        //SDKError unmuteAudioErr = _sdk.UnmuteAudio(16778240);
+                        SDKError unmuteAudioErr = _sdk.UnmuteAudio(App.CurrentUser.InMeetingUserId);
+
+                        if (unmuteAudioErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            UiStatusModel.MicStatus = UiStatusModel.MicOnText;
+                            UiStatusModel.MicIcon = PackIconKind.Microphone.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show(Translator.TranslateSDKError(unmuteAudioErr));
+                        }
+
                         break;
                 }
             });
@@ -136,7 +170,7 @@ namespace CloudClassroom.ViewModels
                 {
                     case UiStatusModel.CameraOnText:
 
-                       SDKError muteVideoErr = _sdk.MuteVideo();
+                        SDKError muteVideoErr = _sdk.MuteVideo();
 
                         if (muteVideoErr == SDKError.SDKERR_SUCCESS)
                         {
@@ -264,6 +298,28 @@ namespace CloudClassroom.ViewModels
                     Target = Target.MeetingView,
                 });
             });
+
+            ShowParticipantsDialogCommand = new DelegateCommand(() =>
+            {
+                IUserInfoDotNetWrap self = _sdk.GetUserByUserID(0);
+                string email2 = self.GetEmail();
+                uint selfId2 = self.GetUserID();
+                string selfName2 = self.GetUserNameW();
+                UserRole role2 = self.GetUserRole();
+                bool isHost2 = self.IsHost();
+
+
+                uint[] users = _sdk.GetParticipantsList();
+
+                IUserInfoDotNetWrap user = _sdk.GetUserByUserID(users[0]);
+
+                string email = user.GetEmail();
+                uint userId = user.GetUserID();
+                string userName = user.GetUserNameW();
+                UserRole role = user.GetUserRole();
+                bool isHost = user.IsHost();
+
+            });
         }
 
         public UiStatusModel UiStatusModel { get; set; }
@@ -280,6 +336,7 @@ namespace CloudClassroom.ViewModels
         public ICommand CameraTriggerCommand { get; set; }
         public ICommand VideoSettingsOpenedCommand { get; set; }
 
+        public ICommand ShowParticipantsDialogCommand { get; set; }
         public ICommand OpenShareOptionsCommand { get; set; }
         public ICommand RecordTriggerCommand { get; set; }
         public ICommand ShowRecordPathCommand { get; set; }
