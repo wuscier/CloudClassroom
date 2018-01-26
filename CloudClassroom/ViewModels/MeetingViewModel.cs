@@ -184,6 +184,7 @@ namespace CloudClassroom.ViewModels
         {
             UiStatusModel = new UiStatusModel()
             {
+                BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString(),
                 CameraIcon = PackIconKind.Video.ToString(),
                 MicIcon = PackIconKind.Microphone.ToString(),
                 CameraStatus = UiStatusModel.CameraOnText,
@@ -389,6 +390,20 @@ namespace CloudClassroom.ViewModels
                 bool isHost = user.IsHost();
 
             });
+
+            BottomMenuTriggerCommand = new DelegateCommand(() =>
+            {
+                if (UiStatusModel.BottomMenuVisible)
+                {
+                    UiStatusModel.BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString();
+                }
+                else
+                {
+                    UiStatusModel.BottomMenuTriggerIcon = PackIconKind.ChevronLeft.ToString();
+                }
+
+                UiStatusModel.BottomMenuVisible = !UiStatusModel.BottomMenuVisible;
+            });
         }
 
         public UiStatusModel UiStatusModel { get; set; }
@@ -402,6 +417,8 @@ namespace CloudClassroom.ViewModels
         public ICommand OpenShareOptionsCommand { get; set; }
         public ICommand RecordTriggerCommand { get; set; }
         public ICommand ShowRecordPathCommand { get; set; }
+
+        public ICommand BottomMenuTriggerCommand { get; set; }
     }
 
 
@@ -414,6 +431,8 @@ namespace CloudClassroom.ViewModels
             Speakers = new ObservableCollection<DeviceModel>();
             Cameras = new ObservableCollection<DeviceModel>();
         }
+
+
 
         public const string MicOnText = "静音";
         public const string MicOffText = "解除静音";
@@ -429,7 +448,6 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _meetingNumber, value); }
         }
 
-
         private bool _isHost;
         public bool IsHost
         {
@@ -438,7 +456,6 @@ namespace CloudClassroom.ViewModels
         }
 
         private string _micStatus;
-
         public string MicStatus
         {
             get { return _micStatus; }
@@ -446,7 +463,6 @@ namespace CloudClassroom.ViewModels
         }
 
         private string _micIcon;
-
         public string MicIcon
         {
             get { return _micIcon; }
@@ -454,7 +470,6 @@ namespace CloudClassroom.ViewModels
         }
 
         private string _cameraStatus;
-
         public string CameraStatus
         {
             get { return _cameraStatus; }
@@ -462,7 +477,6 @@ namespace CloudClassroom.ViewModels
         }
 
         private string _cameraIcon;
-
         public string CameraIcon
         {
             get { return _cameraIcon; }
@@ -470,12 +484,27 @@ namespace CloudClassroom.ViewModels
         }
 
         private bool _isRecording;
-
         public bool IsRecording
         {
             get { return _isRecording; }
             set { SetProperty(ref _isRecording, value); }
         }
+
+        private string _bottomMenuTriggerIcon;
+        public string BottomMenuTriggerIcon
+        {
+            get { return _bottomMenuTriggerIcon; }
+            set { SetProperty(ref _bottomMenuTriggerIcon, value); }
+        }
+
+        private bool _bottomMenuVisible;
+
+        public bool BottomMenuVisible
+        {
+            get { return _bottomMenuVisible; }
+            set { SetProperty(ref _bottomMenuVisible, value); }
+        }
+
 
 
         public ObservableCollection<DeviceModel> Microphones { get; set; }
