@@ -94,6 +94,7 @@
     <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\BottomMenuWidthConverter.cs" />
     <Compile Include="Helpers\CardSelectedAssist.cs" />
+    <Compile Include="Helpers\MouseHook.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\ReverseBoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\ReverseConverter.cs" />

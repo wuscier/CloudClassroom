@@ -8,6 +8,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -40,6 +41,8 @@ namespace CloudClassroom.Views
 
         private void RegisterCallbacks()
         {
+
+            
             CZoomSDKeDotNetWrap.Instance.GetUIHookControllerWrap().Add_CB_onUIActionNotify((type, msg) =>
             {
                 Console.WriteLine($"type={type},msg={msg}");
@@ -73,6 +76,8 @@ namespace CloudClassroom.Views
             {
                 _progressingControl?.Close();
                 _progressingControl = null;
+
+                MouseHook.Start(MouseHookHandler);
 
                 InitBottomMenu();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
@@ -117,6 +122,8 @@ namespace CloudClassroom.Views
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            MouseHook.Stop();
+
             UnsubscribeEvents();
 
             _sdk.Leave(LeaveMeetingCmd.LEAVE_MEETING);
@@ -127,11 +134,17 @@ namespace CloudClassroom.Views
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             MoveVideoUI();
+            MoveBottomMenu();
         }
 
         private void MoveVideoUI()
         {
             Win32APIs.MoveWindow(App.VideoHwnd, 0, 0, (int)video_container.ActualWidth, (int)video_container.ActualHeight, true);
+        }
+
+        private void MoveBottomMenu()
+        {
+            Win32APIs.MoveWindow(App.BottomMenuViewHwnd, 0, (int)(video_container.ActualHeight - 100), (int)video_container.ActualWidth, 100, true);
         }
 
         private void InitBottomMenu()
@@ -144,6 +157,20 @@ namespace CloudClassroom.Views
             App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
 
             Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
+            MoveBottomMenu();
+        }
+
+        private int MouseHookHandler(int code, Int32 wParam, IntPtr lParam)
+        {
+
+            Console.WriteLine($"mouse hook code:{code}, wParam:{wParam}, lParm:{lParam}");
+
+            if (wParam == 512)
+            {
+
+            }
+
+            return MouseHook.CallNextHookEx(code, wParam, lParam);
         }
     }
 }
