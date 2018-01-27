@@ -94,32 +94,11 @@ namespace CloudClassroom.Views
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SyncVideoUI();
-            SyncMenuUI();
         }
 
         private void SyncVideoUI()
         {
             Win32APIs.MoveWindow(App.VideoHwnd, 0, 0, (int)video_container.ActualWidth, (int)video_container.ActualHeight, true);
-        }
-
-        private void SyncMenuUI()
-        {
-            if (bottom_menu_trigger.IsOpen)
-            {
-                var methodInfo = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                methodInfo.Invoke(bottom_menu_trigger, null);
-            }
-
-            if (bottom_menu.IsOpen)
-            {
-                var methodInfo = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                methodInfo.Invoke(bottom_menu, null);
-            }
-        }
-
-        private void Window_LocationChanged(object sender, EventArgs e)
-        {
-            SyncMenuUI();
         }
     }
 }

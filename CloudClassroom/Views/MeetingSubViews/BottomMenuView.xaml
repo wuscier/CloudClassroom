@@ -1,0 +1,222 @@
+﻿<Window x:Class="CloudClassroom.Views.BottomMenuView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:helper="clr-namespace:CloudClassroom.Helpers"
+        xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="BottomMenuView" Height="100" Width="1000" WindowStyle="None" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../CustomizedUI/My.Card.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <helper:BoolToTextConverter x:Key="Bool2TextConverter"></helper:BoolToTextConverter>
+            <helper:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"></helper:BoolToVisibilityConverter>
+            <helper:BottomMenuWidthConverter x:Key="BottomMenuWidthConverter"></helper:BottomMenuWidthConverter>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Images/bottom.png"></ImageBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="140"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <materialDesign:Card x:Name="microphone" Width="100" Height="100" Style="{StaticResource MyCardStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding MicrophoneTriggerCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="{Binding MicIcon,Mode=OneWay}" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding MicStatus,Mode=OneWay}" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card Grid.Column="1" Width="30" Height="100" Style="{StaticResource MyCardStyle}">
+            <materialDesign:PopupBox x:Name="audio_settings" StaysOpen="False" PlacementMode="TopAndAlignLeftEdges">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding AudioSettingsOpenedCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <StackPanel>
+                    <StackPanel>
+                        <TextBlock Margin="5 0 0 0" Text="选择麦克风" FontWeight="Bold"></TextBlock>
+                        <ListBox x:Name="mic_list" ItemsSource="{Binding Microphones}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="mic_device">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding SelectCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:PackIcon Kind="Check" Visibility="{Binding IsSelected,Converter={StaticResource Bool2VisibilityConverter}}"></materialDesign:PackIcon>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Margin="5 0 0 0"  Text="选择扬声器" FontWeight="Bold"></TextBlock>
+                        <ListBox x:Name="speaker_list" ItemsSource="{Binding Speakers}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="speaker_device">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding SelectCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:PackIcon Kind="Check" Visibility="{Binding IsSelected,Converter={StaticResource Bool2VisibilityConverter}}"></materialDesign:PackIcon>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:PopupBox>
+        </materialDesign:Card>
+
+
+
+        <materialDesign:Card x:Name="camera" Grid.Column="2" Width="100" Height="100" Style="{StaticResource MyCardStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding CameraTriggerCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="{Binding CameraIcon,Mode=OneWay}" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding CameraStatus,Mode=OneWay}" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card  Grid.Column="3" Width="30" Height="100" Style="{StaticResource MyCardStyle}">
+            <materialDesign:PopupBox x:Name="video_settings" StaysOpen="False" PlacementMode="TopAndAlignLeftEdges">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding VideoSettingsOpenedCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <StackPanel>
+                    <TextBlock Margin="5 0 0 0"  Text="选择摄像头" FontWeight="Bold"></TextBlock>
+                    <ListBox x:Name="camera_list" ItemsSource="{Binding Cameras}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="camera_device">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding SelectCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <materialDesign:PackIcon Kind="Check" Visibility="{Binding IsSelected,Converter={StaticResource Bool2VisibilityConverter}}"></materialDesign:PackIcon>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </materialDesign:PopupBox>
+        </materialDesign:Card>
+
+        <StackPanel Grid.Column="4" HorizontalAlignment="Left" Background="{StaticResource PrimaryHueDarkBrush}" Width="50">
+
+            <TextBlock Text="你" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding IsHost,Converter={StaticResource Bool2TextConverter}}" Foreground="White" FontSize="18" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="主" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="持" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="人" Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+
+        </StackPanel>
+
+
+        <materialDesign:Card Grid.Column="5" Width="100" Height="100" Style="{StaticResource MyCardStyle}">
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="AccountPlus" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="邀请" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Column="6" Width="100" Height="100" Style="{StaticResource MyCardStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding ShowParticipantsDialogCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="AccountMultiple" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="参会者" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card x:Name="share_screen" Grid.Column="7" Width="100" Height="100" Style="{StaticResource MyCardStyle}"
+                                 >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding OpenShareOptionsCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon  Kind="Airplay" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="共享屏幕" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Column="8" Width="100" Height="100" Style="{StaticResource MyCardStyle}">
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="MessageText" Width="60" Height="60" HorizontalAlignment="Center"/>
+                <TextBlock Text="聊天" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <customizedUI:MyRecordControl Grid.Column="9"></customizedUI:MyRecordControl>
+
+
+        <materialDesign:Card  Grid.Column="10" Width="30" Height="100" Style="{StaticResource MyCardStyle}">
+            <materialDesign:PopupBox x:Name="record_settings">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding ShowRecordPathCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </materialDesign:PopupBox>
+        </materialDesign:Card>
+
+    </Grid>
+</Window>
