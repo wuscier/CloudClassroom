@@ -184,6 +184,7 @@ namespace CloudClassroom.ViewModels
         {
             UiStatusModel = new UiStatusModel()
             {
+                BottomMenuTriggerVisible = true,
                 BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString(),
                 CameraIcon = PackIconKind.Video.ToString(),
                 MicIcon = PackIconKind.Microphone.ToString(),
@@ -404,6 +405,21 @@ namespace CloudClassroom.ViewModels
 
                 UiStatusModel.BottomMenuVisible = !UiStatusModel.BottomMenuVisible;
             });
+
+            WindowStateChangedCommand = new DelegateCommand(() =>
+            {
+                //switch (state)
+                //{
+                //    case WindowState.Maximized:
+                //    case WindowState.Normal:
+                //        UiStatusModel.BottomMenuTriggerVisible = true;
+                //        break;
+                //    case WindowState.Minimized:
+                //        UiStatusModel.BottomMenuVisible = false;
+                //        UiStatusModel.BottomMenuTriggerVisible = false;
+                //        break;
+                //}
+            });
         }
 
         public UiStatusModel UiStatusModel { get; set; }
@@ -419,6 +435,7 @@ namespace CloudClassroom.ViewModels
         public ICommand ShowRecordPathCommand { get; set; }
 
         public ICommand BottomMenuTriggerCommand { get; set; }
+        public ICommand WindowStateChangedCommand { get; set; }
     }
 
 
@@ -497,15 +514,19 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _bottomMenuTriggerIcon, value); }
         }
 
-        private bool _bottomMenuVisible;
+        private bool _bottomMenuTriggerVisible;
+        public bool BottomMenuTriggerVisible
+        {
+            get { return _bottomMenuTriggerVisible; }
+            set { SetProperty(ref _bottomMenuTriggerVisible, value); }
+        }
 
+        private bool _bottomMenuVisible;
         public bool BottomMenuVisible
         {
             get { return _bottomMenuVisible; }
             set { SetProperty(ref _bottomMenuVisible, value); }
         }
-
-
 
         public ObservableCollection<DeviceModel> Microphones { get; set; }
         public ObservableCollection<DeviceModel> Speakers { get; set; }
