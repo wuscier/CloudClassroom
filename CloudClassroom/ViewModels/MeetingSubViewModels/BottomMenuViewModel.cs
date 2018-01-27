@@ -236,8 +236,6 @@ namespace CloudClassroom.ViewModels
         public ICommand BottomMenuTriggerCommand { get; set; }
         public ICommand WindowStateChangedCommand { get; set; }
 
-
-
         private void SetMicUiOn()
         {
             MicStatus = MicOnText;

@@ -74,23 +74,12 @@ namespace CloudClassroom.Views
                 _progressingControl?.Close();
                 _progressingControl = null;
 
-
-                App.BottomMenuView = new BottomMenuView();
-                App.BottomMenuView.DataContext = App.BottomMenuViewModel;
-
-                App.BottomMenuView.Show();
-
-                App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
-
-                Console.WriteLine($"Bottom Menu View Handle：{App.BottomMenuViewHwnd}");
-
-                Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
-
+                InitBottomMenu();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _videoPositionToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Subscribe((argument) =>
             {
-                SyncVideoUI();
+                MoveVideoUI();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
@@ -132,20 +121,29 @@ namespace CloudClassroom.Views
 
             _sdk.Leave(LeaveMeetingCmd.LEAVE_MEETING);
 
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<LeaveMeetingEvent>().Publish(new EventArgument()
-            {
-                Target = Target.MainView,
-            });
+            App.MainView.Show();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SyncVideoUI();
+            MoveVideoUI();
         }
 
-        private void SyncVideoUI()
+        private void MoveVideoUI()
         {
             Win32APIs.MoveWindow(App.VideoHwnd, 0, 0, (int)video_container.ActualWidth, (int)video_container.ActualHeight, true);
+        }
+
+        private void InitBottomMenu()
+        {
+            App.BottomMenuView = new BottomMenuView();
+            App.BottomMenuView.DataContext = App.BottomMenuViewModel;
+
+            App.BottomMenuView.Show();
+
+            App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
+
+            Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
         }
     }
 }

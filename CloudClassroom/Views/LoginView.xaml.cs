@@ -38,14 +38,10 @@ namespace CloudClassroom.Views
 
             _loginSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Subscribe((argument) =>
             {
-                if (App.MainView == null)
-                {
-                    App.MainView = new MainView();
-                }
+                App.MainView = new MainView();
+                App.MainView.Show();
 
                 App.BottomMenuViewModel = new BottomMenuViewModel();
-
-                App.MainView.Show();
 
                 Close();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.LoginView; });
