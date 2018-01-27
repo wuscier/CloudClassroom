@@ -1,7 +1,7 @@
 ﻿<Window x:Name="meeting_view" x:Class="CloudClassroom.Views.MeetingView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{Binding UiStatusModel.MeetingNumber}" Height="600" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        Title="{Binding BottomMenuViewModel.MeetingNumber}" Height="600" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         SizeChanged="Window_SizeChanged"
         >
 

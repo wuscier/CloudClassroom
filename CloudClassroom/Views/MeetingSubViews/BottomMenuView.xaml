@@ -5,7 +5,9 @@
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="BottomMenuView" Height="100" Width="1000" WindowStyle="None" ResizeMode="NoResize">
+        Title="BottomMenuView" Height="100" Width="1000" WindowStyle="None" ResizeMode="NoResize" 
+        Loaded="Window_Loaded" 
+        >
 
     <Window.Resources>
         <ResourceDictionary>

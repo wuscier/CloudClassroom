@@ -30,17 +30,6 @@ namespace CloudClassroom.Events
     {
         UserName,
         Password,
-        MainCard,
-        HistoryCard,
-        DesktopCard,
-        DocCard,
-        Mic,
-        Speaker,
-        Camera,
-        RecordStart,
-        RecordPause,
-        RecordResume,
-        RecordStop,
     }
 
     public class EventArgument
@@ -63,18 +52,8 @@ namespace CloudClassroom.Events
     public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }
     public class ShowSharingOptionsEvent : PubSubEvent<EventArgument> { }
 
+    public class BottomMenuLoadedEvent : PubSubEvent<EventArgument> { }
 
 
-
-    public class StartSharingEvent : PubSubEvent<EventArgument> { }
-
-    public class NextPageEvent : PubSubEvent<EventArgument> { }
-
-    public class PreviousPageEvent : PubSubEvent<EventArgument> { }
-
-    public class PenSelectedEvent : PubSubEvent<EventArgument> { }
-    public class EraserSelectedEvent : PubSubEvent<EventArgument> { }
-
-    public class StrokesClearedEvent : PubSubEvent<EventArgument> { }
 
 }
