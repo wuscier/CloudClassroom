@@ -51,9 +51,4 @@ namespace CloudClassroom.Events
 
     public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }
     public class ShowSharingOptionsEvent : PubSubEvent<EventArgument> { }
-
-    public class BottomMenuLoadedEvent : PubSubEvent<EventArgument> { }
-
-
-
 }

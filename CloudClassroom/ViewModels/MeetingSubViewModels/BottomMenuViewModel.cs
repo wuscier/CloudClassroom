@@ -240,13 +240,13 @@ namespace CloudClassroom.ViewModels
 
         private void SetMicUiOn()
         {
-            MicStatus = BottomMenuViewModel.MicOnText;
+            MicStatus = MicOnText;
             MicIcon = PackIconKind.Microphone.ToString();
         }
 
         private void SetMicUiOff()
         {
-            MicStatus = BottomMenuViewModel.MicOffText;
+            MicStatus = MicOffText;
             MicIcon = PackIconKind.MicrophoneOff.ToString();
         }
 
@@ -260,8 +260,8 @@ namespace CloudClassroom.ViewModels
                 BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString();
                 CameraIcon = PackIconKind.Video.ToString();
                 MicIcon = PackIconKind.Microphone.ToString();
-                CameraStatus = BottomMenuViewModel.CameraOnText;
-                MicStatus = BottomMenuViewModel.MicOnText;
+                CameraStatus = CameraOnText;
+                MicStatus = MicOnText;
                 IsRecording = false;
 
 
@@ -269,7 +269,7 @@ namespace CloudClassroom.ViewModels
             {
                 switch (MicStatus)
                 {
-                    case BottomMenuViewModel.MicOnText:
+                    case MicOnText:
 
                         SDKError muteAudioErr = _sdk.MuteAudio(App.CurrentUser.InMeetingUserId, true);
 
@@ -283,7 +283,7 @@ namespace CloudClassroom.ViewModels
                         }
 
                         break;
-                    case BottomMenuViewModel.MicOffText:
+                    case MicOffText:
                         SDKError unmuteAudioErr = _sdk.UnmuteAudio(App.CurrentUser.InMeetingUserId);
 
                         if (unmuteAudioErr == SDKError.SDKERR_SUCCESS)
@@ -303,13 +303,13 @@ namespace CloudClassroom.ViewModels
             {
                 switch (CameraStatus)
                 {
-                    case BottomMenuViewModel.CameraOnText:
+                    case CameraOnText:
 
                         SDKError muteVideoErr = _sdk.MuteVideo();
 
                         if (muteVideoErr == SDKError.SDKERR_SUCCESS)
                         {
-                            CameraStatus = BottomMenuViewModel.CameraOffText;
+                            CameraStatus = CameraOffText;
                             CameraIcon = PackIconKind.CameraOff.ToString();
                         }
                         else
@@ -318,13 +318,13 @@ namespace CloudClassroom.ViewModels
                         }
 
                         break;
-                    case BottomMenuViewModel.CameraOffText:
+                    case CameraOffText:
 
                         SDKError unmuteVideoErr = _sdk.UnmuteVideo();
 
                         if (unmuteVideoErr == SDKError.SDKERR_SUCCESS)
                         {
-                            CameraStatus = BottomMenuViewModel.CameraOnText;
+                            CameraStatus = CameraOnText;
                             CameraIcon = PackIconKind.Camera.ToString();
                         }
                         else

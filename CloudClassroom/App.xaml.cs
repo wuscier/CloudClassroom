@@ -1,6 +1,7 @@
 ﻿using Classroom.Models;
 using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.ViewModels;
 using CloudClassroom.Views;
 using Serilog;
 using System;
@@ -15,7 +16,11 @@ namespace CloudClassroom
     public partial class App : Application
     {
         public static MainView MainView;
+        public static BottomMenuView BottomMenuView;
+        public static BottomMenuViewModel BottomMenuViewModel;
         public static UserModel CurrentUser;
+
+        public static IntPtr BottomMenuViewHwnd = IntPtr.Zero;
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;
         public static IntPtr VideoHwnd = IntPtr.Zero;
 

@@ -43,6 +43,8 @@ namespace CloudClassroom.Views
                     App.MainView = new MainView();
                 }
 
+                App.BottomMenuViewModel = new BottomMenuViewModel();
+
                 App.MainView.Show();
 
                 Close();

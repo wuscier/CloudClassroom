@@ -31,7 +31,7 @@
 
 
         <materialDesign:Card x:Name="start_record" Grid.RowSpan="2" Grid.ColumnSpan="2" Height="100" Width="100"  Style="{StaticResource MyCardStyle}"
-                             Visibility="{Binding UiStatusModel.IsRecording,Converter={StaticResource ReverseBoolToVisibilityConverter2}}"
+                             Visibility="{Binding IsRecording,Converter={StaticResource ReverseBoolToVisibilityConverter2}}"
                              >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
@@ -46,17 +46,17 @@
 
 
         <!--<materialDesign:Card x:Name="pause_resume" Grid.RowSpan="2" Height="80" Width="100" Style="{StaticResource MyCardStyle}"
-                             Visibility="{Binding UiStatusModel.IsRecording,Converter={StaticResource BoolToVisibilityConverter2}}"
+                             Visibility="{Binding IsRecording,Converter={StaticResource BoolToVisibilityConverter2}}"
                              MouseLeftButtonDown="pause_resume_MouseLeftButtonDown"
                              >
             <StackPanel>
-                <materialDesign:PackIcon Kind="{Binding UiStatusModel.PauseResumeKind}" Width="60" Height="50" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding UiStatusModel.PauseResumeText}" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
+                <materialDesign:PackIcon Kind="{Binding PauseResumeKind}" Width="60" Height="50" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding PauseResumeText}" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
             </StackPanel>
         </materialDesign:Card>-->
 
         <materialDesign:Card x:Name="stop_record" Grid.Column="1" Grid.RowSpan="2" Height="100" Width="100" Style="{StaticResource MyCardStyle}"
-                             Visibility="{Binding UiStatusModel.IsRecording,Converter={StaticResource BoolToVisibilityConverter2}}"
+                             Visibility="{Binding IsRecording,Converter={StaticResource BoolToVisibilityConverter2}}"
                              >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">

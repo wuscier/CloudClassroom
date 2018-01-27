@@ -5,6 +5,7 @@ using CloudClassroom.sdk_adapter;
 using CloudClassroom.ViewModels;
 using Prism.Events;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
@@ -18,23 +19,52 @@ namespace CloudClassroom.Views
     public partial class MeetingView : Window
     {
         private ProgressingControl _progressingControl;
-        private BottomMenuView _bottomMenuView;
 
         private SubscriptionToken _intoMeetingToken;
         private SubscriptionToken _videoPositionToken;
         private SubscriptionToken _showRecordPathToken;
         private SubscriptionToken _showSharingOptionsToken;
-        private SubscriptionToken _showBottomMenuToken;
+
 
 
         private ISdk _sdk = ZoomSdk.Instance;
+        private bool _handledFirstMsg = false;
 
 
         public MeetingView()
         {
             InitializeComponent();
+            RegisterCallbacks();
             SubscribeEvents();
-            DataContext = new MeetingViewModel();
+        }
+
+        private void RegisterCallbacks()
+        {
+            CZoomSDKeDotNetWrap.Instance.GetUIHookControllerWrap().Add_CB_onUIActionNotify((type, msg) =>
+            {
+                Console.WriteLine($"type={type},msg={msg}");
+
+                if (!_handledFirstMsg && type == UIHOOKHWNDTYPE.UIHOOKWNDTYPE_MAINWND && msg == 24)
+                {
+                    _handledFirstMsg = true;
+
+                    HWNDDotNet first = new HWNDDotNet() { value = 0 };
+                    HWNDDotNet second = new HWNDDotNet() { value = 0 };
+                    _sdk.GetMeetingUIWnd(ref first, ref second);
+
+                    App.VideoHwnd = new IntPtr(first.value);
+
+                    Console.WriteLine($"video handle is:{App.VideoHwnd.ToInt32()}");
+
+                    Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
+                    Win32APIs.SetParent(App.VideoHwnd, App.MeetingViewHwnd);
+
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.MeetingView,
+                    });
+                }
+            });
         }
 
         private void SubscribeEvents()
@@ -44,10 +74,18 @@ namespace CloudClassroom.Views
                 _progressingControl?.Close();
                 _progressingControl = null;
 
-                _bottomMenuView = new BottomMenuView();
-                _bottomMenuView.Show();
 
-                Win32APIs.SetParent(new WindowInteropHelper(_bottomMenuView).Handle, App.VideoHwnd);
+                App.BottomMenuView = new BottomMenuView();
+                App.BottomMenuView.DataContext = App.BottomMenuViewModel;
+
+                App.BottomMenuView.Show();
+
+                App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
+
+                Console.WriteLine($"Bottom Menu View Handle：{App.BottomMenuViewHwnd}");
+
+                Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
+
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _videoPositionToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Subscribe((argument) =>
@@ -69,12 +107,6 @@ namespace CloudClassroom.Views
                 sharingOptionsView.ShowDialog();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
-            _showBottomMenuToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<BottomMenuLoadedEvent>().Subscribe((argument) =>
-            {
-                Win32APIs.SetParent((IntPtr)argument.Argument.Value, App.MeetingViewHwnd);
-                
-
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
         }
 
         private void UnsubscribeEvents()
@@ -83,7 +115,6 @@ namespace CloudClassroom.Views
             EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Unsubscribe(_videoPositionToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Unsubscribe(_showSharingOptionsToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<BottomMenuLoadedEvent>().Unsubscribe(_showBottomMenuToken);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -95,11 +126,8 @@ namespace CloudClassroom.Views
             _progressingControl.ShowDialog();
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
-            _bottomMenuView?.Close();
-            _bottomMenuView = null;
-
             UnsubscribeEvents();
 
             _sdk.Leave(LeaveMeetingCmd.LEAVE_MEETING);
