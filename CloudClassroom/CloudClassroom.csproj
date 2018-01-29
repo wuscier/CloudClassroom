@@ -111,7 +111,6 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MeetingSubViewModels\WhiteboardViewModel.cs" />
-    <Compile Include="ViewModels\MeetingViewModel.cs" />
     <Compile Include="Views\MeetingSubViews\BottomMenuView.xaml.cs">
       <DependentUpon>BottomMenuView.xaml</DependentUpon>
     </Compile>
