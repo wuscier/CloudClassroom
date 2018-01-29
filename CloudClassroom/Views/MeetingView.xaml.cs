@@ -2,13 +2,11 @@
 using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
-using CloudClassroom.ViewModels;
 using Prism.Events;
 using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -42,7 +40,7 @@ namespace CloudClassroom.Views
         private void RegisterCallbacks()
         {
 
-            
+
             CZoomSDKeDotNetWrap.Instance.GetUIHookControllerWrap().Add_CB_onUIActionNotify((type, msg) =>
             {
                 Console.WriteLine($"type={type},msg={msg}");
@@ -162,12 +160,20 @@ namespace CloudClassroom.Views
 
         private int MouseHookHandler(int code, Int32 wParam, IntPtr lParam)
         {
-
-            Console.WriteLine($"mouse hook code:{code}, wParam:{wParam}, lParm:{lParam}");
-
             if (wParam == 512)
             {
+                Win32APIs.MouseHookStruct mouseHookStruct = Marshal.PtrToStructure<Win32APIs.MouseHookStruct>(lParam);
 
+                Point videoPoint = video_container.PointToScreen(new Point() { X = 0, Y = 0 });
+
+                if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
+                {
+                    App.BottomMenuView.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    App.BottomMenuView.Visibility = Visibility.Collapsed;
+                }
             }
 
             return MouseHook.CallNextHookEx(code, wParam, lParam);

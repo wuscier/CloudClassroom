@@ -27,5 +27,22 @@ namespace CloudClassroom.Helpers
         public static extern int CallNextHookEx(int idHook, int nCode, Int32 wParam, IntPtr lParam);
 
 
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MouseHookStruct
+        {
+            public POINT pt;
+            public int hwnd;
+            public int wHitTestCode;
+            public int dwExtraInfo;
+        }
+
     }
 }

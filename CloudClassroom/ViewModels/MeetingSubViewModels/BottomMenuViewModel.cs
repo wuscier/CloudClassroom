@@ -198,27 +198,6 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _isRecording, value); }
         }
 
-        private string _bottomMenuTriggerIcon;
-        public string BottomMenuTriggerIcon
-        {
-            get { return _bottomMenuTriggerIcon; }
-            set { SetProperty(ref _bottomMenuTriggerIcon, value); }
-        }
-
-        private bool _bottomMenuTriggerVisible;
-        public bool BottomMenuTriggerVisible
-        {
-            get { return _bottomMenuTriggerVisible; }
-            set { SetProperty(ref _bottomMenuTriggerVisible, value); }
-        }
-
-        private bool _bottomMenuVisible;
-        public bool BottomMenuVisible
-        {
-            get { return _bottomMenuVisible; }
-            set { SetProperty(ref _bottomMenuVisible, value); }
-        }
-
         public ObservableCollection<DeviceModel> Microphones { get; set; }
         public ObservableCollection<DeviceModel> Speakers { get; set; }
         public ObservableCollection<DeviceModel> Cameras { get; set; }
@@ -232,9 +211,6 @@ namespace CloudClassroom.ViewModels
         public ICommand OpenShareOptionsCommand { get; set; }
         public ICommand RecordTriggerCommand { get; set; }
         public ICommand ShowRecordPathCommand { get; set; }
-
-        public ICommand BottomMenuTriggerCommand { get; set; }
-        public ICommand WindowStateChangedCommand { get; set; }
 
         private void SetMicUiOn()
         {
@@ -254,8 +230,6 @@ namespace CloudClassroom.ViewModels
             Speakers = new ObservableCollection<DeviceModel>();
             Cameras = new ObservableCollection<DeviceModel>();
 
-            BottomMenuTriggerVisible = true;
-                BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString();
                 CameraIcon = PackIconKind.Video.ToString();
                 MicIcon = PackIconKind.Microphone.ToString();
                 CameraStatus = CameraOnText;
@@ -460,37 +434,6 @@ namespace CloudClassroom.ViewModels
                 bool isHost = user.IsHost();
 
             });
-
-            BottomMenuTriggerCommand = new DelegateCommand(() =>
-            {
-                if (BottomMenuVisible)
-                {
-                    BottomMenuTriggerIcon = PackIconKind.ChevronRight.ToString();
-                }
-                else
-                {
-                    BottomMenuTriggerIcon = PackIconKind.ChevronLeft.ToString();
-                }
-
-                BottomMenuVisible = !BottomMenuVisible;
-            });
-
-            WindowStateChangedCommand = new DelegateCommand(() =>
-            {
-                //switch (state)
-                //{
-                //    case WindowState.Maximized:
-                //    case WindowState.Normal:
-                //        BottomMenuTriggerVisible = true;
-                //        break;
-                //    case WindowState.Minimized:
-                //        BottomMenuVisible = false;
-                //        BottomMenuTriggerVisible = false;
-                //        break;
-                //}
-            });
         }
-
-
     }
 }

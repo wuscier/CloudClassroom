@@ -1,7 +1,4 @@
-﻿using CloudClassroom.Events;
-using CloudClassroom.ViewModels;
-using System.Windows;
-using System.Windows.Interop;
+﻿using System.Windows;
 
 namespace CloudClassroom.Views
 {
