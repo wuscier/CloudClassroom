@@ -60,7 +60,7 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
-            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onHostChangeNotification((hostUserId) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onHostChangeNotification((hostUserId) =>
             {
                 IsHost = hostUserId == App.CurrentUser.InMeetingUserId;
             });
@@ -72,18 +72,18 @@ namespace CloudClassroom.ViewModels
             });
 
 
-            CMeetingRecordingControllerDotNetWrap.Instance.Add_CB_onRecordingStatus((status) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().Add_CB_onRecordingStatus((status) =>
             {
                 Console.WriteLine($"recording status:{status}");
             });
 
 
-            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserNameChanged((userId, userName) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onUserNameChanged((userId, userName) =>
             {
                 Console.WriteLine($"user {userId} changed name as {userName}");
             });
 
-            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserJoin((userIds) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onUserJoin((userIds) =>
             {
                 if (userIds != null && userIds.Length > 0)
                 {
@@ -94,7 +94,7 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
-            CMeetingParticipantsControllerDotNetWrap.Instance.Add_CB_onUserLeft((userIds) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onUserLeft((userIds) =>
             {
                 if (userIds != null && userIds.Length > 0)
                 {
@@ -105,7 +105,7 @@ namespace CloudClassroom.ViewModels
                 }
             });
 
-            CMeetingAudioControllerDotNetWrap.Instance.Add_CB_onUserAudioStatusChange((userAudioStatuses) =>
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingAudioController().Add_CB_onUserAudioStatusChange((userAudioStatuses) =>
             {
                 if (userAudioStatuses != null && userAudioStatuses.Length > 0)
                 {
@@ -138,6 +138,13 @@ namespace CloudClassroom.ViewModels
                         }
                     }
                 }
+            });
+
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().Add_CB_onShareContentNotification((shareInfo) =>
+            {
+                ShareInfo shareInformation = (ShareInfo)shareInfo;
+
+                Console.WriteLine($"type:{shareInformation.eShareType}, hwnd:{shareInformation.hwndSharedApp}, monitorId:{shareInformation.monitorID}");
             });
 
         }
