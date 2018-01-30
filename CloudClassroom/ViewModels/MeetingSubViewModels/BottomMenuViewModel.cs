@@ -28,6 +28,8 @@ namespace CloudClassroom.ViewModels
         {
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().Add_CB_onMeetingStatusChanged((status, result) =>
             {
+                Console.WriteLine($"onMeetingStatusChanged  status:{status}, result:{result}");
+
                 if (status == MeetingStatus.MEETING_STATUS_INMEETING)
                 {
                     IUserInfoDotNetWrap self = _sdk.GetUserByUserID(0);
@@ -62,25 +64,26 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onHostChangeNotification((hostUserId) =>
             {
+                Console.WriteLine($"onHostChangeNotification    hostUserId:{hostUserId}");
                 IsHost = hostUserId == App.CurrentUser.InMeetingUserId;
             });
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
             {
-
+                Console.WriteLine($"onUserVideoStatusChange userId:{userId}, status:{status}");
                 // Console.WriteLine($"userId:{userId}");
             });
 
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingRecordingController().Add_CB_onRecordingStatus((status) =>
             {
-                Console.WriteLine($"recording status:{status}");
+                Console.WriteLine($"onRecordingStatus   status:{status}");
             });
 
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onUserNameChanged((userId, userName) =>
             {
-                Console.WriteLine($"user {userId} changed name as {userName}");
+                Console.WriteLine($"onUserNameChanged   userId:{userId}, userName:{userName}");
             });
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onUserJoin((userIds) =>
@@ -89,7 +92,7 @@ namespace CloudClassroom.ViewModels
                 {
                     foreach (var userId in userIds)
                     {
-                        Console.WriteLine($"user join：{userId}");
+                        Console.WriteLine($"onUserJoin  userId:{userId}");
                     }
                 }
             });
@@ -100,7 +103,7 @@ namespace CloudClassroom.ViewModels
                 {
                     foreach (var userId in userIds)
                     {
-                        Console.WriteLine($"user left：{userId}");
+                        Console.WriteLine($"onUserLeft  userId:{userId}");
                     }
                 }
             });
@@ -111,6 +114,8 @@ namespace CloudClassroom.ViewModels
                 {
                     foreach (var userAudioStatus in userAudioStatuses)
                     {
+                        Console.WriteLine($"onUserAudioStatusChange status:{userAudioStatuses}");
+
                         if (userAudioStatus.GetUserId() == App.CurrentUser.InMeetingUserId)
                         {
                             AudioType audioType = userAudioStatus.GetAudioType();
@@ -144,7 +149,7 @@ namespace CloudClassroom.ViewModels
             {
                 ShareInfo shareInformation = (ShareInfo)shareInfo;
 
-                Console.WriteLine($"type:{shareInformation.eShareType}, hwnd:{shareInformation.hwndSharedApp}, monitorId:{shareInformation.monitorID}");
+                Console.WriteLine($"onShareContentNotification  type:{shareInformation.eShareType}, hwnd:{shareInformation.hwndSharedApp}, monitorId:{shareInformation.monitorID}");
             });
 
         }
