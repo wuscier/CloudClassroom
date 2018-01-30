@@ -18,6 +18,9 @@ namespace CloudClassroom.sdk_adapter
 
         public void CustomizeUI()
         {
+            CMeetingConfigurationDotNetWrap.Instance.SetSharingToolbarVisibility(false);
+            CMeetingUIControllerDotNetWrap.Instance.ShowSharingToolbar(false);
+
             CMeetingConfigurationDotNetWrap.Instance.SetBottomFloatToolbarWndVisibility(false);
             CMeetingConfigurationDotNetWrap.Instance.EnableEnterAndExitFullScreenButtonOnMeetingUI(false);
             CMeetingConfigurationDotNetWrap.Instance.EnableLButtonDBClick4SwitchFullScreenMode(false);

@@ -2,6 +2,7 @@
 using CloudClassroom.sdk_adapter;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.Views
@@ -21,7 +22,18 @@ namespace CloudClassroom.Views
             WhiteboardView whiteboardView = new WhiteboardView();
             whiteboardView.Show();
 
-            Close();
+            int handle = new WindowInteropHelper(whiteboardView).Handle.ToInt32();
+            HWNDDotNet whiteboardHwnd = new HWNDDotNet() { value = (uint)handle };
+            SDKError shareBoardErr = ZoomSdk.Instance.StartAppShare(whiteboardHwnd);
+
+            if (shareBoardErr != SDKError.SDKERR_SUCCESS)
+            {
+                whiteboardView.Close();
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void document_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -36,6 +48,11 @@ namespace CloudClassroom.Views
             if (shareMonitorErr != SDKError.SDKERR_SUCCESS)
             {
                 MessageBox.Show(Translator.TranslateSDKError(shareMonitorErr));
+            }
+            else
+            {
+
+                Close();
             }
         }
     }

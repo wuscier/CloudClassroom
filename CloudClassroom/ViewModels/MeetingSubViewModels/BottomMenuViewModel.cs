@@ -154,6 +154,8 @@ namespace CloudClassroom.ViewModels
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().Add_CB_onSharingStatus((status,userId) =>
             {
+                Console.WriteLine($"onSharingStatus status：{status}, userId：{userId}");
+
                 switch (status)
                 {
                     case SharingStatus.Sharing_Self_Send_Begin:

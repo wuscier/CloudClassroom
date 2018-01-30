@@ -80,7 +80,6 @@ namespace CloudClassroom.Views
             {
                 Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                 MoveVideoUI();
-
             }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
 
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
