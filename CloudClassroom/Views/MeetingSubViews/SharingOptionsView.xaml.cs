@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using CloudClassroom.Helpers;
+using CloudClassroom.sdk_adapter;
+using System.Windows;
 using System.Windows.Input;
+using ZOOM_SDK_DOTNET_WRAP;
 
 namespace CloudClassroom.Views
 {
@@ -28,7 +31,12 @@ namespace CloudClassroom.Views
 
         private void desktop_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            SDKError shareMonitorErr = ZoomSdk.Instance.StartMonitorShare();
 
+            if (shareMonitorErr != SDKError.SDKERR_SUCCESS)
+            {
+                MessageBox.Show(Translator.TranslateSDKError(shareMonitorErr));
+            }
         }
     }
 }

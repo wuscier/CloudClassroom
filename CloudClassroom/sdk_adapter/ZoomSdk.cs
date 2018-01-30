@@ -201,7 +201,7 @@ namespace CloudClassroom.sdk_adapter
 
         public SDKError StartMonitorShare()
         {
-            throw new NotImplementedException();
+            return CMeetingShareControllerDotNetWrap.Instance.StartMonitorShare();
         }
 
         public SDKError StartRecording(ref DateTime startTimestamp, string recPath)

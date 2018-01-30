@@ -41,7 +41,7 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 		param_.strWebDomain = PlatformString2WChar(initInfo.web_domain);
 		param_.strBrandingName = PlatformString2WChar(initInfo.brand_name);
 		param_.strSupportUrl = PlatformString2WChar(initInfo.support_url);
-		param_.hResInstance = GetModuleHandle(NULL);
+		param_.hResInstance = GetModuleHandleA(NULL);
 		param_.uiWindowIconSmallID = 1;
 		param_.uiWindowIconBigID = 2;
 		param_.emLanguageID = (ZOOM_SDK_NAMESPACE::SDK_LANGUAGE_ID)initInfo.language_id;

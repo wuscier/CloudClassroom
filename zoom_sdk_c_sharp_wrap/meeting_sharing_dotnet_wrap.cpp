@@ -2,6 +2,7 @@
 #include "meeting_sharing_DotNet_wrap.h"
 #include "zoom_sdk_dotnet_wrap_util.h"
 #include "wrap/sdk_wrap.h"
+#include <vector>
 namespace ZOOM_SDK_DOTNET_WRAP {
 	//translate event
 	class MeetingSharingControllerEventHanlder
@@ -78,10 +79,40 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 			GetMeetingShareController().StartAppShare((HWND)hwndSharedApp.value);
 	}
 
-	SDKError CMeetingShareControllerDotNetWrap::StartMonitorShare(String^ monitorID)
+	// added by wuxu
+	BOOL CALLBACK MyInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 	{
+		MONITORINFOEX iMonitor;
+		iMonitor.cbSize = sizeof(MONITORINFOEX);
+		GetMonitorInfo(hMonitor, &iMonitor);
+
+		if (iMonitor.dwFlags == DISPLAY_DEVICE_MIRRORING_DRIVER)
+		{
+			return true;
+		}
+		else
+		{
+			reinterpret_cast< std::vector<std::wstring>* >(dwData)->push_back(iMonitor.szDevice);
+			return true;
+		}
+	}
+
+	SDKError CMeetingShareControllerDotNetWrap::StartMonitorShare()
+	{
+		std::vector<std::wstring> vecMonitorArray;
+		EnumDisplayMonitors(NULL, NULL, &MyInfoEnumProc, reinterpret_cast<LPARAM>(&vecMonitorArray));
+
+		std::wstring strMonitorId;
+		if (vecMonitorArray.size() <= 0)
+		{
+			strMonitorId = _T("");
+		}
+		else {
+			strMonitorId = vecMonitorArray[0];
+		}
+
 		return (SDKError)ZOOM_SDK_NAMESPACE::CSDKWrap::GetInst().GetMeetingServiceWrap().
-			GetMeetingShareController().StartMonitorShare(PlatformString2WChar(monitorID));
+			GetMeetingShareController().StartMonitorShare(strMonitorId.c_str());
 	}
 
 	SDKError CMeetingShareControllerDotNetWrap::StartAirPlayShare()
