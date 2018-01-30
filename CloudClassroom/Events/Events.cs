@@ -44,7 +44,6 @@ namespace CloudClassroom.Events
     public class StartOrJoinSuccessEvent : PubSubEvent<EventArgument> { }
 
     public class IntoMeetingSuccessEvent : PubSubEvent<EventArgument> { }
-    public class SetVideoPositionEvent : PubSubEvent<EventArgument> { }
 
 
     public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }

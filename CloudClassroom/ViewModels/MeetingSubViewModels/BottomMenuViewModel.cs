@@ -152,6 +152,31 @@ namespace CloudClassroom.ViewModels
                 Console.WriteLine($"onShareContentNotification  type:{shareInformation.eShareType}, hwnd:{shareInformation.hwndSharedApp}, monitorId:{shareInformation.monitorID}");
             });
 
+            CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingShareController().Add_CB_onSharingStatus((status,userId) =>
+            {
+                switch (status)
+                {
+                    case SharingStatus.Sharing_Self_Send_Begin:
+                        break;
+                    case SharingStatus.Sharing_Self_Send_End:
+
+                        break;
+                    case SharingStatus.Sharing_Other_Share_Begin:
+                        break;
+                    case SharingStatus.Sharing_Other_Share_End:
+
+                        break;
+                    case SharingStatus.Sharing_View_Other_Sharing:
+                        break;
+                    case SharingStatus.Sharing_Pause:
+                        break;
+                    case SharingStatus.Sharing_Resume:
+                        break;
+                    default:
+                        break;
+                }
+            });
+
         }
 
         public const string MicOnText = "静音";

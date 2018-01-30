@@ -20,7 +20,6 @@ namespace CloudClassroom.Views
         private ProgressingControl _progressingControl;
 
         private SubscriptionToken _intoMeetingToken;
-        private SubscriptionToken _videoPositionToken;
         private SubscriptionToken _showRecordPathToken;
         private SubscriptionToken _showSharingOptionsToken;
 
@@ -60,10 +59,7 @@ namespace CloudClassroom.Views
                     Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                     Win32APIs.SetParent(App.VideoHwnd, App.MeetingViewHwnd);
 
-                    EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Publish(new EventArgument()
-                    {
-                        Target = Target.MeetingView,
-                    });
+                    MoveVideoUI();
                 }
             });
         }
@@ -78,11 +74,6 @@ namespace CloudClassroom.Views
                 MouseHook.Start(MouseHookHandler);
 
                 InitBottomMenu();
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
-
-            _videoPositionToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Subscribe((argument) =>
-            {
-                MoveVideoUI();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
@@ -104,7 +95,6 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<SetVideoPositionEvent>().Unsubscribe(_videoPositionToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Unsubscribe(_showSharingOptionsToken);
         }
