@@ -81,7 +81,7 @@ namespace CloudClassroom.Views
             {
                 Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                 MoveVideoUI();
-            }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
+            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _hideToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Subscribe((argument) =>
             {
@@ -91,7 +91,7 @@ namespace CloudClassroom.Views
             _showToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Subscribe((argument) =>
             {
                 Show();
-            },ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
+            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
             {
@@ -178,14 +178,14 @@ namespace CloudClassroom.Views
 
                 if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
                 {
-                    if (App.BottomMenuView.Visibility != Visibility.Visible)
+                    if (App.BottomMenuView.Visibility != Visibility.Visible && !App.BottomMenuView.IsClosed)
                     {
                         App.BottomMenuView.Visibility = Visibility.Visible;
                     }
                 }
                 else
                 {
-                    if (App.BottomMenuView.Visibility != Visibility.Collapsed)
+                    if (App.BottomMenuView.Visibility != Visibility.Collapsed && !App.BottomMenuView.IsClosed)
                     {
                         App.BottomMenuView.Visibility = Visibility.Collapsed;
                     }
