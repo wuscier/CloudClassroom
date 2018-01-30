@@ -17,16 +17,26 @@ namespace CloudClassroom.Helpers
         public static extern int SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hInstance, int threadId);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern bool UnhookWindowsHookEx(int idHook);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int CallNextHookEx(int idHook, int nCode, Int32 wParam, IntPtr lParam);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowRect(IntPtr hwnd, out Rect lpRect);
 
+
+        public struct Rect
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
