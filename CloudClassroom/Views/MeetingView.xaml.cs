@@ -22,7 +22,7 @@ namespace CloudClassroom.Views
         private SubscriptionToken _intoMeetingToken;
         private SubscriptionToken _showRecordPathToken;
         private SubscriptionToken _showSharingOptionsToken;
-
+        private SubscriptionToken _resetVideoUiToken;
 
 
         private ISdk _sdk = ZoomSdk.Instance;
@@ -76,6 +76,13 @@ namespace CloudClassroom.Views
                 InitBottomMenu();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
+            _resetVideoUiToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Subscribe((argument) =>
+            {
+                Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
+                MoveVideoUI();
+
+            }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
+
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
             {
                 RecordPathView recordPathView = new RecordPathView();
@@ -95,6 +102,7 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Unsubscribe(_resetVideoUiToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Unsubscribe(_showSharingOptionsToken);
         }

@@ -164,7 +164,10 @@ namespace CloudClassroom.ViewModels
                     case SharingStatus.Sharing_Other_Share_Begin:
                         break;
                     case SharingStatus.Sharing_Other_Share_End:
-
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MeetingView,
+                        });
                         break;
                     case SharingStatus.Sharing_View_Other_Sharing:
                         break;
