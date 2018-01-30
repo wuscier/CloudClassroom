@@ -1,4 +1,5 @@
-﻿using CloudClassroom.Models;
+﻿using Classroom.Models;
+using CloudClassroom.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -79,6 +80,28 @@ namespace CloudClassroom.Service
             return response;
         }
 
+        public async Task<UserModel> GetUserInfo()
+        {
+            string requestUrl = "/api/User/userinfo";
+            ResponseModel response = await Request(requestUrl);
+
+            UserModel user = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data != null)
+                    {
+                        user = JsonConvert.DeserializeObject<UserModel>(data.SelectToken("info").ToString());
+                    }
+                }
+            }
+
+            return user;
+        }
 
     }
 }
