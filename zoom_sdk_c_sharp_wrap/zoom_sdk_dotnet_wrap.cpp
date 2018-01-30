@@ -36,14 +36,14 @@ namespace ZOOM_SDK_DOTNET_WRAP {
 	SDKError CZoomSDKeDotNetWrap::Initialize(InitParam initInfo)
 	{
 		const wchar_t* dll_path = PlatformString2WChar(initInfo.sdk_dll_path);
-		
+
 		ZOOM_SDK_NAMESPACE::InitParam param_;
 		param_.strWebDomain = PlatformString2WChar(initInfo.web_domain);
 		param_.strBrandingName = PlatformString2WChar(initInfo.brand_name);
 		param_.strSupportUrl = PlatformString2WChar(initInfo.support_url);
-		param_.hResInstance = initInfo.res_instance;
-		param_.uiWindowIconSmallID = initInfo.window_small_icon_id;
-		param_.uiWindowIconBigID = initInfo.window_big_icon_id;
+		param_.hResInstance = GetModuleHandle(NULL);
+		param_.uiWindowIconSmallID = 1;
+		param_.uiWindowIconBigID = 2;
 		param_.emLanguageID = (ZOOM_SDK_NAMESPACE::SDK_LANGUAGE_ID)initInfo.language_id;
 		PlatformString2CharHelper langinfo = PlatformString2CharHelper(initInfo.config_opts.customized_language.language_info);
 		param_.obConfigOpts.customizedLang.langInfo = langinfo.c_str();
