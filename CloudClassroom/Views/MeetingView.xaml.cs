@@ -178,12 +178,17 @@ namespace CloudClassroom.Views
 
                 if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
                 {
-                    App.BottomMenuView.Visibility = Visibility.Collapsed;
-                    App.BottomMenuView.Visibility = Visibility.Visible;
+                    if (App.BottomMenuView.Visibility != Visibility.Visible)
+                    {
+                        App.BottomMenuView.Visibility = Visibility.Visible;
+                    }
                 }
                 else
                 {
-                    App.BottomMenuView.Visibility = Visibility.Collapsed;
+                    if (App.BottomMenuView.Visibility != Visibility.Collapsed)
+                    {
+                        App.BottomMenuView.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
 
