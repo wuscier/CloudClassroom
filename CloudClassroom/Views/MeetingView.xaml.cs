@@ -23,7 +23,8 @@ namespace CloudClassroom.Views
         private SubscriptionToken _showRecordPathToken;
         private SubscriptionToken _showSharingOptionsToken;
         private SubscriptionToken _resetVideoUiToken;
-
+        private SubscriptionToken _hideToken;
+        private SubscriptionToken _showToken;
 
         private ISdk _sdk = ZoomSdk.Instance;
         private bool _handledFirstMsg = false;
@@ -82,6 +83,16 @@ namespace CloudClassroom.Views
                 MoveVideoUI();
             }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
 
+            _hideToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Subscribe((argument) =>
+            {
+                Hide();
+            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
+
+            _showToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Subscribe((argument) =>
+            {
+                Show();
+            },ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MeetingView; });
+
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
             {
                 RecordPathView recordPathView = new RecordPathView();
@@ -101,6 +112,8 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Unsubscribe(_hideToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Unsubscribe(_showToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Unsubscribe(_resetVideoUiToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Unsubscribe(_showSharingOptionsToken);
@@ -165,6 +178,7 @@ namespace CloudClassroom.Views
 
                 if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
                 {
+                    App.BottomMenuView.Visibility = Visibility.Collapsed;
                     App.BottomMenuView.Visibility = Visibility.Visible;
                 }
                 else

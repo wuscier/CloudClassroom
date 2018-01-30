@@ -159,9 +159,16 @@ namespace CloudClassroom.ViewModels
                 switch (status)
                 {
                     case SharingStatus.Sharing_Self_Send_Begin:
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MeetingView,
+                        });
                         break;
                     case SharingStatus.Sharing_Self_Send_End:
-
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MeetingView,
+                        });
                         break;
                     case SharingStatus.Sharing_Other_Share_Begin:
                         break;

@@ -47,6 +47,7 @@ namespace CloudClassroom.Events
 
     public class ResetVideoUiEvent : PubSubEvent<EventArgument> { }
     public class HideMeetingViewEvent : PubSubEvent<EventArgument> { }
+    public class ShowMeetingViewEvent : PubSubEvent<EventArgument> { }
 
     public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }
     public class ShowSharingOptionsEvent : PubSubEvent<EventArgument> { }
