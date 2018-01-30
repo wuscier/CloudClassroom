@@ -3,6 +3,7 @@ using CloudClassroom.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -112,11 +113,11 @@ namespace CloudClassroom.Service
 
             if (response.Status == 0)
             {
-                if (response.Data!=null)
+                if (response.Data != null)
                 {
                     JObject data = response.Data as JObject;
 
-                    if (data!=null)
+                    if (data != null)
                     {
                         school = JsonConvert.DeserializeObject<SchoolModel>(data.SelectToken("info").ToString());
                     }
@@ -126,5 +127,27 @@ namespace CloudClassroom.Service
             return school;
         }
 
+        public async Task<IList<LessonModel>> GetWeeklyLessons()
+        {
+            string requestUrl = "/api/Lesson/week/lessons";
+            ResponseModel response = await Request(requestUrl);
+
+            IList<LessonModel> lessons = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data != null)
+                    {
+                        lessons = JsonConvert.DeserializeObject<IList<LessonModel>>(data.SelectToken("items").ToString());
+                    }
+                }
+            }
+
+            return lessons;
+        }
     }
 }
