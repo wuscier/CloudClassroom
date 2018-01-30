@@ -1,5 +1,6 @@
 ﻿using CloudClassroom.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,7 +16,6 @@ namespace CloudClassroom.Service
         private WebApi()
         {
             BaseAddress = new Uri("http://202.85.212.211:9001");
-            AuthHeaderValue = new AuthenticationHeaderValue("Bearer");
         }
 
         public static readonly WebApi Instance = new WebApi();
@@ -57,5 +57,28 @@ namespace CloudClassroom.Service
                 return response;
             }
         }
+
+
+        public async Task<ResponseModel> ApplyToken(string userName, string password)
+        {
+            string requestUrl = $"/api/Token/token?username={userName}&password={password}";
+            ResponseModel response = await Request(requestUrl);
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+                    if (data != null)
+                    {
+                        AuthHeaderValue = new AuthenticationHeaderValue("Bearer", data.SelectToken("accessToken").ToString());
+                    }
+                }
+            }
+
+            return response;
+        }
+
+
     }
 }
