@@ -103,5 +103,28 @@ namespace CloudClassroom.Service
             return user;
         }
 
+        public async Task<SchoolModel> GetSchoolInfo()
+        {
+            string requestUrl = "/api/User/schoolinfo";
+            ResponseModel response = await Request(requestUrl);
+
+            SchoolModel school = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data!=null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data!=null)
+                    {
+                        school = JsonConvert.DeserializeObject<SchoolModel>(data.SelectToken("info").ToString());
+                    }
+                }
+            }
+
+            return school;
+        }
+
     }
 }
