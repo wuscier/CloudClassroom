@@ -90,6 +90,7 @@ namespace CloudClassroom.Views
 
             _showToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Subscribe((argument) =>
             {
+                App.BottomMenuView.Visibility = Visibility.Collapsed;
                 Show();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
