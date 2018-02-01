@@ -4,8 +4,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Height="800" Width="1000">
-
+        Height="800" Width="1000" Title="共享白板">
 
     <Window.Resources>
 

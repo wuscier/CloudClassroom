@@ -29,6 +29,7 @@ namespace CloudClassroom.Views
             if (shareBoardErr != SDKError.SDKERR_SUCCESS)
             {
                 whiteboardView.Close();
+                MessageBox.Show(Translator.TranslateSDKError(shareBoardErr));
             }
             else
             {

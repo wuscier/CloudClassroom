@@ -26,6 +26,14 @@ namespace CloudClassroom.Helpers
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int CallNextHookEx(int idHook, int nCode, Int32 wParam, IntPtr lParam);
 
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SendNotifyMessage(IntPtr hWnd, uint msg, Int32 wParam, IntPtr lParam);
+
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowRect(IntPtr hwnd, out Rect lpRect);
 

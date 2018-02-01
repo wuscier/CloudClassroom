@@ -90,6 +90,13 @@ namespace CloudClassroom.Views
 
             _showToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Subscribe((argument) =>
             {
+                IntPtr sharedWndHandle = Win32APIs.FindWindow(null, "共享白板");
+
+                if (sharedWndHandle != IntPtr.Zero)
+                {
+                    Win32APIs.SendNotifyMessage(sharedWndHandle, 16, 0, IntPtr.Zero);
+                }
+
                 App.BottomMenuView.Visibility = Visibility.Collapsed;
                 Show();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
