@@ -1,4 +1,4 @@
-﻿using Classroom.ViewModels;
+﻿using CloudClassroom.ViewModels;
 using System.Windows;
 
 namespace CloudClassroom.Views

@@ -114,6 +114,7 @@
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\SchoolModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\ZoomInfoModel.cs" />
     <Compile Include="sdk_adapter\ISdk.cs" />
     <Compile Include="sdk_adapter\ZoomSdk.cs" />
     <Compile Include="Service\WebApi.cs" />

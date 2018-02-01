@@ -1,4 +1,4 @@
-﻿namespace Classroom.Models
+﻿namespace CloudClassroom.Models
 {
     public class UserModel
     {

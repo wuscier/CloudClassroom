@@ -1,5 +1,5 @@
-﻿using Classroom.Models;
-using CloudClassroom.Helpers;
+﻿using CloudClassroom.Helpers;
+using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.ViewModels;
 using CloudClassroom.Views;
@@ -19,6 +19,7 @@ namespace CloudClassroom
         public static BottomMenuView BottomMenuView;
         public static BottomMenuViewModel BottomMenuViewModel;
         public static UserModel CurrentUser;
+        public static ZoomInfoModel ZoomInfo;
 
         public static IntPtr BottomMenuViewHwnd = IntPtr.Zero;
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;

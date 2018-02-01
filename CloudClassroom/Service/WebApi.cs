@@ -1,5 +1,4 @@
-﻿using Classroom.Models;
-using CloudClassroom.Models;
+﻿using CloudClassroom.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -63,7 +62,7 @@ namespace CloudClassroom.Service
 
         public async Task<ResponseModel> ApplyToken(string userName, string password)
         {
-            string requestUrl = $"/api/Token/token?username={userName}&password={password}";
+            string requestUrl = $"/api/token/token?username={userName}&password={password}";
             ResponseModel response = await Request(requestUrl);
 
             if (response.Status == 0)
@@ -83,7 +82,7 @@ namespace CloudClassroom.Service
 
         public async Task<UserModel> GetUserInfo()
         {
-            string requestUrl = "/api/User/userinfo";
+            string requestUrl = "/api/user/userinfo";
             ResponseModel response = await Request(requestUrl);
 
             UserModel user = null;
@@ -106,7 +105,7 @@ namespace CloudClassroom.Service
 
         public async Task<SchoolModel> GetSchoolInfo()
         {
-            string requestUrl = "/api/User/schoolinfo";
+            string requestUrl = "/api/user/schoolinfo";
             ResponseModel response = await Request(requestUrl);
 
             SchoolModel school = null;
@@ -129,7 +128,7 @@ namespace CloudClassroom.Service
 
         public async Task<IList<LessonModel>> GetWeeklyLessons()
         {
-            string requestUrl = "/api/Lesson/week/lessons";
+            string requestUrl = "/api/lesson/week/lessons";
             ResponseModel response = await Request(requestUrl);
 
             IList<LessonModel> lessons = null;
@@ -148,6 +147,30 @@ namespace CloudClassroom.Service
             }
 
             return lessons;
+        }
+
+
+        public async Task<ZoomInfoModel> GetZoomInfo()
+        {
+            string requestUrl = "/api/zoom/zoominfo";
+            ResponseModel response = await Request(requestUrl);
+
+            ZoomInfoModel zoomInfo = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data != null)
+                    {
+                        zoomInfo = JsonConvert.DeserializeObject<ZoomInfoModel>(data.SelectToken("info").ToString());
+                    }
+                }
+            }
+
+            return zoomInfo;
         }
     }
 }

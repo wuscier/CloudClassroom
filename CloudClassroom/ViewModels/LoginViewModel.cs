@@ -1,5 +1,4 @@
-﻿using Classroom.Models;
-using CloudClassroom.Events;
+﻿using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
@@ -35,7 +34,7 @@ namespace CloudClassroom.ViewModels
                     return;
                 }
 
-                SDKAuth();
+                await SDKAuth();
 
             });
         }
@@ -171,20 +170,28 @@ namespace CloudClassroom.ViewModels
             return true;
         }
 
-        private void SDKAuth()
+        private async Task SDKAuth()
         {
-            SDKError err = _sdk.SDKAuth(new AuthParam()
-            {
-                appKey = "p3TojubkBYyntp8m4rVevr0yYmH1HVW9yPiR",
-                appSecret = "JLuhz1VkcWGVSUESJj19biBi7NZcbVWENRXe",
-                //appKey = "LEfq0qV7SXC9E6OfRl3CSA",
-                //appSecret = "G1lb50p3Ulwa5OD8u9ybBPgCzeVPcoYdDb4O",
-            });
+            ZoomInfoModel zoomInfo = await WebApi.Instance.GetZoomInfo();
 
-            if (err != SDKError.SDKERR_SUCCESS)
+            if (zoomInfo != null)
+            {
+                SDKError err = _sdk.SDKAuth(new AuthParam()
+                {
+                    appKey = zoomInfo.SdkKey,
+                    appSecret = zoomInfo.SdkSecret,
+                });
+
+                if (err != SDKError.SDKERR_SUCCESS)
+                {
+                    Logging = false;
+                    Err = Translator.TranslateSDKError(err);
+                }
+            }
+            else
             {
                 Logging = false;
-                Err = Translator.TranslateSDKError(err);
+                Err = "获取token,key和secret失败！";
             }
         }
     }
@@ -198,7 +205,7 @@ namespace CloudClassroom.ViewModels
         {
             LoginModel = new LoginModel()
             {
-                UserName = "justlucky@126.com",
+
             };
         }
     }
