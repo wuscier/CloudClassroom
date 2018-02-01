@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         >
+    
     <Window.Resources>
         <ResourceDictionary Source="../CustomizedUI/My.Card.xaml"></ResourceDictionary>
     </Window.Resources>

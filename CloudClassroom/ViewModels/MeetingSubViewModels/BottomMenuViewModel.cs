@@ -171,6 +171,7 @@ namespace CloudClassroom.ViewModels
                         });
                         break;
                     case SharingStatus.Sharing_Other_Share_Begin:
+                        _sdk.CustomizeUI();
                         break;
                     case SharingStatus.Sharing_Other_Share_End:
                         EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Publish(new EventArgument()

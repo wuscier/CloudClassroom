@@ -1,9 +1,12 @@
 ﻿using Classroom.Models;
 using CloudClassroom.Events;
 using CloudClassroom.Helpers;
+using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.Service;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -15,7 +18,9 @@ namespace CloudClassroom.ViewModels
 
         public LoginModel()
         {
-            LoginCommand = new DelegateCommand(() =>
+            RegisterCallbacks();
+
+            LoginCommand = new DelegateCommand(async () =>
             {
                 Logging = true;
 
@@ -25,7 +30,10 @@ namespace CloudClassroom.ViewModels
                     return;
                 }
 
-                RegisterCallbacks();
+                if (!(await APIAuth()))
+                {
+                    return;
+                }
 
                 SDKAuth();
 
@@ -149,6 +157,19 @@ namespace CloudClassroom.ViewModels
             });
         }
 
+        private async Task<bool> APIAuth()
+        {
+            ResponseModel response = await WebApi.Instance.ApplyToken(UserName, Pwd);
+
+            if (response.Status != 0)
+            {
+                Logging = false;
+                Err = response.Message;
+                return false;
+            }
+
+            return true;
+        }
 
         private void SDKAuth()
         {
