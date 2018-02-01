@@ -59,7 +59,6 @@ namespace CloudClassroom.Service
             }
         }
 
-
         public async Task<ResponseModel> ApplyToken(string userName, string password)
         {
             string requestUrl = $"/api/token/token?username={userName}&password={password}";
@@ -149,7 +148,6 @@ namespace CloudClassroom.Service
             return lessons;
         }
 
-
         public async Task<ZoomInfoModel> GetZoomInfo()
         {
             string requestUrl = "/api/zoom/zoominfo";
@@ -171,6 +169,30 @@ namespace CloudClassroom.Service
             }
 
             return zoomInfo;
+        }
+
+        public async Task<IList<string>> GetLessonTypes()
+        {
+            string requestUrl = "/api/lesson/types";
+
+            ResponseModel response = await Request(requestUrl);
+
+            IList<string> lessonTypes = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data != null)
+                    {
+                        lessonTypes = JsonConvert.DeserializeObject<IList<string>>(data.SelectToken("types").ToString());
+                    }
+                }
+            }
+
+            return lessonTypes;
         }
     }
 }
