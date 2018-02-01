@@ -29,9 +29,32 @@ namespace CloudClassroom
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             CreateLogger();
 
             InitSDK();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception exception = e.ExceptionObject as Exception;
+
+            if (exception != null)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                MessageBox.Show(e.Exception.ToString());
+            }
+
+            e.Handled = true;
         }
 
         private void CreateLogger()

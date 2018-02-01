@@ -89,7 +89,7 @@ namespace CloudClassroom.ViewModels
                             meetingNumber = 856848506,
                             participantId = string.Empty,
                             userID = "LaWc3yx0RwCz2SFZVFhDaQ",
-                            userName = "jack maer",
+                            userName = "主持人",
                             userToken = "yvlb0UOcJHi7NrWp4AwYYS8vVZTtdm6SpEHZ",
                         },
                     });
@@ -114,7 +114,7 @@ namespace CloudClassroom.ViewModels
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserJoin = new JoinParam4APIUser()
                         {
-                            userName = "刘强东",
+                            userName = "非主持人",
                             meetingNumber = 856848506,
                             psw = string.Empty,
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
@@ -162,7 +162,7 @@ namespace CloudClassroom.ViewModels
                 Name = "语文",
                 TeacherName = "马云",
                 MeetingNumber = "286683782",
-                HostId = "justlucky@126.com",
+                HostId = "xs1",
                 JoinCommand = JoinCommand,
             });
             CourseList.Add(new LessonModel()
@@ -172,7 +172,7 @@ namespace CloudClassroom.ViewModels
                 Name = "数学",
                 TeacherName = "刘强东",
                 MeetingNumber = "286683782",
-                HostId = "justlucky@126.com",
+                HostId = "xs1",
                 JoinCommand = JoinCommand,
 
             });
@@ -181,9 +181,9 @@ namespace CloudClassroom.ViewModels
                 StartTime = "13:00",
                 EndTime = "14:00",
                 Name = "生物",
-                TeacherName = "李海波",
+                TeacherName = "池子",
                 MeetingNumber = "286683782",
-                HostId = "justlucky@126.com",
+                HostId = "xs1",
                 JoinCommand = JoinCommand,
 
             });
