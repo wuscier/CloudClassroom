@@ -108,9 +108,8 @@
     <Compile Include="Helpers\ThumbnailToBrushConverter.cs" />
     <Compile Include="Helpers\Translator.cs" />
     <Compile Include="Helpers\Win32APIs.cs" />
-    <Compile Include="Models\CourseModel.cs" />
-    <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\LessonModel.cs" />
+    <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\SchoolModel.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -58,7 +58,7 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _selectedCardIndex, value); }
         }
 
-        public ObservableCollection<CourseModel> CourseList { get; set; }
+        public ObservableCollection<LessonModel> CourseList { get; set; }
 
         public ICommand JoinCommand { get; set; }
         public ICommand SelectCoursesCardCommand { get; set; }
@@ -68,7 +68,7 @@ namespace CloudClassroom.ViewModels
         {
             IsCoursesCardSelected = true;
 
-            JoinCommand = new DelegateCommand<CourseModel>((course) =>
+            JoinCommand = new DelegateCommand<LessonModel>((course) =>
             {
                 ulong uint_meeting_number;
                 if (!ulong.TryParse(course.MeetingNumber, out uint_meeting_number))
@@ -154,19 +154,21 @@ namespace CloudClassroom.ViewModels
                 IsMyCardSelected = true;
             });
 
-            CourseList = new ObservableCollection<CourseModel>();
-            CourseList.Add(new CourseModel()
+            CourseList = new ObservableCollection<LessonModel>();
+            CourseList.Add(new LessonModel()
             {
-                Duration = "8:00 - 9:00",
+                StartTime = "8:00",
+                EndTime = "9:00",
                 Name = "语文",
                 TeacherName = "马云",
                 MeetingNumber = "286683782",
                 HostId = "justlucky@126.com",
                 JoinCommand = JoinCommand,
             });
-            CourseList.Add(new CourseModel()
+            CourseList.Add(new LessonModel()
             {
-                Duration = "11:00 - 12:00",
+                StartTime = "11:00",
+                EndTime = "12:00",
                 Name = "数学",
                 TeacherName = "刘强东",
                 MeetingNumber = "286683782",
@@ -174,9 +176,10 @@ namespace CloudClassroom.ViewModels
                 JoinCommand = JoinCommand,
 
             });
-            CourseList.Add(new CourseModel()
+            CourseList.Add(new LessonModel()
             {
-                Duration = "14:00 - 15:00",
+                StartTime = "13:00",
+                EndTime = "14:00",
                 Name = "生物",
                 TeacherName = "李海波",
                 MeetingNumber = "286683782",
