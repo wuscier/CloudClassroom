@@ -8,16 +8,9 @@ namespace CloudClassroom.Views
     /// </summary>
     public partial class BottomMenuView : Window
     {
-        public bool IsClosed { get; private set; }
-
         public BottomMenuView()
         {
             InitializeComponent();
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            IsClosed = true;
         }
     }
 }
