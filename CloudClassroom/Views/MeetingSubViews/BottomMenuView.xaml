@@ -16,6 +16,7 @@
 
             <helper:BoolToTextConverter x:Key="Bool2TextConverter"></helper:BoolToTextConverter>
             <helper:BoolToVisibilityConverter x:Key="Bool2VisibilityConverter"></helper:BoolToVisibilityConverter>
+            <helper:BoolToVisibilityConverter2 x:Key="Bool2VisibilityConverter2"></helper:BoolToVisibilityConverter2>
             <helper:BottomMenuWidthConverter x:Key="BottomMenuWidthConverter"></helper:BottomMenuWidthConverter>
 
         </ResourceDictionary>
@@ -187,7 +188,7 @@
                 <TextBlock Text="参会者" FontSize="20"  FontWeight="Bold"  HorizontalAlignment="Center"></TextBlock>
             </StackPanel>
         </materialDesign:Card>
-        <materialDesign:Card x:Name="share_screen" Grid.Column="7" Width="100" Height="100" Style="{StaticResource MyCardStyle}"
+        <materialDesign:Card x:Name="share_screen" Grid.Column="7" Width="100" Height="100" Style="{StaticResource MyCardStyle}" Visibility="{Binding IsHost,Converter={StaticResource Bool2VisibilityConverter2}}"
                                  >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
@@ -206,7 +207,7 @@
             </StackPanel>
         </materialDesign:Card>
 
-        <customizedUI:MyRecordControl Grid.Column="9"></customizedUI:MyRecordControl>
+        <customizedUI:MyRecordControl Grid.Column="9" Visibility="{Binding IsHost,Converter={StaticResource Bool2VisibilityConverter2}}"></customizedUI:MyRecordControl>
 
 
         <materialDesign:Card  Grid.Column="10" Width="30" Height="100" Style="{StaticResource MyCardStyle}">
