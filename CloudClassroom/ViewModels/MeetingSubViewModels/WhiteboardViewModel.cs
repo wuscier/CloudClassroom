@@ -116,43 +116,43 @@ namespace CloudClassroom.ViewModels
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 1,
-                    ThumbnailUri = "Images/1.png",
+                    ThumbnailUri = "../../Images/1.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 2,
-                    ThumbnailUri = "Images/2.png",
+                    ThumbnailUri = "../../Images/2.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 3,
-                    ThumbnailUri = "Images/3.png",
+                    ThumbnailUri = "../../Images/3.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 4,
-                    ThumbnailUri = "Images/4.png",
+                    ThumbnailUri = "../../Images/4.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 5,
-                    ThumbnailUri = "Images/5.png",
+                    ThumbnailUri = "../../Images/5.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 6,
-                    ThumbnailUri = "Images/6.png",
+                    ThumbnailUri = "../../Images/6.png",
                     Strokes = new StrokeCollection(),
                 });
                 Thumbnails.Add(new Thumbnail()
                 {
                     PageNum = 7,
-                    ThumbnailUri = "Images/7.png",
+                    ThumbnailUri = "../../Images/7.png",
                     Strokes = new StrokeCollection(),
                 });
                 //Thumbnails.Add(new Thumbnail()
