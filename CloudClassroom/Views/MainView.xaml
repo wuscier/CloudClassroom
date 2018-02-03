@@ -135,13 +135,24 @@
                                             </DataGrid.Resources>
 
                                             <DataGrid.Columns>
-                                                <DataGridTemplateColumn MinWidth="150">
+                                                <DataGridTemplateColumn MinWidth="120">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="时间" FontSize="20"></TextBlock>
+                                                        <TextBlock Text="开始时间" FontSize="20"></TextBlock>
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding Duration}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                            <TextBlock Text="{Binding StartTime}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                
+                                                <DataGridTemplateColumn MinWidth="120">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="结束时间" FontSize="20"></TextBlock>
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding EndTime}" VerticalAlignment="Center" FontSize="16"></TextBlock>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
@@ -169,7 +180,7 @@
                                                 </DataGridTemplateColumn>
 
 
-                                                <DataGridTemplateColumn MinWidth="100" MaxWidth="120">
+                                                <DataGridTemplateColumn MinWidth="100" MaxWidth="100">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Button Content="进入" Command="{Binding JoinCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self},Path=DataContext}"  FontSize="16"></Button>
