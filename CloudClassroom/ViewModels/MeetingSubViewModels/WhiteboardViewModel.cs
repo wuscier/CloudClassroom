@@ -19,11 +19,11 @@ namespace CloudClassroom.ViewModels
 
     public class WhiteboardViewModel : BindableBase
     {
-        public WhiteboardViewModel()
+        public WhiteboardViewModel(bool shareDoc = false)
         {
             InitCurrentStatus();
 
-            InitThumbnails();
+            InitThumbnails(shareDoc);
 
             InitCommands();
         }
@@ -109,111 +109,113 @@ namespace CloudClassroom.ViewModels
             });
         }
 
-        private void InitThumbnails()
+        private void InitThumbnails(bool shareDoc)
         {
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 1,
-            //    ThumbnailUri = "../Images/1.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 2,
-            //    ThumbnailUri = "../Images/2.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 3,
-            //    ThumbnailUri = "../Images/3.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 4,
-            //    ThumbnailUri = "../Images/4.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 5,
-            //    ThumbnailUri = "../Images/5.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 6,
-            //    ThumbnailUri = "../Images/6.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 7,
-            //    ThumbnailUri = "../Images/7.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 8,
-            //    ThumbnailUri = "../Images/8.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 9,
-            //    ThumbnailUri = "../Images/9.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 10,
-            //    ThumbnailUri = "../Images/10.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 11,
-            //    ThumbnailUri = "../Images/11.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 12,
-            //    ThumbnailUri = "../Images/12.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 13,
-            //    ThumbnailUri = "../Images/13.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 14,
-            //    ThumbnailUri = "../Images/14.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 15,
-            //    ThumbnailUri = "../Images/15.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 16,
-            //    ThumbnailUri = "../Images/16.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-            //Thumbnails.Add(new Thumbnail()
-            //{
-            //    PageNum = 17,
-            //    ThumbnailUri = "../Images/17.png",
-            //    Strokes = new StrokeCollection(),
-            //});
-
+            if (shareDoc)
+            {
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 1,
+                    ThumbnailUri = "Images/1.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 2,
+                    ThumbnailUri = "Images/2.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 3,
+                    ThumbnailUri = "Images/3.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 4,
+                    ThumbnailUri = "Images/4.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 5,
+                    ThumbnailUri = "Images/5.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 6,
+                    ThumbnailUri = "Images/6.png",
+                    Strokes = new StrokeCollection(),
+                });
+                Thumbnails.Add(new Thumbnail()
+                {
+                    PageNum = 7,
+                    ThumbnailUri = "Images/7.png",
+                    Strokes = new StrokeCollection(),
+                });
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 8,
+                //    ThumbnailUri = "../../Images/8.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 9,
+                //    ThumbnailUri = "../../Images/9.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 10,
+                //    ThumbnailUri = "../../Images/10.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 11,
+                //    ThumbnailUri = "../../Images/11.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 12,
+                //    ThumbnailUri = "../../Images/12.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 13,
+                //    ThumbnailUri = "../../Images/13.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 14,
+                //    ThumbnailUri = "../../Images/14.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 15,
+                //    ThumbnailUri = "../../Images/15.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 16,
+                //    ThumbnailUri = "../../Images/16.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+                //Thumbnails.Add(new Thumbnail()
+                //{
+                //    PageNum = 17,
+                //    ThumbnailUri = "../../Images/17.png",
+                //    Strokes = new StrokeCollection(),
+                //});
+            }
 
             if (Thumbnails.Count == 0)
             {

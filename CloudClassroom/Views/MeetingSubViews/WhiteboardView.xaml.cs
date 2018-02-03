@@ -13,10 +13,10 @@ namespace CloudClassroom.Views
     {
         private static readonly ISdk _sdk = ZoomSdk.Instance;
 
-        public WhiteboardView()
+        public WhiteboardView(bool shareDoc = false)
         {
             InitializeComponent();
-            DataContext = new WhiteboardViewModel();
+            DataContext = new WhiteboardViewModel(shareDoc);
         }
 
         protected override void OnClosed(EventArgs e)

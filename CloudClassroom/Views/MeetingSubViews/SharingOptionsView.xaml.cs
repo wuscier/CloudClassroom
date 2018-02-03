@@ -39,7 +39,22 @@ namespace CloudClassroom.Views
 
         private void document_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            WhiteboardView whiteboardView = new WhiteboardView(true);
+            whiteboardView.Show();
 
+            int handle = new WindowInteropHelper(whiteboardView).Handle.ToInt32();
+            HWNDDotNet whiteboardHwnd = new HWNDDotNet() { value = (uint)handle };
+            SDKError shareBoardErr = ZoomSdk.Instance.StartAppShare(whiteboardHwnd);
+
+            if (shareBoardErr != SDKError.SDKERR_SUCCESS)
+            {
+                whiteboardView.Close();
+                MessageBox.Show(Translator.TranslateSDKError(shareBoardErr));
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void desktop_card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -341,7 +341,7 @@
             <Grid Grid.Row="1" Grid.Column="2">
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" >
                     <Grid>
-                        <Image Source="{Binding CurrentThumbnail.ThumbnailUri}"></Image>
+                        <Image Source="{Binding CurrentThumbnail.ThumbnailUri,Converter={StaticResource Thumbnail2BrushConverter}}"></Image>
                         <InkCanvas x:Name="ink_canvas" Background="Transparent" DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}" EditingMode="{Binding CurrentEditingMode}" Strokes="{Binding CurrentThumbnail.Strokes}"></InkCanvas>
                     </Grid>
                 </ScrollViewer>
