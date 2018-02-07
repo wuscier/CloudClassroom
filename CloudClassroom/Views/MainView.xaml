@@ -6,6 +6,12 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadLessonsCommand}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Window.Resources>
         <ResourceDictionary Source="../CustomizedUI/My.Card.xaml"></ResourceDictionary>

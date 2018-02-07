@@ -2,8 +2,10 @@
 using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.Service;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -63,21 +65,24 @@ namespace CloudClassroom.ViewModels
         public ICommand JoinCommand { get; set; }
         public ICommand SelectCoursesCardCommand { get; set; }
         public ICommand SelectMyCardCommand { get; set; }
+        public ICommand LoadLessonsCommand { get; set; }
 
         private void InitData()
         {
+            CourseList = new ObservableCollection<LessonModel>();
+
             IsCoursesCardSelected = true;
 
             JoinCommand = new DelegateCommand<LessonModel>((course) =>
             {
                 ulong uint_meeting_number;
-                if (!ulong.TryParse(course.MeetingNumber, out uint_meeting_number))
+                if (!ulong.TryParse(course.MeetingId, out uint_meeting_number))
                 {
                     MessageBox.Show("无效的课堂号！");
                     return;
                 };
 
-                if (course.HostId == App.CurrentUser.AccountUserName)
+                if (course.SpeakerUserId == App.CurrentUser.AccountUserName)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {
@@ -154,39 +159,43 @@ namespace CloudClassroom.ViewModels
                 IsMyCardSelected = true;
             });
 
-            CourseList = new ObservableCollection<LessonModel>();
-            CourseList.Add(new LessonModel()
+            LoadLessonsCommand = new DelegateCommand(async () =>
             {
-                StartTime = "8:00",
-                EndTime = "9:00",
-                Name = "语文",
-                TeacherName = "马云",
-                MeetingNumber = "286683782",
-                HostId = "xs1",
-                JoinCommand = JoinCommand,
+                IList<LessonModel> lessons = await WebApi.Instance.GetWeeklyLessons();
             });
-            CourseList.Add(new LessonModel()
-            {
-                StartTime = "11:00",
-                EndTime = "12:00",
-                Name = "数学",
-                TeacherName = "刘强东",
-                MeetingNumber = "286683782",
-                HostId = "xs1",
-                JoinCommand = JoinCommand,
 
-            });
-            CourseList.Add(new LessonModel()
-            {
-                StartTime = "13:00",
-                EndTime = "14:00",
-                Name = "生物",
-                TeacherName = "池子",
-                MeetingNumber = "286683782",
-                HostId = "xs1",
-                JoinCommand = JoinCommand,
+            //CourseList.Add(new LessonModel()
+            //{
+            //    StartTime = "8:00",
+            //    EndTime = "9:00",
+            //    Name = "语文",
+            //    TeacherName = "马云",
+            //    MeetingNumber = "286683782",
+            //    HostId = "xs1",
+            //    JoinCommand = JoinCommand,
+            //});
+            //CourseList.Add(new LessonModel()
+            //{
+            //    StartTime = "11:00",
+            //    EndTime = "12:00",
+            //    Name = "数学",
+            //    TeacherName = "刘强东",
+            //    MeetingNumber = "286683782",
+            //    HostId = "xs1",
+            //    JoinCommand = JoinCommand,
 
-            });
+            //});
+            //CourseList.Add(new LessonModel()
+            //{
+            //    StartTime = "13:00",
+            //    EndTime = "14:00",
+            //    Name = "生物",
+            //    TeacherName = "池子",
+            //    MeetingNumber = "286683782",
+            //    HostId = "xs1",
+            //    JoinCommand = JoinCommand,
+
+            //});
         }
 
     }
