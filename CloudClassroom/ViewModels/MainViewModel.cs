@@ -88,7 +88,7 @@ namespace CloudClassroom.ViewModels
                     return;
                 };
 
-                if (lesson.SpeakerUserId == App.CurrentUser.UserName)
+                if (lesson.SpeakerUserId == App.CurrentUser.Id)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {
@@ -101,7 +101,7 @@ namespace CloudClassroom.ViewModels
                             participantId = string.Empty,
                             userID = "LaWc3yx0RwCz2SFZVFhDaQ",
                             userName = "主持人",
-                            userToken = "yvlb0UOcJHi7NrWp4AwYYS8vVZTtdm6SpEHZ",
+                            userToken = App.ZoomInfo.AccessToken,
                         },
                     });
 
