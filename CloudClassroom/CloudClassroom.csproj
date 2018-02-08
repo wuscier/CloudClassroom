@@ -100,13 +100,14 @@
     <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\BottomMenuWidthConverter.cs" />
     <Compile Include="Helpers\CardSelectedAssist.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\MouseHook.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\ReverseBoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\ReverseConverter.cs" />
     <Compile Include="Helpers\StringToBrushConverter.cs" />
     <Compile Include="Helpers\ThumbnailToBrushConverter.cs" />
-    <Compile Include="Helpers\Translator.cs" />
+    <Compile Include="Helpers\SdkErrorTranslator.cs" />
     <Compile Include="Helpers\Win32APIs.cs" />
     <Compile Include="Models\LessonModel.cs" />
     <Compile Include="Models\DeviceModel.cs" />

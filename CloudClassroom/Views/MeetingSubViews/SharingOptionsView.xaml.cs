@@ -29,7 +29,7 @@ namespace CloudClassroom.Views
             if (shareBoardErr != SDKError.SDKERR_SUCCESS)
             {
                 whiteboardView.Close();
-                MessageBox.Show(Translator.TranslateSDKError(shareBoardErr));
+                MessageBox.Show(SdkErrorTranslator.TranslateSDKError(shareBoardErr));
             }
             else
             {
@@ -49,7 +49,7 @@ namespace CloudClassroom.Views
             if (shareBoardErr != SDKError.SDKERR_SUCCESS)
             {
                 whiteboardView.Close();
-                MessageBox.Show(Translator.TranslateSDKError(shareBoardErr));
+                MessageBox.Show(SdkErrorTranslator.TranslateSDKError(shareBoardErr));
             }
             else
             {
@@ -63,7 +63,7 @@ namespace CloudClassroom.Views
 
             if (shareMonitorErr != SDKError.SDKERR_SUCCESS)
             {
-                MessageBox.Show(Translator.TranslateSDKError(shareMonitorErr));
+                MessageBox.Show(SdkErrorTranslator.TranslateSDKError(shareMonitorErr));
             }
             else
             {

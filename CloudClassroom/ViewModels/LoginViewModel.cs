@@ -31,6 +31,14 @@ namespace CloudClassroom.ViewModels
 
                 if (!(await APIAuth()))
                 {
+                    Logging = false;
+                    return;
+                }
+
+
+                if (!(await GetUserInfo()))
+                {
+                    Logging = false;
                     return;
                 }
 
@@ -162,10 +170,36 @@ namespace CloudClassroom.ViewModels
 
             if (response.Status != 0)
             {
-                Logging = false;
                 Err = response.Message;
                 return false;
             }
+
+            return true;
+        }
+
+        private async Task<bool> GetUserInfo()
+        {
+            UserModel user = await WebApi.Instance.GetUserInfo();
+
+            if (user == null)
+            {
+                Err = "获取用户信息失败！";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(user.Email))
+            {
+                Err = "用户邮箱为空！";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(user.AccountId))
+            {
+                Err = "用户账户为空！";
+                return false;
+            }
+
+            App.CurrentUser = user;
 
             return true;
         }
@@ -185,7 +219,7 @@ namespace CloudClassroom.ViewModels
                 if (err != SDKError.SDKERR_SUCCESS)
                 {
                     Logging = false;
-                    Err = Translator.TranslateSDKError(err);
+                    Err = SdkErrorTranslator.TranslateSDKError(err);
                 }
             }
             else

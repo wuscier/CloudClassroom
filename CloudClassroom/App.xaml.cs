@@ -74,7 +74,7 @@ namespace CloudClassroom
 
             if (err != SDKError.SDKERR_SUCCESS)
             {
-                MessageBox.Show(Translator.TranslateSDKError(err));
+                MessageBox.Show(SdkErrorTranslator.TranslateSDKError(err));
                 Current.Shutdown();
             }
         }
@@ -85,7 +85,7 @@ namespace CloudClassroom
 
             if (err != SDKError.SDKERR_SUCCESS)
             {
-                MessageBox.Show(Translator.TranslateSDKError(err));
+                MessageBox.Show(SdkErrorTranslator.TranslateSDKError(err));
             }
         }
 

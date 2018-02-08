@@ -88,7 +88,7 @@ namespace CloudClassroom.ViewModels
                     return;
                 };
 
-                if (lesson.SpeakerUserId == App.CurrentUser.Id)
+                if (lesson.SpeakUserId == App.CurrentUser.Id)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {
@@ -115,7 +115,7 @@ namespace CloudClassroom.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(Translator.TranslateSDKError(startError));
+                        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(startError));
                     }
                 }
                 else
@@ -148,7 +148,7 @@ namespace CloudClassroom.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(Translator.TranslateSDKError(joinError));
+                        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(joinError));
                     }
                 }
             });

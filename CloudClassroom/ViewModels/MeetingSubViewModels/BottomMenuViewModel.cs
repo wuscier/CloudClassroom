@@ -336,7 +336,7 @@ namespace CloudClassroom.ViewModels
                         }
                         else
                         {
-                            MessageBox.Show(Translator.TranslateSDKError(muteVideoErr));
+                            MessageBox.Show(SdkErrorTranslator.TranslateSDKError(muteVideoErr));
                         }
 
                         break;
@@ -351,7 +351,7 @@ namespace CloudClassroom.ViewModels
                         }
                         else
                         {
-                            MessageBox.Show(Translator.TranslateSDKError(unmuteVideoErr));
+                            MessageBox.Show(SdkErrorTranslator.TranslateSDKError(unmuteVideoErr));
                         }
 
                         break;

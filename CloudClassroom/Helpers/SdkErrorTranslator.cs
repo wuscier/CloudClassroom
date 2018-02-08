@@ -2,7 +2,7 @@
 
 namespace CloudClassroom.Helpers
 {
-    public class Translator
+    public class SdkErrorTranslator
     {
         public static string TranslateSDKError(SDKError error)
         {

@@ -11,7 +11,7 @@ namespace CloudClassroom.Models
         public string EndTime { get; set; }
         public int LessonType { get; set; }
         public int CooperationType { get; set; }
-        public string SpeakerUserId { get; set; }
+        public string SpeakUserId { get; set; }
         public string MeetingId { get; set; }
         public bool Invalid { get; set; }
 
