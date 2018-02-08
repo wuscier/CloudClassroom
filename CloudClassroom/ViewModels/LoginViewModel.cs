@@ -172,7 +172,7 @@ namespace CloudClassroom.ViewModels
 
         private async Task SDKAuth()
         {
-            ZoomInfoModel zoomInfo = await WebApi.Instance.GetZoomInfo();
+            ZoomCredentialModel zoomInfo = await WebApi.Instance.GetZoomInfo();
 
             if (zoomInfo != null)
             {

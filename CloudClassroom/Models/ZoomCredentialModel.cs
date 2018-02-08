@@ -1,6 +1,6 @@
 ﻿namespace CloudClassroom.Models
 {
-    public class ZoomInfoModel
+    public class ZoomCredentialModel
     {
         public string AccessToken { get; set; }
         public string SdkKey { get; set; }

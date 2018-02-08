@@ -172,12 +172,12 @@ namespace CloudClassroom.Service
             return attendees;
         }
 
-        public async Task<ZoomInfoModel> GetZoomInfo()
+        public async Task<ZoomCredentialModel> GetZoomInfo()
         {
             string requestUrl = "/api/zoom/zoominfo";
             ResponseModel response = await Request(requestUrl);
 
-            ZoomInfoModel zoomInfo = null;
+            ZoomCredentialModel zoomInfo = null;
 
             if (response.Status == 0)
             {
@@ -187,7 +187,7 @@ namespace CloudClassroom.Service
 
                     if (data != null)
                     {
-                        zoomInfo = JsonConvert.DeserializeObject<ZoomInfoModel>(data.SelectToken("info").ToString());
+                        zoomInfo = JsonConvert.DeserializeObject<ZoomCredentialModel>(data.SelectToken("info").ToString());
                     }
                 }
             }
@@ -217,6 +217,8 @@ namespace CloudClassroom.Service
 
             return zoomUser;
         }
+
+        
 
         public async Task<IList<string>> GetLessonTypes()
         {
