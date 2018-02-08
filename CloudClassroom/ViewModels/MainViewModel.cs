@@ -88,7 +88,7 @@ namespace CloudClassroom.ViewModels
                     return;
                 };
 
-                if (lesson.SpeakerUserId == App.CurrentUser.AccountUserName)
+                if (lesson.SpeakerUserId == App.CurrentUser.UserName)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {

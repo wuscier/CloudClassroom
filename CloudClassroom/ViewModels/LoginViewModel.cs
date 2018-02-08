@@ -135,7 +135,7 @@ namespace CloudClassroom.ViewModels
                     };
                 };
 
-                App.CurrentUser.AccountUserName = UserName;
+                App.CurrentUser.UserName = UserName;
 
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
                 {

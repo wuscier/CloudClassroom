@@ -148,10 +148,29 @@ namespace CloudClassroom.Service
             return lessons;
         }
 
-        //public async Task<IList<UserModel>> GetLessonAttendees()
-        //{
-        //    string requestUrl = "/api/lesson/users/"
-        //}
+        public async Task<IList<UserModel>> GetLessonAttendees(LessonType lessonType, int lessonId)
+        {
+            string requestUrl = $"/api/lesson/users/{lessonType}/{lessonId}";
+
+            ResponseModel response = await Request(requestUrl);
+
+            IList<UserModel> attendees = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data !=null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data !=null)
+                    {
+                        attendees = JsonConvert.DeserializeObject<IList<UserModel>>(data.SelectToken("users").ToString());
+                    }
+                }
+            }
+
+            return attendees;
+        }
 
         public async Task<ZoomInfoModel> GetZoomInfo()
         {
