@@ -195,6 +195,29 @@ namespace CloudClassroom.Service
             return zoomInfo;
         }
 
+        public async Task<ZoomUserModel> GetZoomUser(string email)
+        {
+            string requestUrl = $"/api/zoom/user/{email}";
+            ResponseModel response = await Request(requestUrl);
+
+            ZoomUserModel zoomUser = null;
+
+            if (response.Status == 0)
+            {
+                if (response.Data != null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data != null)
+                    {
+                        zoomUser = JsonConvert.DeserializeObject<ZoomUserModel>(data.SelectToken("user").ToString());
+                    }
+                }
+            }
+
+            return zoomUser;
+        }
+
         public async Task<IList<string>> GetLessonTypes()
         {
             string requestUrl = "/api/lesson/types";
