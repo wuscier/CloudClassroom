@@ -3,6 +3,7 @@ using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Service;
+using CloudClassroom.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
@@ -76,7 +77,8 @@ namespace CloudClassroom.ViewModels
 
             DetailCommand = new DelegateCommand<LessonModel>((lesson) =>
             {
-
+                LessonDetailView lessonDetailView = new LessonDetailView();
+                lessonDetailView.ShowDialog();
             });
 
             JoinCommand = new DelegateCommand<LessonModel>((lesson) =>

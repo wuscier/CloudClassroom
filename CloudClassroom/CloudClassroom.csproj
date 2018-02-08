@@ -122,6 +122,7 @@
     <Compile Include="sdk_adapter\ISdk.cs" />
     <Compile Include="sdk_adapter\ZoomSdk.cs" />
     <Compile Include="Service\WebApi.cs" />
+    <Compile Include="ViewModels\LessonDetailViewModel.cs" />
     <Compile Include="ViewModels\MeetingSubViewModels\BottomMenuViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
