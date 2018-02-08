@@ -62,6 +62,7 @@ namespace CloudClassroom.ViewModels
 
         public ObservableCollection<LessonModel> CourseList { get; set; }
 
+        public ICommand DetailCommand { get; set; }
         public ICommand JoinCommand { get; set; }
         public ICommand SelectCoursesCardCommand { get; set; }
         public ICommand SelectMyCardCommand { get; set; }
@@ -162,41 +163,14 @@ namespace CloudClassroom.ViewModels
             LoadLessonsCommand = new DelegateCommand(async () =>
             {
                 IList<LessonModel> lessons = await WebApi.Instance.GetWeeklyLessons();
+
+                foreach (var lesson in lessons)
+                {
+                    CourseList.Add(lesson);
+                }
+
             });
 
-            //CourseList.Add(new LessonModel()
-            //{
-            //    StartTime = "8:00",
-            //    EndTime = "9:00",
-            //    Name = "语文",
-            //    TeacherName = "马云",
-            //    MeetingNumber = "286683782",
-            //    HostId = "xs1",
-            //    JoinCommand = JoinCommand,
-            //});
-            //CourseList.Add(new LessonModel()
-            //{
-            //    StartTime = "11:00",
-            //    EndTime = "12:00",
-            //    Name = "数学",
-            //    TeacherName = "刘强东",
-            //    MeetingNumber = "286683782",
-            //    HostId = "xs1",
-            //    JoinCommand = JoinCommand,
-
-            //});
-            //CourseList.Add(new LessonModel()
-            //{
-            //    StartTime = "13:00",
-            //    EndTime = "14:00",
-            //    Name = "生物",
-            //    TeacherName = "池子",
-            //    MeetingNumber = "286683782",
-            //    HostId = "xs1",
-            //    JoinCommand = JoinCommand,
-
-            //});
         }
-
     }
 }

@@ -64,7 +64,7 @@
         </StackPanel>
 
 
-        <materialDesign:Transitioner x:Name="transitioner" Grid.Row="1" Grid.Column="1" AutoApplyTransitionOrigins="True" SelectedIndex="{Binding SelectedCardIndex}" Margin="50 0">
+        <materialDesign:Transitioner x:Name="transitioner" Grid.Row="1" Grid.Column="1" AutoApplyTransitionOrigins="True" SelectedIndex="{Binding SelectedCardIndex}" Margin="20 0">
             <materialDesign:TransitionerSlide>
                 <materialDesign:Card VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
                     <Grid>
@@ -141,7 +141,7 @@
                                             </DataGrid.Resources>
 
                                             <DataGrid.Columns>
-                                                <DataGridTemplateColumn MinWidth="120">
+                                                <DataGridTemplateColumn MinWidth="180">
                                                     <DataGridTemplateColumn.Header>
                                                         <TextBlock Text="开始时间" FontSize="20"></TextBlock>
                                                     </DataGridTemplateColumn.Header>
@@ -152,7 +152,7 @@
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
                                                 
-                                                <DataGridTemplateColumn MinWidth="120">
+                                                <DataGridTemplateColumn MinWidth="180">
                                                     <DataGridTemplateColumn.Header>
                                                         <TextBlock Text="结束时间" FontSize="20"></TextBlock>
                                                     </DataGridTemplateColumn.Header>
@@ -163,7 +163,7 @@
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
 
-                                                <DataGridTemplateColumn MinWidth="300">
+                                                <DataGridTemplateColumn MinWidth="290">
                                                     <DataGridTemplateColumn.Header>
                                                         <TextBlock Text="课程名称" FontSize="20"></TextBlock>
                                                     </DataGridTemplateColumn.Header>
@@ -174,25 +174,22 @@
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
 
-                                                <DataGridTemplateColumn MinWidth="100">
-                                                    <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="授课人" FontSize="20"></TextBlock>
-                                                    </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn MinWidth="85" MaxWidth="85">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding TeacherName}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                                            <Button Content="详情" Command="{Binding DetailCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self},Path=DataContext}"  FontSize="16"></Button>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-
-
-                                                <DataGridTemplateColumn MinWidth="100" MaxWidth="100">
+                                                
+                                                <DataGridTemplateColumn MinWidth="85" MaxWidth="85">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Button Content="进入" Command="{Binding JoinCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self},Path=DataContext}"  FontSize="16"></Button>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
+                                                
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Grid>

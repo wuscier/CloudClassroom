@@ -15,6 +15,7 @@ namespace CloudClassroom.Models
         public string MeetingId { get; set; }
         public bool Invalid { get; set; }
 
+        public ICommand DetailCommand { get; set; }
         public ICommand JoinCommand { get; set; }
     }
 }
