@@ -20,6 +20,7 @@ namespace CloudClassroom.Views
         }
 
         private SubscriptionToken _intoMeetingSuccessToken;
+        private SubscriptionToken _showLessonDetailToken;
 
         private void SubscribeEvents()
         {
@@ -31,11 +32,20 @@ namespace CloudClassroom.Views
                 meetingView.Show();
 
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.MainView; });
+
+            _showLessonDetailToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowLessonDetailEvent>().Subscribe((argument) =>
+            {
+                LessonDetailView lessonDetailView = new LessonDetailView();
+                lessonDetailView.Owner = this;
+                lessonDetailView.ShowDialog();
+
+            }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MainView; });
         }
 
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Unsubscribe(_intoMeetingSuccessToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowLessonDetailEvent>().Unsubscribe(_showLessonDetailToken);
         }
 
         protected override void OnClosed(EventArgs e)

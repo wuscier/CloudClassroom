@@ -77,8 +77,10 @@ namespace CloudClassroom.ViewModels
 
             DetailCommand = new DelegateCommand<LessonModel>((lesson) =>
             {
-                LessonDetailView lessonDetailView = new LessonDetailView();
-                lessonDetailView.ShowDialog();
+                EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowLessonDetailEvent>().Publish(new EventArgument()
+                {
+                    Target = Target.MainView,
+                });
             });
 
             JoinCommand = new DelegateCommand<LessonModel>((lesson) =>
@@ -173,6 +175,7 @@ namespace CloudClassroom.ViewModels
 
                 foreach (var lesson in lessons)
                 {
+                    lesson.DetailCommand = DetailCommand;
                     CourseList.Add(lesson);
                 }
 
