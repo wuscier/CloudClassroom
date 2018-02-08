@@ -3,11 +3,11 @@
 namespace CloudClassroom.Views
 {
     /// <summary>
-    /// BottomMenuView.xaml 的交互逻辑
+    /// LessonDetailView.xaml 的交互逻辑
     /// </summary>
-    public partial class BottomMenuView : Window
+    public partial class LessonDetailView : Window
     {
-        public BottomMenuView()
+        public LessonDetailView()
         {
             InitializeComponent();
         }

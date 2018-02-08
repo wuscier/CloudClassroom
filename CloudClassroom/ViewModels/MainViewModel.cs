@@ -74,16 +74,21 @@ namespace CloudClassroom.ViewModels
 
             IsCoursesCardSelected = true;
 
-            JoinCommand = new DelegateCommand<LessonModel>((course) =>
+            DetailCommand = new DelegateCommand<LessonModel>((lesson) =>
+            {
+
+            });
+
+            JoinCommand = new DelegateCommand<LessonModel>((lesson) =>
             {
                 ulong uint_meeting_number;
-                if (!ulong.TryParse(course.MeetingId, out uint_meeting_number))
+                if (!ulong.TryParse(lesson.MeetingId, out uint_meeting_number))
                 {
                     MessageBox.Show("无效的课堂号！");
                     return;
                 };
 
-                if (course.SpeakerUserId == App.CurrentUser.AccountUserName)
+                if (lesson.SpeakerUserId == App.CurrentUser.AccountUserName)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {

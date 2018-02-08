@@ -148,6 +148,11 @@ namespace CloudClassroom.Service
             return lessons;
         }
 
+        //public async Task<IList<UserModel>> GetLessonAttendees()
+        //{
+        //    string requestUrl = "/api/lesson/users/"
+        //}
+
         public async Task<ZoomInfoModel> GetZoomInfo()
         {
             string requestUrl = "/api/zoom/zoominfo";

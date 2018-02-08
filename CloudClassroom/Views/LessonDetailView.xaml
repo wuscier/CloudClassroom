@@ -1,0 +1,9 @@
+﻿<Window x:Class="CloudClassroom.Views.LessonDetailView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="课程详情" Height="300" Width="300"
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+    <Grid>
+        
+    </Grid>
+</Window>
