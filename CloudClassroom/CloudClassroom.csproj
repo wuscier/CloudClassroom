@@ -109,6 +109,7 @@
     <Compile Include="Helpers\ThumbnailToBrushConverter.cs" />
     <Compile Include="Helpers\SdkErrorTranslator.cs" />
     <Compile Include="Helpers\Win32APIs.cs" />
+    <Compile Include="Models\CooperationType.cs" />
     <Compile Include="Models\LessonModel.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\LessonType.cs" />
