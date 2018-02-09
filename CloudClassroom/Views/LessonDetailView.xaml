@@ -10,6 +10,7 @@
 
     <Window.Resources>
         <helpers:LessonTypeConverter x:Key="LessonTypeConverter"></helpers:LessonTypeConverter>
+        <helpers:CooperationTypeConverter x:Key="CooperationTypeConverter"></helpers:CooperationTypeConverter>
     </Window.Resources>
 
     <i:Interaction.Triggers>
@@ -50,7 +51,7 @@
             
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <TextBlock Text="协作类型：" VerticalAlignment="Center" FontSize="16"></TextBlock>
-                <TextBlock Text="{Binding LessonDetail.CooperationType}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <TextBlock Text="{Binding LessonDetail.CooperationType,Converter={StaticResource CooperationTypeConverter}}" VerticalAlignment="Center" FontSize="16"></TextBlock>
             </StackPanel>
             
         </Grid>
