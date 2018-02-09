@@ -33,12 +33,13 @@ namespace CloudClassroom.ViewModels
                 StartEndTime = $"{lessonModel.StartTime} - {lessonModel.EndTime}",
                 LessonType = lessonModel.LessonType,
                 CooperationType = lessonModel.CooperationType,
-                Attendees = new ObservableCollection<UserModel>(),
+                Attendees = new ObservableCollection<AttendeeModel>(),
+                HostId = lessonModel.SpeakUserId,
             };
 
             LoadLessonDetailCommand = new DelegateCommand(async () =>
             {
-                IList<UserModel> attendees = await WebApi.Instance.GetLessonAttendees((LessonType)LessonDetail.LessonType, LessonDetail.Id);
+                IList<AttendeeModel> attendees = await WebApi.Instance.GetLessonAttendees((LessonType)LessonDetail.LessonType, LessonDetail.Id);
 
                 LessonDetail.Attendees.Clear();
 
@@ -46,6 +47,12 @@ namespace CloudClassroom.ViewModels
                 {
                     foreach (var attendee in attendees)
                     {
+                        if (attendee.UserId == LessonDetail.HostId)
+                        {
+                            LessonDetail.HostName = attendee.Name;
+                            continue;
+                        }
+
                         LessonDetail.Attendees.Add(attendee);
                     }
                 }

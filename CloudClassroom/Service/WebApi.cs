@@ -148,13 +148,13 @@ namespace CloudClassroom.Service
             return lessons;
         }
 
-        public async Task<IList<UserModel>> GetLessonAttendees(LessonType lessonType, uint lessonId)
+        public async Task<IList<AttendeeModel>> GetLessonAttendees(LessonType lessonType, uint lessonId)
         {
             string requestUrl = $"/api/lesson/users/{lessonType}/{lessonId}";
 
             ResponseModel response = await Request(requestUrl);
 
-            IList<UserModel> attendees = null;
+            IList<AttendeeModel> attendees = null;
 
             if (response.Status == 0)
             {
@@ -164,7 +164,7 @@ namespace CloudClassroom.Service
 
                     if (data !=null)
                     {
-                        attendees = JsonConvert.DeserializeObject<IList<UserModel>>(data.SelectToken("users").ToString());
+                        attendees = JsonConvert.DeserializeObject<IList<AttendeeModel>>(data.SelectToken("users").ToString());
                     }
                 }
             }
