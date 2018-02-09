@@ -1,7 +1,13 @@
-﻿using Prism.Commands;
+﻿using CloudClassroom.Models;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -106,6 +112,61 @@ namespace CloudClassroom.ViewModels
             {
                 CurrentColor = color;
                 CurrentDrawingAttributes.Color = (Color)ColorConverter.ConvertFromString(color);
+            });
+
+
+            OpenStrokesFromFileCommand = new DelegateCommand(() =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "json文件|*.json";
+                openFileDialog.Multiselect = false;
+
+                bool? result = openFileDialog.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    string jsonFile = File.ReadAllText(openFileDialog.FileName,Encoding.UTF8);
+
+                    IList<StrokeModel> strokes = JsonConvert.DeserializeObject<IList<StrokeModel>>(jsonFile);
+
+                    if (strokes == null)
+                    {
+                        return;
+                    }
+
+                    CurrentThumbnail.Strokes.Clear();
+
+                    foreach (var stroke in strokes)
+                    {
+                        StylusPointCollection stylusPointCollection = new StylusPointCollection();
+
+                        foreach (var point in stroke.Points)
+                        {
+                            StylusPoint stylusPoint = new StylusPoint()
+                            {
+                                PressureFactor = 0.5f,
+                                X = point.X,
+                                Y = point.Y,
+                            };
+
+                            stylusPointCollection.Add(stylusPoint);
+                        }
+
+                        DrawingAttributes drawingAttributes = new DrawingAttributes()
+                        {
+                            Color = (Color)ColorConverter.ConvertFromString(stroke.ColorString),
+                            Width = stroke.Width,
+                            Height = stroke.Height,
+                        };
+
+                        CurrentThumbnail.Strokes.Add(new Stroke(stylusPointCollection, drawingAttributes));
+                    }
+                }
+            });
+
+            SaveStrokesToFileCommand = new DelegateCommand(() =>
+            {
+
             });
         }
 
@@ -350,5 +411,8 @@ namespace CloudClassroom.ViewModels
         public ICommand ClearStrokesCommand { get; set; }
         public ICommand ThicknessSelectedCommand { get; set; }
         public ICommand ColorSelectedCommand { get; set; }
+
+        public ICommand OpenStrokesFromFileCommand { get; set; }
+        public ICommand SaveStrokesToFileCommand { get; set; }
     }
 }

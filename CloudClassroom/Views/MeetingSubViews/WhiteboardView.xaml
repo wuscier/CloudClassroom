@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Background="Beige">
+            <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
                 <materialDesign:Card x:Name="note_card" Style="{StaticResource MyCardStyle}" Width="{Binding ElementName=note_detail,Path=ActualWidth}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
@@ -57,6 +57,8 @@
                     </StackPanel>
                 </materialDesign:Card>
 
+                <Button Content="打开" Margin="5" Command="{Binding OpenStrokesFromFileCommand}"></Button>
+                <Button Content="保存" Margin="5" Command="{Binding SaveStrokesToFileCommand}"></Button>
             </StackPanel>
             
 
