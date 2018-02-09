@@ -30,12 +30,12 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="课程类型：" VerticalAlignment="Center" FontSize="16"></TextBlock>
-                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <TextBlock Text="{Binding LessonTypeName}" VerticalAlignment="Center" FontSize="16"></TextBlock>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <TextBlock Text="协作类型：" VerticalAlignment="Center" FontSize="16"></TextBlock>
-                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <TextBlock Text="{Binding CooperationTypeName}" VerticalAlignment="Center" FontSize="16"></TextBlock>
             </StackPanel>
             
         </Grid>

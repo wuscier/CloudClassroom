@@ -3,7 +3,6 @@ using CloudClassroom.Helpers;
 using CloudClassroom.Models;
 using CloudClassroom.sdk_adapter;
 using CloudClassroom.Service;
-using CloudClassroom.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
