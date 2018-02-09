@@ -30,7 +30,8 @@ namespace CloudClassroom.ViewModels
             {
                 Id = lessonModel.Id,
                 Name = lessonModel.Name,
-                StartEndTime = $"{lessonModel.StartTime} - {lessonModel.EndTime}",
+                StartTime = lessonModel.StartTime,
+                EndTime = lessonModel.EndTime,
                 LessonType = lessonModel.LessonType,
                 CooperationType = lessonModel.CooperationType,
                 Attendees = new ObservableCollection<AttendeeModel>(),
