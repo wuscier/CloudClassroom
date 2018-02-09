@@ -1,7 +1,9 @@
 ﻿using CloudClassroom.Models;
+using CloudClassroom.Service;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace CloudClassroom.ViewModels
@@ -31,11 +33,22 @@ namespace CloudClassroom.ViewModels
                 StartEndTime = $"{lessonModel.StartTime} - {lessonModel.EndTime}",
                 LessonType = lessonModel.LessonType,
                 CooperationType = lessonModel.CooperationType,
+                Attendees = new ObservableCollection<UserModel>(),
             };
 
             LoadLessonDetailCommand = new DelegateCommand(async () =>
             {
-                await Task.Delay(1000);
+                IList<UserModel> attendees = await WebApi.Instance.GetLessonAttendees((LessonType)LessonDetail.LessonType, LessonDetail.Id);
+
+                LessonDetail.Attendees.Clear();
+
+                if (attendees != null && attendees.Count > 0)
+                {
+                    foreach (var attendee in attendees)
+                    {
+                        LessonDetail.Attendees.Add(attendee);
+                    }
+                }
             });
         }
     }

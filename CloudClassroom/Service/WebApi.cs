@@ -148,7 +148,7 @@ namespace CloudClassroom.Service
             return lessons;
         }
 
-        public async Task<IList<UserModel>> GetLessonAttendees(LessonType lessonType, int lessonId)
+        public async Task<IList<UserModel>> GetLessonAttendees(LessonType lessonType, uint lessonId)
         {
             string requestUrl = $"/api/lesson/users/{lessonType}/{lessonId}";
 

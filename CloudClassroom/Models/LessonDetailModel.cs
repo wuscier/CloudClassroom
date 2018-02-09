@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace CloudClassroom.Models
 {
@@ -10,6 +10,7 @@ namespace CloudClassroom.Models
         public int LessonType { get; set; }
         public int CooperationType { get; set; }
         public string HostName { get; set; }
-        public IList<UserModel> Attendees { get; set; }
+
+        public ObservableCollection<UserModel> Attendees { get; set; }
     }
 }
