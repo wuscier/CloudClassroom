@@ -42,6 +42,8 @@ namespace CloudClassroom.ViewModels
                     return;
                 }
 
+                await WebApi.Instance.GetZoomUser(App.CurrentUser.Email);
+
                 await SDKAuth();
 
             });
