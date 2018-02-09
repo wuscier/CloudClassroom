@@ -78,6 +78,10 @@ namespace CloudClassroom.ViewModels
             {
                 EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowLessonDetailEvent>().Publish(new EventArgument()
                 {
+                    Argument = new Argument()
+                    {
+                        Value = lesson,
+                    },
                     Target = Target.MainView,
                 });
             });

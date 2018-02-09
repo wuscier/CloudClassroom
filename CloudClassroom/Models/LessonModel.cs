@@ -4,7 +4,7 @@ namespace CloudClassroom.Models
 {
     public class LessonModel
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public string OpenId { get; set; }
         public string Name { get; set; }
         public string StartTime { get; set; }

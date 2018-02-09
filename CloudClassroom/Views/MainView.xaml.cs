@@ -1,4 +1,5 @@
 ﻿using CloudClassroom.Events;
+using CloudClassroom.Models;
 using CloudClassroom.ViewModels;
 using Prism.Events;
 using System;
@@ -35,11 +36,12 @@ namespace CloudClassroom.Views
 
             _showLessonDetailToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowLessonDetailEvent>().Subscribe((argument) =>
             {
-                LessonDetailView lessonDetailView = new LessonDetailView();
+                LessonModel lessonModel = argument.Argument.Value as LessonModel;
+                LessonDetailView lessonDetailView = new LessonDetailView(lessonModel);
                 lessonDetailView.Owner = this;
                 lessonDetailView.ShowDialog();
 
-            }, ThreadOption.PublisherThread,true,filter=> { return filter.Target == Target.MainView; });
+            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MainView; });
         }
 
         private void UnsubscribeEvents()

@@ -1,4 +1,5 @@
-﻿using CloudClassroom.ViewModels;
+﻿using CloudClassroom.Models;
+using CloudClassroom.ViewModels;
 using System.Windows;
 
 namespace CloudClassroom.Views
@@ -8,10 +9,10 @@ namespace CloudClassroom.Views
     /// </summary>
     public partial class LessonDetailView : Window
     {
-        public LessonDetailView()
+        public LessonDetailView(LessonModel lessonModel)
         {
             InitializeComponent();
-            DataContext = new LessonDetailViewModel();
+            DataContext = new LessonDetailViewModel(lessonModel);
         }
     }
 }
