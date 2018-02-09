@@ -166,7 +166,45 @@ namespace CloudClassroom.ViewModels
 
             SaveStrokesToFileCommand = new DelegateCommand(() =>
             {
+                IList<StrokeModel> strokes = new List<StrokeModel>();
 
+                foreach (Stroke s in CurrentThumbnail.Strokes)
+                {
+                    StrokeModel stroke = new StrokeModel()
+                    {
+                        ColorString = s.DrawingAttributes.Color.ToString(),
+                        Width = s.DrawingAttributes.Width,
+                        Height = s.DrawingAttributes.Height,
+                    };
+
+                    IList<PointModel> points = new List<PointModel>();
+
+                    foreach (StylusPoint sp in s.StylusPoints)
+                    {
+                        PointModel p = new PointModel()
+                        {
+                            X = sp.X,
+                            Y = sp.Y
+                        };
+
+                        points.Add(p);
+                    }
+
+                    stroke.Points = points;
+                    strokes.Add(stroke);
+                }
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "json文件|*.json";
+                bool? result = saveFileDialog.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+
+                    string json = JsonConvert.SerializeObject(strokes, Formatting.Indented);
+
+                    File.WriteAllText(saveFileDialog.FileName, json, Encoding.UTF8);
+                }
             });
         }
 
