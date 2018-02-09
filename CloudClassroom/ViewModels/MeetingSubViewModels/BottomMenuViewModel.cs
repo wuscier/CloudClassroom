@@ -35,7 +35,7 @@ namespace CloudClassroom.ViewModels
                     IUserInfoDotNetWrap self = _sdk.GetUserByUserID(0);
                     if (self != null)
                     {
-                        //App.CurrentUser.InMeetingUserId = self.GetUserID();
+                        App.MeetingUserId= self.GetUserID();
                         IsHost = self.IsHost();
 
                         string email2 = self.GetEmail();
@@ -65,7 +65,7 @@ namespace CloudClassroom.ViewModels
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingParticipantsController().Add_CB_onHostChangeNotification((hostUserId) =>
             {
                 Console.WriteLine($"onHostChangeNotification    hostUserId:{hostUserId}");
-                //IsHost = hostUserId == App.CurrentUser.InMeetingUserId;
+                IsHost = hostUserId == App.MeetingUserId;
             });
 
             CZoomSDKeDotNetWrap.Instance.GetMeetingServiceWrap().GetMeetingVideoController().Add_CB_onUserVideoStatusChange((userId, status) =>
@@ -116,31 +116,31 @@ namespace CloudClassroom.ViewModels
                     {
                         Console.WriteLine($"onUserAudioStatusChange status:{userAudioStatuses}");
 
-                        //if (userAudioStatus.GetUserId() == App.CurrentUser.InMeetingUserId)
-                        //{
-                        //    AudioType audioType = userAudioStatus.GetAudioType();
+                        if (userAudioStatus.GetUserId() == App.MeetingUserId)
+                        {
+                            AudioType audioType = userAudioStatus.GetAudioType();
 
-                        //    AudioStatus audioStatus = userAudioStatus.GetStatus();
+                            AudioStatus audioStatus = userAudioStatus.GetStatus();
 
-                        //    switch (audioStatus)
-                        //    {
-                        //        case AudioStatus.Audio_None:
+                            switch (audioStatus)
+                            {
+                                case AudioStatus.Audio_None:
 
-                        //            break;
-                        //        case AudioStatus.Audio_Muted:
-                        //        case AudioStatus.Audio_Muted_ByHost:
-                        //        case AudioStatus.Audio_MutedAll_ByHost:
+                                    break;
+                                case AudioStatus.Audio_Muted:
+                                case AudioStatus.Audio_Muted_ByHost:
+                                case AudioStatus.Audio_MutedAll_ByHost:
 
-                        //            //SetMicUiOff();
-                        //            break;
-                        //        case AudioStatus.Audio_UnMuted:
-                        //        case AudioStatus.Audio_UnMuted_ByHost:
-                        //        case AudioStatus.Audio_UnMutedAll_ByHost:
+                                    SetMicUiOff();
+                                    break;
+                                case AudioStatus.Audio_UnMuted:
+                                case AudioStatus.Audio_UnMuted_ByHost:
+                                case AudioStatus.Audio_UnMutedAll_ByHost:
 
-                        //            //SetMicUiOn();
-                        //            break;
-                        //    }
-                        //}
+                                    SetMicUiOn();
+                                    break;
+                            }
+                        }
                     }
                 }
             });
@@ -293,29 +293,29 @@ namespace CloudClassroom.ViewModels
                 {
                     case MicOnText:
 
-                        //SDKError muteAudioErr = _sdk.MuteAudio(App.CurrentUser.InMeetingUserId, true);
+                        SDKError muteAudioErr = _sdk.MuteAudio(App.MeetingUserId, true);
 
-                        //if (muteAudioErr == SDKError.SDKERR_SUCCESS)
-                        //{
-                        //    SetMicUiOff();
-                        //}
-                        //else
-                        //{
-                        //    MessageBox.Show(Translator.TranslateSDKError(muteAudioErr));
-                        //}
+                        if (muteAudioErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            SetMicUiOff();
+                        }
+                        else
+                        {
+                            MessageBox.Show(SdkErrorTranslator.TranslateSDKError(muteAudioErr));
+                        }
 
                         break;
                     case MicOffText:
-                        //SDKError unmuteAudioErr = _sdk.UnmuteAudio(App.CurrentUser.InMeetingUserId);
+                        SDKError unmuteAudioErr = _sdk.UnmuteAudio(App.MeetingUserId);
 
-                        //if (unmuteAudioErr == SDKError.SDKERR_SUCCESS)
-                        //{
-                        //    SetMicUiOn();
-                        //}
-                        //else
-                        //{
-                        //    MessageBox.Show(Translator.TranslateSDKError(unmuteAudioErr));
-                        //}
+                        if (unmuteAudioErr == SDKError.SDKERR_SUCCESS)
+                        {
+                            SetMicUiOn();
+                        }
+                        else
+                        {
+                            MessageBox.Show(SdkErrorTranslator.TranslateSDKError(unmuteAudioErr));
+                        }
 
                         break;
                 }

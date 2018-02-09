@@ -20,6 +20,7 @@ namespace CloudClassroom
         public static BottomMenuViewModel BottomMenuViewModel;
         public static UserModel CurrentUser;
         public static ZoomCredentialModel ZoomInfo;
+        public static uint MeetingUserId;
 
         public static IntPtr BottomMenuViewHwnd = IntPtr.Zero;
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;
