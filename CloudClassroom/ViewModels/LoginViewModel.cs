@@ -223,6 +223,8 @@ namespace CloudClassroom.ViewModels
                     Logging = false;
                     Err = SdkErrorTranslator.TranslateSDKError(err);
                 }
+
+                App.ZoomInfo = zoomInfo;
             }
             else
             {

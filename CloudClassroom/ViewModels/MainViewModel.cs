@@ -187,6 +187,7 @@ namespace CloudClassroom.ViewModels
                 foreach (var lesson in lessons)
                 {
                     lesson.DetailCommand = DetailCommand;
+                    lesson.JoinCommand = JoinCommand;
                     CourseList.Add(lesson);
                 }
 

@@ -233,7 +233,7 @@ namespace CloudClassroom.Service
 
                     if (data!=null)
                     {
-                        zoomMeeting = JsonConvert.DeserializeObject<ZoomMeetingModel>(data.SelectToken("data").ToString());
+                        zoomMeeting = JsonConvert.DeserializeObject<ZoomMeetingModel>(data.SelectToken("meeting").ToString());
                     }
                 }
             }
