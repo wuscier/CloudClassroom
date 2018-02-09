@@ -88,6 +88,9 @@ namespace CloudClassroom.ViewModels
 
             JoinCommand = new DelegateCommand<LessonModel>((lesson) =>
             {
+
+
+
                 ulong uint_meeting_number;
                 if (!ulong.TryParse(lesson.MeetingId, out uint_meeting_number))
                 {

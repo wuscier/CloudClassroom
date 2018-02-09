@@ -218,7 +218,28 @@ namespace CloudClassroom.Service
             return zoomUser;
         }
 
-        
+        public async Task<ZoomMeetingModel> GetMeetingInfo(string uuid)
+        {
+            string requestUrl = $"/api/zoom/meeting/{uuid}";
+            ResponseModel response = await Request(requestUrl);
+
+            ZoomMeetingModel zoomMeeting = null;
+
+            if (response.Status ==0)
+            {
+                if (response.Data !=null)
+                {
+                    JObject data = response.Data as JObject;
+
+                    if (data!=null)
+                    {
+                        zoomMeeting = JsonConvert.DeserializeObject<ZoomMeetingModel>(data.SelectToken("data").ToString());
+                    }
+                }
+            }
+
+            return zoomMeeting;
+        }
 
         public async Task<IList<string>> GetLessonTypes()
         {
