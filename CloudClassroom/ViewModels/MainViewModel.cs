@@ -86,19 +86,24 @@ namespace CloudClassroom.ViewModels
                 });
             });
 
-            JoinCommand = new DelegateCommand<LessonModel>((lesson) =>
+            JoinCommand = new DelegateCommand<LessonModel>(async(lesson) =>
             {
+                ZoomMeetingModel zoomMeeting = await WebApi.Instance.GetMeetingInfo(lesson.MeetingId);
 
+                if (zoomMeeting == null)
+                {
+                    MessageBox.Show("获取课堂信息失败！");
+                    return;
+                }
 
-
-                ulong uint_meeting_number;
-                if (!ulong.TryParse(lesson.MeetingId, out uint_meeting_number))
+                ulong meetingNumber;
+                if (!ulong.TryParse(zoomMeeting.MeetingId, out meetingNumber))
                 {
                     MessageBox.Show("无效的课堂号！");
                     return;
-                };
+                }
 
-                if (lesson.SpeakUserId == App.CurrentUser.Id)
+                if (App.CurrentUser.Id == lesson.SpeakUserId)
                 {
                     SDKError startError = _sdk.Start(new StartParam()
                     {
@@ -107,10 +112,10 @@ namespace CloudClassroom.ViewModels
                         {
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isDirectShareDesktop = false,
-                            meetingNumber = 856848506,
+                            meetingNumber = meetingNumber,
                             participantId = string.Empty,
-                            userID = "LaWc3yx0RwCz2SFZVFhDaQ",
-                            userName = "主持人",
+                            userID = zoomMeeting.HostId,
+                            userName = App.CurrentUser.Name,
                             userToken = App.ZoomInfo.AccessToken,
                         },
                     });
@@ -135,9 +140,9 @@ namespace CloudClassroom.ViewModels
                         userType = SDKUserType.SDK_UT_APIUSER,
                         apiuserJoin = new JoinParam4APIUser()
                         {
-                            userName = "非主持人",
-                            meetingNumber = 856848506,
-                            psw = string.Empty,
+                            userName = App.CurrentUser.Name,
+                            meetingNumber = meetingNumber,
+                            psw = zoomMeeting.Password,
                             hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
                             isAudioOff = false,
                             isDirectShareDesktop = false,
