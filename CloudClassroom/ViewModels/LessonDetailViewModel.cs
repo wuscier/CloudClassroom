@@ -1,6 +1,4 @@
-﻿using CloudClassroom.Helpers;
-using CloudClassroom.Models;
-using CloudClassroom.Service;
+﻿using CloudClassroom.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Threading.Tasks;

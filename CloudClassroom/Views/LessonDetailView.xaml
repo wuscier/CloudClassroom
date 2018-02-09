@@ -2,9 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:helpers="clr-namespace:CloudClassroom.Helpers"
         Title="课程详情" Height="500" Width="500"
         WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner"
+        
         >
+
+    <Window.Resources>
+        <helpers:LessonTypeConverter x:Key="LessonTypeConverter"></helpers:LessonTypeConverter>
+    </Window.Resources>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -39,7 +45,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="课程类型：" VerticalAlignment="Center" FontSize="16"></TextBlock>
-                <TextBlock Text="{Binding LessonDetail.LessonType}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <TextBlock Text="{Binding LessonDetail.LessonType,Converter={StaticResource LessonTypeConverter}}" VerticalAlignment="Center" FontSize="16"></TextBlock>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Grid.Column="1">
