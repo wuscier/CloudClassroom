@@ -16,7 +16,7 @@ namespace CloudClassroom.Service
 
         private WebApi()
         {
-            BaseAddress = new Uri("http://202.85.212.211:9001");
+            BaseAddress = new Uri("http://202.85.212.211:9002");
         }
 
         public static readonly WebApi Instance = new WebApi();

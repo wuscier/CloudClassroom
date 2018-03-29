@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:helpers="clr-namespace:CloudClassroom.Helpers"
         Title="课程详情" Height="500" Width="500"
-        WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         
         >
 

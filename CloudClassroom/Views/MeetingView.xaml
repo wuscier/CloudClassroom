@@ -3,11 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="" Height="600" MinHeight="600" Width="1000" MinWidth="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         SizeChanged="Window_SizeChanged"
-        >
+        xmlns:views="clr-namespace:CloudClassroom.Views">
 
-    <Grid x:Name="video_container">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="video_container">
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" x:Name="menu_area" Height="100">
+
+            <views:BottomMenuView HorizontalAlignment="Left" Width="{Binding ElementName=meeting_view,Path=ActualWidth}"></views:BottomMenuView>
+            
+            </Grid>
+
+        <Grid Grid.Column="1" x:Name="chat_area" Width="250" Background="Gray">
+            
+        </Grid>
 
     </Grid>
-
-
+    
 </Window>

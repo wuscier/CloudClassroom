@@ -2,10 +2,10 @@
 using CloudClassroom.Events;
 using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
+using CloudClassroom.ViewModels;
 using Prism.Events;
 using System;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using ZOOM_SDK_DOTNET_WRAP;
@@ -30,11 +30,24 @@ namespace CloudClassroom.Views
         private bool _handledFirstMsg = false;
 
 
+        public BottomMenuViewModel BottomMenuViewModel { get; set; }
+
+
         public MeetingView()
         {
             InitializeComponent();
+
+
+
             RegisterCallbacks();
             SubscribeEvents();
+
+            InitData();
+        }
+
+        private void InitData()
+        {
+            BottomMenuViewModel = new BottomMenuViewModel();
         }
 
         private void RegisterCallbacks()
@@ -72,9 +85,9 @@ namespace CloudClassroom.Views
                 _progressingControl?.Close();
                 _progressingControl = null;
 
-                MouseHook.Start(MouseHookHandler);
+                //MouseHook.Start(MouseHookHandler);
 
-                InitBottomMenu();
+                //InitBottomMenu();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
             _resetVideoUiToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Subscribe((argument) =>
@@ -97,7 +110,7 @@ namespace CloudClassroom.Views
                     Win32APIs.SendNotifyMessage(sharedWndHandle, 16, 0, IntPtr.Zero);
                 }
 
-                App.BottomMenuView.Visibility = Visibility.Collapsed;
+                //App.BottomMenuView.Visibility = Visibility.Collapsed;
                 Show();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
@@ -132,7 +145,11 @@ namespace CloudClassroom.Views
             App.MeetingViewHwnd = new WindowInteropHelper(this).Handle;
 
             _progressingControl = new ProgressingControl();
-            _progressingControl.Owner = this;
+
+            Point screenPoint = video_container.PointToScreen(new Point() { X = 0, Y = 0 });
+
+            _progressingControl.Left = (video_container.ActualWidth - _progressingControl.Width) / 2 + screenPoint.X;
+            _progressingControl.Top = (video_container.ActualHeight - _progressingControl.Height) / 2 + screenPoint.Y;
             _progressingControl.ShowDialog();
         }
 
@@ -150,7 +167,7 @@ namespace CloudClassroom.Views
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             MoveVideoUI();
-            MoveBottomMenu();
+            //MoveBottomMenu();
         }
 
         private void MoveVideoUI()
@@ -158,49 +175,49 @@ namespace CloudClassroom.Views
             Win32APIs.MoveWindow(App.VideoHwnd, 0, 0, (int)video_container.ActualWidth, (int)video_container.ActualHeight, true);
         }
 
-        private void MoveBottomMenu()
-        {
-            Win32APIs.MoveWindow(App.BottomMenuViewHwnd, 0, (int)(video_container.ActualHeight - 100), (int)video_container.ActualWidth, 100, true);
-        }
+        //private void MoveBottomMenu()
+        //{
+        //    Win32APIs.MoveWindow(App.BottomMenuViewHwnd, 0, (int)(video_container.ActualHeight - 100), (int)video_container.ActualWidth, 100, true);
+        //}
 
-        private void InitBottomMenu()
-        {
-            App.BottomMenuView = new BottomMenuView();
-            App.BottomMenuView.DataContext = App.BottomMenuViewModel;
+        //private void InitBottomMenu()
+        //{
+            //App.BottomMenuView = new BottomMenuView();
+            //App.BottomMenuView.DataContext = App.BottomMenuViewModel;
 
-            App.BottomMenuView.Show();
+            //App.BottomMenuView.Show();
 
-            App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
+            //App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
 
-            Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
-            MoveBottomMenu();
-        }
+            //Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
+        //    MoveBottomMenu();
+        //}
 
-        private int MouseHookHandler(int code, Int32 wParam, IntPtr lParam)
-        {
-            if (wParam == 512)
-            {
-                Win32APIs.MouseHookStruct mouseHookStruct = Marshal.PtrToStructure<Win32APIs.MouseHookStruct>(lParam);
+        //private int MouseHookHandler(int code, Int32 wParam, IntPtr lParam)
+        //{
+        //    if (wParam == 512)
+        //    {
+        //        Win32APIs.MouseHookStruct mouseHookStruct = Marshal.PtrToStructure<Win32APIs.MouseHookStruct>(lParam);
 
-                Point videoPoint = video_container.PointToScreen(new Point() { X = 0, Y = 0 });
+        //        Point videoPoint = video_container.PointToScreen(new Point() { X = 0, Y = 0 });
 
-                if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
-                {
-                    if (App.BottomMenuView.Visibility != Visibility.Visible && App.BottomMenuView.IsLoaded)
-                    {
-                        App.BottomMenuView.Visibility = Visibility.Visible;
-                    }
-                }
-                else
-                {
-                    if (App.BottomMenuView.Visibility != Visibility.Collapsed && App.BottomMenuView.IsLoaded)
-                    {
-                        App.BottomMenuView.Visibility = Visibility.Collapsed;
-                    }
-                }
-            }
+        //        if (mouseHookStruct.pt.x >= videoPoint.X && mouseHookStruct.pt.x <= videoPoint.X + video_container.ActualWidth && mouseHookStruct.pt.y >= videoPoint.Y && mouseHookStruct.pt.y <= videoPoint.Y + video_container.ActualHeight)
+        //        {
+        //            if (App.BottomMenuView.Visibility != Visibility.Visible && App.BottomMenuView.IsLoaded)
+        //            {
+        //                App.BottomMenuView.Visibility = Visibility.Visible;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (App.BottomMenuView.Visibility != Visibility.Collapsed && App.BottomMenuView.IsLoaded)
+        //            {
+        //                App.BottomMenuView.Visibility = Visibility.Collapsed;
+        //            }
+        //        }
+        //    }
 
-            return MouseHook.CallNextHookEx(code, wParam, lParam);
-        }
+        //    return MouseHook.CallNextHookEx(code, wParam, lParam);
+        //}
     }
 }

@@ -88,84 +88,120 @@ namespace CloudClassroom.ViewModels
 
             JoinCommand = new DelegateCommand<LessonModel>(async(lesson) =>
             {
-                ZoomMeetingModel zoomMeeting = await WebApi.Instance.GetMeetingInfo(lesson.MeetingId);
-
-                if (zoomMeeting == null)
+                SDKError joinError = _sdk.Join(new JoinParam()
                 {
-                    MessageBox.Show("获取课堂信息失败！");
-                    return;
-                }
-
-                ulong meetingNumber;
-                if (!ulong.TryParse(zoomMeeting.MeetingId, out meetingNumber))
-                {
-                    MessageBox.Show("无效的课堂号！");
-                    return;
-                }
-
-                if (App.CurrentUser.Id == lesson.SpeakUserId)
-                {
-                    SDKError startError = _sdk.Start(new StartParam()
+                    userType = SDKUserType.SDK_UT_APIUSER,
+                    apiuserJoin = new JoinParam4APIUser()
                     {
-                        userType = SDKUserType.SDK_UT_APIUSER,
-                        apiuserStart = new StartParam4APIUser()
-                        {
-                            hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
-                            isDirectShareDesktop = false,
-                            meetingNumber = meetingNumber,
-                            participantId = string.Empty,
-                            userID = zoomMeeting.HostId,
-                            userName = App.CurrentUser.Name,
-                            userToken = App.ZoomInfo.AccessToken,
-                        },
+                        userName = App.CurrentUser.Name,
+                        meetingNumber = ulong.Parse(lesson.MeetingId),
+                        //psw = zoomMeeting.Password,
+                        hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                        isAudioOff = false,
+                        isDirectShareDesktop = false,
+                        isVideoOff = false,
+                        participantId = string.Empty,
+                        toke4enfrocelogin = string.Empty,
+                        webinarToken = string.Empty,
+                    }
+                });
+
+                if (joinError == SDKError.SDKERR_SUCCESS)
+                {
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.MainView
                     });
 
-                    if (startError == SDKError.SDKERR_SUCCESS)
-                    {
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
-                        {
-                            Target = Target.MainView
-                        });
-
-                    }
-                    else
-                    {
-                        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(startError));
-                    }
                 }
                 else
                 {
-                    SDKError joinError = _sdk.Join(new JoinParam()
-                    {
-                        userType = SDKUserType.SDK_UT_APIUSER,
-                        apiuserJoin = new JoinParam4APIUser()
-                        {
-                            userName = App.CurrentUser.Name,
-                            meetingNumber = meetingNumber,
-                            psw = zoomMeeting.Password,
-                            hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
-                            isAudioOff = false,
-                            isDirectShareDesktop = false,
-                            isVideoOff = false,
-                            participantId = string.Empty,
-                            toke4enfrocelogin = string.Empty,
-                            webinarToken = string.Empty,
-                        }
-                    });
-
-                    if (joinError == SDKError.SDKERR_SUCCESS)
-                    {
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
-                        {
-                            Target = Target.MainView
-                        });
-
-                    }
-                    else
-                    {
-                        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(joinError));
-                    }
+                    MessageBox.Show(SdkErrorTranslator.TranslateSDKError(joinError));
                 }
+
+
+
+
+
+
+                //ZoomMeetingModel zoomMeeting = await WebApi.Instance.GetMeetingInfo(lesson.MeetingId);
+
+                //if (zoomMeeting == null)
+                //{
+                //    MessageBox.Show("获取课堂信息失败！");
+                //    return;
+                //}
+
+                //ulong meetingNumber;
+                //if (!ulong.TryParse(zoomMeeting.MeetingId, out meetingNumber))
+                //{
+                //    MessageBox.Show("无效的课堂号！");
+                //    return;
+                //}
+
+                //if (App.CurrentUser.Id == lesson.SpeakUserId)
+                //{
+                //    SDKError startError = _sdk.Start(new StartParam()
+                //    {
+                //        userType = SDKUserType.SDK_UT_APIUSER,
+                //        apiuserStart = new StartParam4APIUser()
+                //        {
+                //            hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                //            isDirectShareDesktop = false,
+                //            meetingNumber = meetingNumber,
+                //            participantId = string.Empty,
+                //            userID = zoomMeeting.HostId,
+                //            userName = App.CurrentUser.Name,
+                //            userToken = App.ZoomInfo.AccessToken,
+                //        },
+                //    });
+
+                //    if (startError == SDKError.SDKERR_SUCCESS)
+                //    {
+                //        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
+                //        {
+                //            Target = Target.MainView
+                //        });
+
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(startError));
+                //    }
+                //}
+                //else
+                //{
+                //    SDKError joinError = _sdk.Join(new JoinParam()
+                //    {
+                //        userType = SDKUserType.SDK_UT_APIUSER,
+                //        apiuserJoin = new JoinParam4APIUser()
+                //        {
+                //            userName = App.CurrentUser.Name,
+                //            meetingNumber = meetingNumber,
+                //            psw = zoomMeeting.Password,
+                //            hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                //            isAudioOff = false,
+                //            isDirectShareDesktop = false,
+                //            isVideoOff = false,
+                //            participantId = string.Empty,
+                //            toke4enfrocelogin = string.Empty,
+                //            webinarToken = string.Empty,
+                //        }
+                //    });
+
+                //    if (joinError == SDKError.SDKERR_SUCCESS)
+                //    {
+                //        EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
+                //        {
+                //            Target = Target.MainView
+                //        });
+
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show(SdkErrorTranslator.TranslateSDKError(joinError));
+                //    }
+                //}
             });
 
             SelectCoursesCardCommand = new DelegateCommand(() =>
@@ -190,6 +226,23 @@ namespace CloudClassroom.ViewModels
                     lesson.JoinCommand = JoinCommand;
                     CourseList.Add(lesson);
                 }
+
+
+
+
+                CourseList.Add(new LessonModel()
+                {
+                    CooperationType =0,
+                    DetailCommand = DetailCommand,
+                    JoinCommand = JoinCommand,
+                    EndTime = "2018-03-29 11:00:00",
+                    MeetingId = "5934861413",
+                    LessonType =0,
+                    Name = "test0329",
+                    StartTime = "2018-03-29 10:30:00",
+                    SpeakUserId = "2899989669@qq.com",
+                    
+                });
 
             });
 

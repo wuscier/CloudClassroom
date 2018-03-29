@@ -41,7 +41,7 @@ namespace CloudClassroom.Views
                 App.MainView = new MainView();
                 App.MainView.Show();
 
-                App.BottomMenuViewModel = new BottomMenuViewModel();
+                //App.BottomMenuViewModel = new BottomMenuViewModel();
 
                 Close();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.LoginView; });

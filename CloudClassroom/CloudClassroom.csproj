@@ -136,9 +136,6 @@
     <Compile Include="Views\LessonDetailView.xaml.cs">
       <DependentUpon>LessonDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MeetingSubViews\BottomMenuView.xaml.cs">
-      <DependentUpon>BottomMenuView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -148,6 +145,9 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeetingSubViews\BottomMenuView.xaml.cs">
+      <DependentUpon>BottomMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MeetingSubViews\WhiteboardView.xaml.cs">
       <DependentUpon>WhiteboardView.xaml</DependentUpon>
@@ -181,15 +181,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MeetingSubViews\BottomMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MeetingSubViews\BottomMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

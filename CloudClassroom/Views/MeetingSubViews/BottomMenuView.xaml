@@ -1,14 +1,14 @@
-﻿<Window x:Class="CloudClassroom.Views.BottomMenuView"
+﻿<UserControl x:Class="CloudClassroom.Views.BottomMenuView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:helper="clr-namespace:CloudClassroom.Helpers"
         xmlns:customizedUI="clr-namespace:CloudClassroom.CustomizedUI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="BottomMenuView" Height="100" Width="1000" WindowStyle="None" ResizeMode="NoResize" 
+        Height="100" Width="1000"
         >
 
-    <Window.Resources>
+    <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../CustomizedUI/My.Card.xaml"></ResourceDictionary>
@@ -20,7 +20,7 @@
             <helper:BottomMenuWidthConverter x:Key="BottomMenuWidthConverter"></helper:BottomMenuWidthConverter>
 
         </ResourceDictionary>
-    </Window.Resources>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.Background>
@@ -221,4 +221,4 @@
         </materialDesign:Card>
 
     </Grid>
-</Window>
+</UserControl>
