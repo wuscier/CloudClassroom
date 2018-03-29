@@ -31,7 +31,9 @@
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="140"></ColumnDefinition>
+            <!--<ColumnDefinition Width="140"></ColumnDefinition>-->
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -219,6 +221,9 @@
                 </i:Interaction.Triggers>
             </materialDesign:PopupBox>
         </materialDesign:Card>
+
+        <customizedUI:FullScreenControl Grid.Column="11"></customizedUI:FullScreenControl>
+
 
     </Grid>
 </UserControl>

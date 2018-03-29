@@ -159,15 +159,23 @@ namespace CloudClassroom.ViewModels
                 switch (status)
                 {
                     case SharingStatus.Sharing_Self_Send_Begin:
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Publish(new EventArgument()
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<MeetingViewVisibleEvent>().Publish(new EventArgument()
                         {
                             Target = Target.MeetingView,
+                            Argument = new Argument()
+                            {
+                                Category = Category.Hide
+                            }
                         });
                         break;
                     case SharingStatus.Sharing_Self_Send_End:
-                        EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Publish(new EventArgument()
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<MeetingViewVisibleEvent>().Publish(new EventArgument()
                         {
                             Target = Target.MeetingView,
+                            Argument = new Argument()
+                            {
+                                Category = Category.Show
+                            }
                         });
                         break;
                     case SharingStatus.Sharing_Other_Share_Begin:
@@ -189,7 +197,6 @@ namespace CloudClassroom.ViewModels
                         break;
                 }
             });
-
         }
 
         public const string MicOnText = "静音";
@@ -248,6 +255,15 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _isRecording, value); }
         }
 
+        private bool _isFullScreen;
+
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            set { SetProperty(ref _isFullScreen, value); }
+        }
+
+
         public ObservableCollection<DeviceModel> Microphones { get; set; }
         public ObservableCollection<DeviceModel> Speakers { get; set; }
         public ObservableCollection<DeviceModel> Cameras { get; set; }
@@ -260,6 +276,7 @@ namespace CloudClassroom.ViewModels
         public ICommand ShowParticipantsDialogCommand { get; set; }
         public ICommand OpenShareOptionsCommand { get; set; }
         public ICommand RecordTriggerCommand { get; set; }
+        public ICommand FullScreenTriggerCommand { get; set; }
         public ICommand ShowRecordPathCommand { get; set; }
 
         private void SetMicUiOn()
@@ -444,6 +461,46 @@ namespace CloudClassroom.ViewModels
                     //{
                     //    MessageBox.Show(Translator.TranslateSDKError(startRecordErr));
                     //}
+                }
+            });
+
+            FullScreenTriggerCommand = new DelegateCommand(() =>
+            {
+                if (IsFullScreen)
+                {
+                    SDKError result1 = _sdk.ExitFullScreen();
+
+                    if (result1 == SDKError.SDKERR_SUCCESS)
+                    {
+                        IsFullScreen = false;
+
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<FullScreenStatusEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MeetingView,
+                            Argument = new Argument()
+                            {
+                                Category = Category.Exit,
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    SDKError result2 = _sdk.EnterFullScreen();
+                    if (result2 == SDKError.SDKERR_SUCCESS)
+                    {
+                        IsFullScreen = true;
+
+                        EventAggregatorManager.Instance.EventAggregator.GetEvent<FullScreenStatusEvent>().Publish(new EventArgument()
+                        {
+                            Target = Target.MeetingView,
+                            Argument = new Argument()
+                            {
+                                Category = Category.Enter,
+                            }
+                        });
+
+                    }
                 }
             });
 

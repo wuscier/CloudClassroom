@@ -30,6 +30,10 @@ namespace CloudClassroom.Events
     {
         UserName,
         Password,
+        Show,
+        Hide,
+        Enter,
+        Exit
     }
 
     public class EventArgument
@@ -47,9 +51,15 @@ namespace CloudClassroom.Events
     public class IntoMeetingSuccessEvent : PubSubEvent<EventArgument> { }
 
     public class ResetVideoUiEvent : PubSubEvent<EventArgument> { }
-    public class HideMeetingViewEvent : PubSubEvent<EventArgument> { }
-    public class ShowMeetingViewEvent : PubSubEvent<EventArgument> { }
+
+    public class MeetingViewVisibleEvent : PubSubEvent<EventArgument> { }
+
+    public class FullScreenStatusEvent : PubSubEvent<EventArgument> { }
 
     public class ShowRecordPathEvent : PubSubEvent<EventArgument> { }
     public class ShowSharingOptionsEvent : PubSubEvent<EventArgument> { }
+
+
+
+
 }

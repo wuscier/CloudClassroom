@@ -27,6 +27,16 @@ namespace CloudClassroom.sdk_adapter
 
         }
 
+        public SDKError EnterFullScreen()
+        {
+          return  CMeetingUIControllerDotNetWrap.Instance.EnterFullScreen(true,false);
+        }
+
+        public SDKError ExitFullScreen()
+        {
+           return CMeetingUIControllerDotNetWrap.Instance.ExitFullScreen(true, false);
+        }
+
         public IList<DeviceModel> GetCameraList()
         {
             IList<DeviceModel> cameraList = new List<DeviceModel>();

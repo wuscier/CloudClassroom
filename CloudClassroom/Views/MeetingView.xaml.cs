@@ -23,8 +23,8 @@ namespace CloudClassroom.Views
         private SubscriptionToken _showRecordPathToken;
         private SubscriptionToken _showSharingOptionsToken;
         private SubscriptionToken _resetVideoUiToken;
-        private SubscriptionToken _hideToken;
-        private SubscriptionToken _showToken;
+        private SubscriptionToken _visibleToken;
+        private SubscriptionToken _fullscreenToken;
 
         private ISdk _sdk = ZoomSdk.Instance;
         private bool _handledFirstMsg = false;
@@ -70,7 +70,6 @@ namespace CloudClassroom.Views
 
                     Console.WriteLine($"video handle is:{App.VideoHwnd.ToInt32()}");
 
-                    Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                     Win32APIs.SetParent(App.VideoHwnd, App.MeetingViewHwnd);
 
                     MoveVideoUI();
@@ -92,27 +91,55 @@ namespace CloudClassroom.Views
 
             _resetVideoUiToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Subscribe((argument) =>
             {
-                Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
                 MoveVideoUI();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
-            _hideToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Subscribe((argument) =>
+            _visibleToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<MeetingViewVisibleEvent>().Subscribe((argument) =>
             {
-                Hide();
-            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
 
-            _showToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Subscribe((argument) =>
-            {
-                IntPtr sharedWndHandle = Win32APIs.FindWindow(null, "共享白板");
-
-                if (sharedWndHandle != IntPtr.Zero)
+                switch (argument.Argument.Category)
                 {
-                    Win32APIs.SendNotifyMessage(sharedWndHandle, 16, 0, IntPtr.Zero);
+                    case Category.Hide:
+                        Hide();
+                        break;
+
+                    case Category.Show:
+                        IntPtr sharedWndHandle = Win32APIs.FindWindow(null, "共享白板");
+
+                        if (sharedWndHandle != IntPtr.Zero)
+                        {
+                            Win32APIs.SendNotifyMessage(sharedWndHandle, 16, 0, IntPtr.Zero);
+                        }
+
+                        //App.BottomMenuView.Visibility = Visibility.Collapsed;
+                        Show();
+                        break;
+
                 }
 
-                //App.BottomMenuView.Visibility = Visibility.Collapsed;
-                Show();
             }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
+
+            _fullscreenToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<FullScreenStatusEvent>().Subscribe((argument) =>
+            {
+
+                switch (argument.Argument.Category)
+                {
+                    case Category.Enter:
+
+                        EnterFullScreen();
+
+                        break;
+
+                    case Category.Exit:
+
+                        ExitFullScreen();
+
+                        break;
+                }
+
+            }, ThreadOption.PublisherThread, true, filter => { return filter.Target == Target.MeetingView; });
+
+
 
             _showRecordPathToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Subscribe((argument) =>
             {
@@ -133,8 +160,9 @@ namespace CloudClassroom.Views
         private void UnsubscribeEvents()
         {
             EventAggregatorManager.Instance.EventAggregator.GetEvent<IntoMeetingSuccessEvent>().Unsubscribe(_intoMeetingToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<HideMeetingViewEvent>().Unsubscribe(_hideToken);
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowMeetingViewEvent>().Unsubscribe(_showToken);
+
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<MeetingViewVisibleEvent>().Unsubscribe(_visibleToken);
+
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ResetVideoUiEvent>().Unsubscribe(_resetVideoUiToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowRecordPathEvent>().Unsubscribe(_showRecordPathToken);
             EventAggregatorManager.Instance.EventAggregator.GetEvent<ShowSharingOptionsEvent>().Unsubscribe(_showSharingOptionsToken);
@@ -172,7 +200,25 @@ namespace CloudClassroom.Views
 
         private void MoveVideoUI()
         {
+            Win32APIs.SetWindowLong(App.VideoHwnd, -16, 369164288);
+
             Win32APIs.MoveWindow(App.VideoHwnd, 0, 0, (int)video_container.ActualWidth, (int)video_container.ActualHeight, true);
+        }
+
+        private void EnterFullScreen()
+        {
+            chat_area.Visibility = Visibility.Collapsed;
+            WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+            MoveVideoUI();
+        }
+
+        private void ExitFullScreen()
+        {
+            chat_area.Visibility = Visibility.Visible;
+            WindowStyle = WindowStyle.SingleBorderWindow;
+            WindowState = WindowState.Normal;
+            MoveVideoUI();
         }
 
         //private void MoveBottomMenu()
@@ -182,14 +228,14 @@ namespace CloudClassroom.Views
 
         //private void InitBottomMenu()
         //{
-            //App.BottomMenuView = new BottomMenuView();
-            //App.BottomMenuView.DataContext = App.BottomMenuViewModel;
+        //App.BottomMenuView = new BottomMenuView();
+        //App.BottomMenuView.DataContext = App.BottomMenuViewModel;
 
-            //App.BottomMenuView.Show();
+        //App.BottomMenuView.Show();
 
-            //App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
+        //App.BottomMenuViewHwnd = new WindowInteropHelper(App.BottomMenuView).Handle;
 
-            //Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
+        //Win32APIs.SetParent(App.BottomMenuViewHwnd, App.VideoHwnd);
         //    MoveBottomMenu();
         //}
 

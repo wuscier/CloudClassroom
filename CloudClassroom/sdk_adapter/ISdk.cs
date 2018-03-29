@@ -15,6 +15,10 @@ namespace CloudClassroom.sdk_adapter
         SDKError Logout();
 
         void CustomizeUI();
+
+        SDKError EnterFullScreen();
+        SDKError ExitFullScreen();
+
         SDKError Join(JoinParam joinParam);
         SDKError Start(StartParam startParam);
         SDKError Leave(LeaveMeetingCmd leaveMeetingCmd);
