@@ -5,6 +5,8 @@ namespace CloudClassroom.Events
 
     public enum Target
     {
+        FreeLoginView,
+        FreeLoginViewModel,
         LoginView,
         LoginViewModel,
         MainView,

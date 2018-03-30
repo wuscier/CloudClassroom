@@ -1,4 +1,5 @@
-﻿using CloudClassroom.Helpers;
+﻿using CloudClassroom.Events;
+using CloudClassroom.Helpers;
 using CloudClassroom.sdk_adapter;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -131,6 +132,18 @@ namespace CloudClassroom.ViewModels
                 System.Console.WriteLine(loginStatus.ToString());
                 System.Console.WriteLine($"loginType:{accountInfo?.GetLoginType()}");
                 System.Console.WriteLine($"displayName:{accountInfo?.GetDisplayName()}");
+
+                LoginStatus = loginStatus.ToString();
+
+                if (loginStatus == LOGINSTATUS.LOGIN_SUCCESS)
+                {
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.FreeLoginView,
+                    });
+
+                }
+
             });
 
             CZoomSDKeDotNetWrap.Instance.GetAuthServiceWrap().Add_CB_onLogout(() =>

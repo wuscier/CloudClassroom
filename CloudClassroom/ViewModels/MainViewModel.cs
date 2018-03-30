@@ -184,6 +184,11 @@ namespace CloudClassroom.ViewModels
             {
                 IList<LessonModel> lessons = await WebApi.Instance.GetWeeklyLessons();
 
+                if (lessons == null)
+                {
+                    return;
+                }
+
                 foreach (var lesson in lessons)
                 {
                     lesson.DetailCommand = DetailCommand;
