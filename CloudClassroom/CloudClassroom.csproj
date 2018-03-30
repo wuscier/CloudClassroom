@@ -132,11 +132,15 @@
     <Compile Include="sdk_adapter\ISdk.cs" />
     <Compile Include="sdk_adapter\ZoomSdk.cs" />
     <Compile Include="Service\WebApi.cs" />
+    <Compile Include="ViewModels\FreeLoginViewModel.cs" />
     <Compile Include="ViewModels\LessonDetailViewModel.cs" />
     <Compile Include="ViewModels\MeetingSubViewModels\BottomMenuViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MeetingSubViewModels\WhiteboardViewModel.cs" />
+    <Compile Include="Views\FreeLoginView.xaml.cs">
+      <DependentUpon>FreeLoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LessonDetailView.xaml.cs">
       <DependentUpon>LessonDetailView.xaml</DependentUpon>
     </Compile>
@@ -184,6 +188,10 @@
     <Page Include="CustomizedUI\ProgressingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FreeLoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LessonDetailView.xaml">
       <SubType>Designer</SubType>
