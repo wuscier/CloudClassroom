@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CloudClassroom.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="FreeLoginView" Height="450" Width="500">
+        Title="FreeLoginView" Height="500" Width="600" ResizeMode="NoResize">
     <Grid>
         <Grid.Resources>
             <Style TargetType="StackPanel">
@@ -45,7 +45,7 @@
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Content="SDK Auth" Margin="10 0" Command="{Binding SDKAuthCommand}"></Button>
-            <TextBlock Text="{Binding SDKAuthStatus}"></TextBlock>
+            <TextBlock Text="{Binding SdkAuthStatus}"></TextBlock>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">
