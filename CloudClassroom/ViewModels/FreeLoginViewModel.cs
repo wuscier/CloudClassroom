@@ -11,7 +11,7 @@ namespace CloudClassroom.ViewModels
     public class FreeLoginViewModel:BindableBase
     {
         private readonly ISdk _sdk;
-        private AuthResult _authResult;
+        private AuthResult _authResult = AuthResult.AUTHRET_UNKNOWN;
 
         public FreeLoginViewModel()
         {
@@ -66,6 +66,8 @@ namespace CloudClassroom.ViewModels
                         bRememberMe = false,
                     }
                 });
+
+                LoginStatus = error.ToString();
             });
         }
 
