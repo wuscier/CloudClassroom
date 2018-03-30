@@ -6,7 +6,6 @@ using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -32,18 +31,29 @@ namespace CloudClassroom
 
         private ISdk _sdk = ZoomSdk.Instance;
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-           await Task.Run(() =>
-            {
-                CreateLogger();
-                GetChargeMode();
-            });
+            CreateLogger();
+            GetChargeMode();
 
             InitSDK();
+
+            switch (ChargeMode)
+            {
+                case ChargeMode.Fee:
+
+                    LoginView loginView = new LoginView();
+                    loginView.Show();
+
+                    break;
+                case ChargeMode.Free:
+
+
+                    break;
+            }
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -73,6 +83,8 @@ namespace CloudClassroom
 
         private void GetChargeMode()
         {
+
+
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             DirectoryInfo rootDir = Directory.GetParent(assembly.Location);
