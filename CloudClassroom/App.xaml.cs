@@ -4,6 +4,9 @@ using CloudClassroom.sdk_adapter;
 using CloudClassroom.Views;
 using Serilog;
 using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using ZOOM_SDK_DOTNET_WRAP;
 
@@ -25,14 +28,20 @@ namespace CloudClassroom
         public static IntPtr MeetingViewHwnd = IntPtr.Zero;
         public static IntPtr VideoHwnd = IntPtr.Zero;
 
+        public static ChargeMode ChargeMode = ChargeMode.Fee;
+
         private ISdk _sdk = ZoomSdk.Instance;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            CreateLogger();
+           await Task.Run(() =>
+            {
+                CreateLogger();
+                GetChargeMode();
+            });
 
             InitSDK();
         }
@@ -60,6 +69,40 @@ namespace CloudClassroom
         private void CreateLogger()
         {
             Log.Logger = new LoggerConfiguration().WriteTo.RollingFile("Logs\\{Date}.log").CreateLogger();
+        }
+
+        private void GetChargeMode()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            DirectoryInfo rootDir = Directory.GetParent(assembly.Location);
+
+            string configFile = Path.Combine(rootDir.FullName, "ChargeMode.txt");
+
+            if (File.Exists(configFile))
+            {
+                string sChargeMode = File.ReadAllText(configFile);
+
+                if (!string.IsNullOrEmpty(sChargeMode))
+                {
+                    string trimmedChargeMode = sChargeMode.Trim();
+
+                    try
+                    {
+                        ChargeMode chargeMode = (ChargeMode)Enum.Parse(typeof(ChargeMode), trimmedChargeMode);
+
+                        App.ChargeMode = chargeMode;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(ex, "获取ChargeMode信息时出错！");
+                    }
+                }
+            }
+            else
+            {
+                File.WriteAllText(configFile, App.ChargeMode.ToString());
+            }
         }
 
         private void InitSDK()
