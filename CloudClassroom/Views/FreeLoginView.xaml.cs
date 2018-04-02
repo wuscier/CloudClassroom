@@ -19,26 +19,25 @@ namespace CloudClassroom.Views
             DataContext = new FreeLoginViewModel();
         }
 
-
-        private SubscriptionToken _loginSuccessToken;
+        private SubscriptionToken _intoMeetingSuccessToken;
 
 
         private void SubscribeEvents()
         {
-            _loginSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Subscribe((argument) =>
+            _intoMeetingSuccessToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Subscribe((argument) =>
             {
-                App.MainView = new MainView();
-                App.MainView.Show();
+                Hide();
 
-                //App.BottomMenuViewModel = new BottomMenuViewModel();
+                MeetingView meetingView = new MeetingView();
+                meetingView.Show();
 
-                Close();
             }, ThreadOption.UIThread, true, filter => { return filter.Target == Target.FreeLoginView; });
+
         }
 
         private void UnsubscribeEvents()
         {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Unsubscribe(_loginSuccessToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Unsubscribe(_intoMeetingSuccessToken);
         }
 
         protected override void OnClosed(EventArgs e)

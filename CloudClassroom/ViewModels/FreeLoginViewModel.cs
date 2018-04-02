@@ -11,6 +11,8 @@ namespace CloudClassroom.ViewModels
     {
         private readonly ISdk _sdk;
 
+        private LOGINSTATUS _loginCBStatus = LOGINSTATUS.LOGIN_IDLE;
+
         public FreeLoginViewModel()
         {
             RegisterCallbacks();
@@ -35,6 +37,49 @@ namespace CloudClassroom.ViewModels
 
                 LoginStatus = error.ToString();
             });
+
+            StartMeetingCommand = new DelegateCommand(() =>
+            {
+                if (_loginCBStatus != LOGINSTATUS.LOGIN_SUCCESS)
+                {
+                    StartMeetingStatus = "请先确保登录成功！";
+                    return;
+                }
+
+                ulong meetingId;
+                if (!ulong.TryParse(HostStartMeetingId, out meetingId))
+                {
+                    StartMeetingStatus = "请输入有效的会议号！";
+                    return;
+                }
+
+                SDKError error = _sdk.Start(new StartParam()
+                {
+                    userType = SDKUserType.SDK_UT_NORMALUSER,
+                    normaluserStart = new StartParam4NormalUser()
+                    {
+                        hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                        isAudioOff = false,
+                        isDirectShareDesktop = false,
+                        isVideoOff = false,
+                        meetingNumber = meetingId,
+                        participantId = string.Empty,
+                        
+                    }
+                });
+
+                if (error == SDKError.SDKERR_SUCCESS)
+                {
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.FreeLoginView,
+                    });
+                }
+                else
+                {
+                    StartMeetingStatus = error.ToString();
+                }
+            });
         }
 
 
@@ -53,6 +98,17 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _password, value); }
         }
 
+
+
+        private string _hostStartMeetingId;
+
+        public string HostStartMeetingId
+        {
+            get { return _hostStartMeetingId; }
+            set { SetProperty(ref _hostStartMeetingId, value); }
+        }
+
+
         private string _loginStatus;
 
         public string LoginStatus
@@ -61,7 +117,16 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _loginStatus, value); }
         }
 
+        private string _startMeetingStatus;
+
+        public string StartMeetingStatus
+        {
+            get { return _startMeetingStatus; }
+            set { SetProperty(ref _startMeetingStatus, value); }
+        }
+
         public ICommand LoginCommand { get; set; }
+        public ICommand StartMeetingCommand { get; set; }
 
 
 
@@ -73,14 +138,12 @@ namespace CloudClassroom.ViewModels
                 System.Console.WriteLine($"loginType:{accountInfo?.GetLoginType()}");
                 System.Console.WriteLine($"displayName:{accountInfo?.GetDisplayName()}");
 
+                _loginCBStatus = loginStatus;
+
                 LoginStatus = loginStatus.ToString();
 
                 if (loginStatus == LOGINSTATUS.LOGIN_SUCCESS)
                 {
-                    EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Publish(new EventArgument()
-                    {
-                        Target = Target.FreeLoginView,
-                    });
 
                 }
 

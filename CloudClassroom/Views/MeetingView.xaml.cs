@@ -189,7 +189,8 @@ namespace CloudClassroom.Views
 
             _sdk.Leave(LeaveMeetingCmd.LEAVE_MEETING);
 
-            App.MainView.Show();
+            App.MainView?.Show();
+            App.FreeLoginView?.Show();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

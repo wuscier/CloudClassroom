@@ -27,8 +27,8 @@ namespace CloudClassroom.Views
         {
             _sdkAuthToken = EventAggregatorManager.Instance.EventAggregator.GetEvent<SDKAuthSuccessEvent>().Subscribe((argument) =>
             {
-                FreeLoginView freeLoginView = new FreeLoginView();
-                freeLoginView.Show();
+                App.FreeLoginView = new FreeLoginView();
+                App.FreeLoginView.Show();
 
                 Close();
             }, ThreadOption.UIThread,true,filter=> { return filter.Target == Target.FreeSDKAuthView; });
@@ -36,7 +36,7 @@ namespace CloudClassroom.Views
 
         private void UnsubscribeEvents()
         {
-            EventAggregatorManager.Instance.EventAggregator.GetEvent<LoginSuccessEvent>().Unsubscribe(_sdkAuthToken);
+            EventAggregatorManager.Instance.EventAggregator.GetEvent<SDKAuthSuccessEvent>().Unsubscribe(_sdkAuthToken);
         }
 
         protected override void OnClosed(EventArgs e)

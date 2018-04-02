@@ -16,6 +16,8 @@ namespace CloudClassroom
     /// </summary>
     public partial class App : Application
     {
+        public static FreeLoginView FreeLoginView;
+
         public static MainView MainView;
         //public static BottomMenuView BottomMenuView;
         //public static BottomMenuViewModel BottomMenuViewModel;
