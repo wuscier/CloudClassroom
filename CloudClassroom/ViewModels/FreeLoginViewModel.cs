@@ -80,6 +80,47 @@ namespace CloudClassroom.ViewModels
                     StartMeetingStatus = error.ToString();
                 }
             });
+
+
+            JoinMeetingCommand = new DelegateCommand(() =>
+            {
+                ulong meetingId;
+                if (!ulong.TryParse(AttendeeJoinMeetingId, out meetingId))
+                {
+                    JoinMeetingStatus = "请输入有效的会议号！";
+                    return;
+                }
+
+                SDKError error = _sdk.Join(new JoinParam()
+                {
+                    userType = SDKUserType.SDK_UT_NORMALUSER,
+                    normaluserJoin = new JoinParam4NormalUser()
+                    {
+                        hDirectShareAppWnd = new HWNDDotNet() { value = 0 },
+                        isAudioOff = false,
+                        isDirectShareDesktop = false,
+                        isVideoOff = false,
+                        meetingNumber = meetingId,
+                        participantId = string.Empty,
+                        psw = MeetingPassword,
+                        userName = ParticipantName,
+                        webinarToken = string.Empty,
+                    }
+                });
+
+                if (error == SDKError.SDKERR_SUCCESS)
+                {
+                    EventAggregatorManager.Instance.EventAggregator.GetEvent<StartOrJoinSuccessEvent>().Publish(new EventArgument()
+                    {
+                        Target = Target.FreeLoginView,
+                    });
+                }
+                else
+                {
+                    JoinMeetingStatus = error.ToString();
+                }
+
+            });
         }
 
 
@@ -109,6 +150,39 @@ namespace CloudClassroom.ViewModels
         }
 
 
+
+        private string _participantName;
+
+        public string ParticipantName
+        {
+            get { return _participantName; }
+            set { SetProperty(ref _participantName, value); }
+        }
+
+
+
+
+        private string _attendeeJoinMeetingId;
+
+        public string AttendeeJoinMeetingId
+        {
+            get { return _attendeeJoinMeetingId; }
+            set { SetProperty(ref _attendeeJoinMeetingId, value); }
+        }
+
+
+
+
+        private string _meetingPassword;
+
+        public string MeetingPassword
+        {
+            get { return _meetingPassword; }
+            set { SetProperty(ref _meetingPassword, value); }
+        }
+
+
+
         private string _loginStatus;
 
         public string LoginStatus
@@ -125,8 +199,18 @@ namespace CloudClassroom.ViewModels
             set { SetProperty(ref _startMeetingStatus, value); }
         }
 
+
+        private string _joinMeetingStatus;
+
+        public string JoinMeetingStatus
+        {
+            get { return _joinMeetingStatus; }
+            set { SetProperty(ref _joinMeetingStatus, value); }
+        }
+
         public ICommand LoginCommand { get; set; }
         public ICommand StartMeetingCommand { get; set; }
+        public ICommand JoinMeetingCommand { get; set; }
 
 
 
