@@ -133,6 +133,7 @@
     <Compile Include="sdk_adapter\ZoomSdk.cs" />
     <Compile Include="Service\WebApi.cs" />
     <Compile Include="ViewModels\FreeLoginViewModel.cs" />
+    <Compile Include="ViewModels\FreeSDKAuthViewModel.cs" />
     <Compile Include="ViewModels\LessonDetailViewModel.cs" />
     <Compile Include="ViewModels\MeetingSubViewModels\BottomMenuViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -140,6 +141,9 @@
     <Compile Include="ViewModels\MeetingSubViewModels\WhiteboardViewModel.cs" />
     <Compile Include="Views\FreeLoginView.xaml.cs">
       <DependentUpon>FreeLoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FreeSDKAuthView.xaml.cs">
+      <DependentUpon>FreeSDKAuthView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LessonDetailView.xaml.cs">
       <DependentUpon>LessonDetailView.xaml</DependentUpon>
@@ -190,6 +194,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FreeLoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FreeSDKAuthView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

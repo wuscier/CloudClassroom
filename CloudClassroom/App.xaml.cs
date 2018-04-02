@@ -51,8 +51,8 @@ namespace CloudClassroom
                     break;
                 case ChargeMode.Free:
 
-                    FreeLoginView freeLoginView = new FreeLoginView();
-                    freeLoginView.Show();
+                    FreeSDKAuthView freeSDKAuthView = new FreeSDKAuthView();
+                    freeSDKAuthView.Show();
                     break;
             }
         }

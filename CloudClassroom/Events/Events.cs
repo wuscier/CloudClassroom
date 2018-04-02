@@ -5,6 +5,8 @@ namespace CloudClassroom.Events
 
     public enum Target
     {
+        FreeSDKAuthView,
+        FreeSDKAuthViewModel,
         FreeLoginView,
         FreeLoginViewModel,
         LoginView,
@@ -46,6 +48,8 @@ namespace CloudClassroom.Events
 
     public class UIGotFocusEvent : PubSubEvent<EventArgument> { }
     public class ShowLessonDetailEvent : PubSubEvent<EventArgument> { }
+
+    public class SDKAuthSuccessEvent : PubSubEvent<EventArgument> { }
 
     public class LoginSuccessEvent : PubSubEvent<EventArgument> { }
     public class StartOrJoinSuccessEvent : PubSubEvent<EventArgument> { }
